@@ -1,7 +1,9 @@
 .container {
   width: 100vw !important;
-  height: 100vh !important;
-  background: grey;
+  height: 110vh !important;
+  background: url(https://www.itl.cat/pngfile/big/303-3038310_larger-alliance-and-horde-backgrounds-as-requested-alliance.jpg);
+  background-blend-mode: multiply;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,8 +11,8 @@
 
 .board-container {
   border: 2px solid black;
-  width: 55vw;
-  height: 95vh;
+  width: 45vw;
+  height: 80vh;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;

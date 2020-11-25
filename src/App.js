@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+// Orc Imports
 import pawn from "./assets/img/Untitled.gif";
 import rook from "./assets/img/rook.gif";
 import orcSoundOne from "./assets/orc1.mp3";
@@ -7,8 +8,10 @@ import orcSoundTwo from "./assets/doing.mp3";
 import orcSoundThree from "./assets/happy.mp3";
 import orcSoundFour from "./assets/ok-dokie.mp3";
 import orcSoundFive from "./assets/yes.mp3";
+// Human Imports
+import humanPawn from "./assets/img/footmen.gif";
 
-const Pawn = {
+const OrcPawn = {
   name: "pawn",
   img: pawn,
   sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
@@ -16,13 +19,24 @@ const Pawn = {
     //..try and implement rules of movement here
   },
 };
-const Rook = {
+const OrcRook = {
   name: "rook",
   img: rook,
   rules: (currentPosition, targetPosition) => {
     //..try and implement rules of movement here
   },
 };
+
+const HumanPawn = {
+  name: "pawn",
+  img: humanPawn,
+  sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+
+// Create static layout of board with all pieces then look to implement movement?
 
 const row = (i) => {
   return i < 9
@@ -67,7 +81,14 @@ const initialBoard = () => {
       row: row(i),
       col: col(i),
       selected: false,
-      occupied: row(i) === 2 ? Pawn : i === 1 || i === 8 ? Rook : false,
+      occupied:
+        row(i) === 2
+          ? OrcPawn
+          : row(i) === 7
+          ? HumanPawn
+          : i === 1 || i === 8
+          ? OrcRook
+          : false,
     });
   }
   return arr;
@@ -130,7 +151,7 @@ const CreateBoard = () => {
   // Play sound
   const audioReaction = () => {
     let audio = new Audio(
-      Pawn.sounds[Math.round(Math.random() * Pawn.sounds.length)]
+      OrcPawn.sounds[Math.round(Math.random() * OrcPawn.sounds.length)]
     );
     audio.play();
   };
