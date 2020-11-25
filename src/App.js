@@ -3,6 +3,10 @@ import "./App.css";
 // Orc Imports
 import pawn from "./assets/img/Untitled.gif";
 import rook from "./assets/img/rook.gif";
+import orcKnight from "./assets/img/orcRaider.gif";
+import orcBishop from "./assets/img/shaman.gif";
+import orcQueen from "./assets/img/sylv.gif";
+import orcKing from "./assets/img/thrall.gif";
 import orcSoundOne from "./assets/orc1.mp3";
 import orcSoundTwo from "./assets/doing.mp3";
 import orcSoundThree from "./assets/happy.mp3";
@@ -10,7 +14,13 @@ import orcSoundFour from "./assets/ok-dokie.mp3";
 import orcSoundFive from "./assets/yes.mp3";
 // Human Imports
 import humanPawn from "./assets/img/footmen.gif";
+import humanRook from "./assets/img/druid.gif";
+import humanKnight from "./assets/img/knight.gif";
+import humanKing from "./assets/img/var.gif";
+import humanBishop from "./assets/img/wiz.gif";
+import humanQueen from "./assets/img/jana.gif";
 
+// Horde Objects
 const OrcPawn = {
   name: "pawn",
   img: pawn,
@@ -26,11 +36,76 @@ const OrcRook = {
     //..try and implement rules of movement here
   },
 };
+const OrcKnight = {
+  name: "knight",
+  img: orcKnight,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const OrcBishop = {
+  name: "bishop",
+  img: orcBishop,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const OrcQueen = {
+  name: "queen",
+  img: orcQueen,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const OrcKing = {
+  name: "king",
+  img: orcKing,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+
+// Alliance Objects
+const HumanRook = {
+  name: "rook",
+  img: humanRook,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
 
 const HumanPawn = {
   name: "pawn",
   img: humanPawn,
   sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const HumanKnight = {
+  name: "knight",
+  img: humanKnight,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const HumanBishop = {
+  name: "bishop",
+  img: humanBishop,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const HumanQueen = {
+  name: "queen",
+  img: humanQueen,
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
+};
+const HumanKing = {
+  name: "king",
+  img: humanKing,
   rules: (currentPosition, targetPosition) => {
     //..try and implement rules of movement here
   },
@@ -70,7 +145,7 @@ const col = (i) => {
     ? i - 40
     : i < 57
     ? i - 48
-    : 1 - 56;
+    : i - 56;
 };
 
 const initialBoard = () => {
@@ -88,6 +163,24 @@ const initialBoard = () => {
           ? HumanPawn
           : i === 1 || i === 8
           ? OrcRook
+          : i === 2 || i === 7
+          ? OrcKnight
+          : i === 3 || i === 6
+          ? OrcBishop
+          : i === 4
+          ? OrcKing
+          : i === 5
+          ? OrcQueen
+          : i === 64 || i === 57
+          ? HumanRook
+          : i === 63 || i === 58
+          ? HumanKnight
+          : i === 62 || i === 59
+          ? HumanBishop
+          : i === 60
+          ? HumanKing
+          : i === 61
+          ? HumanQueen
           : false,
     });
   }
@@ -133,10 +226,8 @@ const Square = ({
         overflow: "hidden",
       }}
     >
-      {/*       
-      Row: {row}
-      col: {col}
-      */}
+      {/* Row: {row}
+      col: {col} */}
       {occupied ? <img src={occupied.img}></img> : ""}
     </div>
   );
@@ -150,6 +241,8 @@ const CreateBoard = () => {
 
   // Play sound
   const audioReaction = () => {
+    //Can we play via select => audio of selected
+    console.log(select);
     let audio = new Audio(
       OrcPawn.sounds[Math.round(Math.random() * OrcPawn.sounds.length)]
     );
@@ -173,7 +266,9 @@ const CreateBoard = () => {
   // Moving Units
   // Triggered after a square has already been selected for movement
   const moveUnit = (destinationIdx, occupantRules) => {
-    let destinationSquare = squares.filter((i) => i.idx === destinationIdx)[0];
+    let destinationSquare = squares.filter(
+      (square) => square.idx === destinationIdx
+    )[0];
     // Tried to move to a square with another unit
     // set Select on the new Square and stop movement attempt
     if (
