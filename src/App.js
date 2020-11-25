@@ -12,18 +12,16 @@ const Pawn = {
   name: "pawn",
   img: pawn,
   sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
 };
 const Rook = {
   name: "rook",
   img: rook,
-};
-
-const ChessPiece = ({ name, img }) => {
-  return (
-    <>
-      <img src={img}></img>
-    </>
-  );
+  rules: (currentPosition, targetPosition) => {
+    //..try and implement rules of movement here
+  },
 };
 
 const row = (i) => {
@@ -69,6 +67,7 @@ const initialBoard = () => {
       row: row(i),
       col: col(i),
       selected: false,
+      occupied: row(i) === 2 ? Pawn : i === 1 || i === 8 ? Rook : false,
     });
   }
   return arr;
@@ -79,17 +78,13 @@ const Square = ({
   row, // row 1-8
   handleSelect, // select a square w/unit
   selected, // current square is selected
-  //occupied, // current square is occupied
-  currentSquare, // after selecting a square with a unit adopts that unit
+  occupied, // current square is occupied
+  select, // after selecting a square with a unit adopts that unit
   moveUnit, // function to move unit to a new square
   col, // col 1-8
-  children,
 }) => {
-  const [occupied, setOccupied] = React.useState(false);
-  // Works but is slow:
-  // click square
-  // setOccupied to true if children
-  //
+  const occupantRules = occupied.rules;
+
   const setBg = (row) => {
     if (row % 2 !== 0) {
       return idx % 2 !== 0 ? "white" : "black";
@@ -97,21 +92,12 @@ const Square = ({
       return idx % 2 !== 0 ? "black" : "white";
     }
   };
-  const callHandleSelect = () => {
-    handleSelect(idx);
-  };
-  const callMoveUnit = (idx) => {
-    moveUnit(idx);
-  };
-  const selectOrMove = () => {
-    console.log(children);
-    if (children && selected) setOccupied(true);
 
-    if (currentSquare !== undefined) {
-      setOccupied(false);
-      callMoveUnit(idx);
-    } else if (currentSquare === undefined) {
-      callHandleSelect();
+  const selectOrMove = () => {
+    if (select) {
+      moveUnit(idx, occupantRules);
+    } else if (occupied) {
+      handleSelect(idx);
     }
   };
   return (
@@ -130,8 +116,7 @@ const Square = ({
       Row: {row}
       col: {col}
       */}
-
-      {children}
+      {occupied ? <img src={occupied.img}></img> : ""}
     </div>
   );
 };
@@ -140,8 +125,7 @@ const Square = ({
 const CreateBoard = () => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(initialBoard()); // [{row, idx, selected}]
-  const [currentSquare, setCurrentSquare] = React.useState(undefined);
-  const [locationofPiece, setLocationOfPiece] = React.useState(1);
+  const [select, setSelect] = React.useState();
 
   // Play sound
   const audioReaction = () => {
@@ -153,11 +137,12 @@ const CreateBoard = () => {
 
   // Selecting units
   const handleSelect = (idx) => {
-    setCurrentSquare(squares.filter((i) => i.idx === idx)[0]); // adds a current selected square
-
+    setSelect(squares.filter((i) => i.idx === idx)[0]);
+    // Create new Squares array
+    // All seleccted are false except the square which triggered handleSelect
     let newSquares = squares.map((square) => {
       let obj = { ...square };
-      obj.selected = obj.idx === idx; // adds selected = true to clicked square -> border is now red
+      obj.selected = obj.idx === idx;
       return obj;
     });
     setSquares(newSquares);
@@ -165,15 +150,43 @@ const CreateBoard = () => {
   };
 
   // Moving Units
-  const moveUnit = (idx) => {
-    setSquares(
-      squares.map((square) => {
-        square.selected = false;
-        return square;
-      })
-    );
-    setLocationOfPiece(idx);
-    setCurrentSquare(undefined);
+  // Triggered after a square has already been selected for movement
+  const moveUnit = (destinationIdx, occupantRules) => {
+    let destinationSquare = squares.filter((i) => i.idx === destinationIdx)[0];
+    // Tried to move to a square with another unit
+    // set Select on the new Square and stop movement attempt
+    if (
+      squares.filter((i) => i.idx === destinationIdx && i.occupied !== false)
+        .length > 0
+    ) {
+      return handleSelect(destinationIdx);
+    }
+    // rule to only allow units to move 1 square away
+    else if (
+      destinationSquare.row !== select.row + 1 ||
+      destinationSquare.col !== select.col
+    ) {
+      return;
+    } else {
+      // Redraw Squares
+      // remove all Selected
+      // find Destination and add Occupant piece
+      // Find old square with Occupant and remove
+      // setSelect to undefined
+      let newSquares = squares.map((square) => {
+        let newSquareObj = { ...square }; // copy each square
+        newSquareObj.selected = false; // remove selected from all
+        if (newSquareObj.idx === destinationIdx)
+          newSquareObj.occupied = select.occupied; // Add occupant (Pawn/Rook etc object)
+        if (newSquareObj.idx === select.idx) {
+          newSquareObj.occupied = false; // remove old position
+          setSelect(undefined); // remove current selected
+        }
+        return newSquareObj;
+      });
+      setSquares(newSquares);
+      audioReaction();
+    }
   };
 
   return (
@@ -185,16 +198,10 @@ const CreateBoard = () => {
           idx={square.idx}
           handleSelect={handleSelect}
           moveUnit={moveUnit}
-          currentSquare={currentSquare}
+          select={select}
           selected={square.selected}
-          squares={squares}
-          setSquares={setSquares}
-        >
-          {/* instead of changing index, could change props passed and include an "empty" object for no piece */}
-          {locationofPiece === square.idx ? (
-            <ChessPiece {...Pawn} />
-          ) : undefined}
-        </Square>
+          occupied={square.occupied}
+        />
       ))}
       <button onClick={() => setSquares(initialBoard())}>Reset</button>
     </>
@@ -212,17 +219,3 @@ const App = () => {
 };
 
 export default App;
-
-// let squares = [];
-// create Rows arr - might not need, Im bad at Maths
-/*
-  let rows = [];
-  let row = [];
-  for (let rowIdx = 1; rowIdx <= 64; rowIdx++) {
-    row.push(rowIdx);
-    if (row.length === 8) {
-      rows.push(row);
-      row = [];
-    }
-  }
-  */

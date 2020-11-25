@@ -69,7 +69,6 @@ const initialBoard = () => {
       row: row(i),
       col: col(i),
       selected: false,
-      occupied: row(i) === 2 ? Pawn : i === 1 || i === 8 ? Rook : false,
     });
   }
   return arr;
@@ -80,11 +79,17 @@ const Square = ({
   row, // row 1-8
   handleSelect, // select a square w/unit
   selected, // current square is selected
-  occupied, // current square is occupied
-  currentUnit, // after selecting a square with a unit adopts that unit
+  //occupied, // current square is occupied
+  currentSquare, // after selecting a square with a unit adopts that unit
   moveUnit, // function to move unit to a new square
   col, // col 1-8
+  children,
 }) => {
+  const [occupied, setOccupied] = React.useState(false);
+  // Works but is slow:
+  // click square
+  // setOccupied to true if children
+  //
   const setBg = (row) => {
     if (row % 2 !== 0) {
       return idx % 2 !== 0 ? "white" : "black";
@@ -92,13 +97,21 @@ const Square = ({
       return idx % 2 !== 0 ? "black" : "white";
     }
   };
-
+  const callHandleSelect = () => {
+    handleSelect(idx);
+  };
+  const callMoveUnit = (idx) => {
+    moveUnit(idx);
+  };
   const selectOrMove = () => {
-    if (currentUnit) {
-      moveUnit(idx);
-    } else if (occupied) {
-      //audio.play();
-      handleSelect(idx);
+    console.log(children);
+    if (children && selected) setOccupied(true);
+
+    if (currentSquare !== undefined) {
+      setOccupied(false);
+      callMoveUnit(idx);
+    } else if (currentSquare === undefined) {
+      callHandleSelect();
     }
   };
   return (
@@ -117,7 +130,8 @@ const Square = ({
       Row: {row}
       col: {col}
       */}
-      {occupied ? <img src={occupied.img}></img> : ""}
+
+      {children}
     </div>
   );
 };
@@ -126,7 +140,8 @@ const Square = ({
 const CreateBoard = () => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(initialBoard()); // [{row, idx, selected}]
-  const [currentUnit, setCurrentUnit] = React.useState();
+  const [currentSquare, setCurrentSquare] = React.useState(undefined);
+  const [locationofPiece, setLocationOfPiece] = React.useState(1);
 
   // Play sound
   const audioReaction = () => {
@@ -138,10 +153,11 @@ const CreateBoard = () => {
 
   // Selecting units
   const handleSelect = (idx) => {
-    setCurrentUnit(squares.filter((i) => i.idx === idx)[0]);
+    setCurrentSquare(squares.filter((i) => i.idx === idx)[0]); // adds a current selected square
+
     let newSquares = squares.map((square) => {
       let obj = { ...square };
-      obj.selected = obj.idx === idx;
+      obj.selected = obj.idx === idx; // adds selected = true to clicked square -> border is now red
       return obj;
     });
     setSquares(newSquares);
@@ -150,33 +166,14 @@ const CreateBoard = () => {
 
   // Moving Units
   const moveUnit = (idx) => {
-    let selectedSquare = squares.filter((i) => i.idx === idx)[0];
-    // check if you clicked a square with another unit
-    if (
-      squares.filter((i) => i.idx === idx && i.occupied !== false).length > 0
-    ) {
-      return handleSelect(idx);
-    }
-    // figure out a rule to only allow units to move 1 square away
-    else if (
-      selectedSquare.row !== currentUnit.row + 1 ||
-      selectedSquare.col !== currentUnit.col
-    ) {
-      return;
-    } else {
-      let newSquares = squares.map((square) => {
-        let obj = { ...square }; // copy each square
-        obj.selected = false; // remove selected
-        if (obj.idx === idx) obj.occupied = currentUnit.occupied; // add occupant
-        if (currentUnit.idx === obj.idx) {
-          obj.occupied = false; // remove old position
-          setCurrentUnit(null); // remove current selected
-        }
-        return obj;
-      });
-      setSquares(newSquares);
-      audioReaction();
-    }
+    setSquares(
+      squares.map((square) => {
+        square.selected = false;
+        return square;
+      })
+    );
+    setLocationOfPiece(idx);
+    setCurrentSquare(undefined);
   };
 
   return (
@@ -188,10 +185,14 @@ const CreateBoard = () => {
           idx={square.idx}
           handleSelect={handleSelect}
           moveUnit={moveUnit}
-          currentUnit={currentUnit}
+          currentSquare={currentSquare}
           selected={square.selected}
-          occupied={square.occupied}
-        />
+          squares={squares}
+          setSquares={setSquares}
+        >
+          {/* instead of changing index, could change props passed and include an "empty" object for no piece */}
+          {square.row === 2 ? <ChessPiece {...Pawn} /> : undefined}
+        </Square>
       ))}
       <button onClick={() => setSquares(initialBoard())}>Reset</button>
     </>
