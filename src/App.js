@@ -12,6 +12,23 @@ import orcSoundTwo from "./assets/doing.mp3";
 import orcSoundThree from "./assets/happy.mp3";
 import orcSoundFour from "./assets/ok-dokie.mp3";
 import orcSoundFive from "./assets/yes.mp3";
+//orc king
+import orcKingSound from "./assets/orcKingSounds/ThrallGreeting01.ogg";
+// orc Q
+import orcQueenSounds_1 from "./assets/orcQueenSounds/1.ogg";
+// Raider
+import orcRaiderSounds_1 from "./assets/orcRaiderSounds/2.mp3";
+import orcRaiderSounds_2 from "./assets/orcRaiderSounds/obey.mp3";
+import orcRaiderSounds_3 from "./assets/orcRaiderSounds/3.mpeg";
+import orcRaiderSounds_4 from "./assets/orcRaiderSounds/4.mpeg";
+// Shaman
+import shamanSound from "./assets/orcShamanSounds/1.ogg";
+// rook
+import taurenRook from "./assets/taurenRookSounds/greetings-traveller.mp3";
+import sound_rook_1 from "./assets/taurenRookSounds/2.mp3";
+import taurenRook2 from "./assets/taurenRookSounds/3.ogg";
+import taurenRook3 from "./assets/taurenRookSounds/4.ogg";
+import taurenRook4 from "./assets/taurenRookSounds/5.ogg";
 // Human Imports
 import humanPawn from "./assets/img/footmen.gif";
 import humanRook from "./assets/img/druid.gif";
@@ -19,95 +36,364 @@ import humanKnight from "./assets/img/knight.gif";
 import humanKing from "./assets/img/var.gif";
 import humanBishop from "./assets/img/wiz.gif";
 import humanQueen from "./assets/img/jana.gif";
+//Bishop
+import bishopSound_1 from "./assets/humanBishopSounds/1.ogg";
+import bishopSound_2 from "./assets/humanBishopSounds/2.ogg";
+import bishopSound_3 from "./assets/humanBishopSounds/3.ogg";
+import bishopSound_4 from "./assets/humanBishopSounds/4.ogg";
+import bishopSound_5 from "./assets/humanBishopSounds/5.ogg";
+import bishopSound_6 from "./assets/humanBishopSounds/alright.mp3";
+import bishopSound_7 from "./assets/humanBishopSounds/hello.mp3";
+//king
+import kingSounds from "./assets/humanKingSounds/1.mpeg";
+//knight
+import knightSound from "./assets/humanKnightSounds/ax.mp3";
+// Q
+import queenSound_1 from "./assets/humanQueenSounds/1.ogg";
+import queenSound_2 from "./assets/humanQueenSounds/2.ogg";
+import queenSound_3 from "./assets/humanQueenSounds/3.ogg";
+import queenSound_4 from "./assets/humanQueenSounds/4.ogg";
+import queenSound_5 from "./assets/humanQueenSounds/5.ogg";
+import queenSound_6 from "./assets/humanQueenSounds/6.ogg";
+//rook
+import r1 from "./assets/humanRookSounds/1.mpeg";
+import r2 from "./assets/humanRookSounds/2.mpeg";
+import r3 from "./assets/humanRookSounds/3.mpeg";
+import r4 from "./assets/humanRookSounds/4.mpeg";
+import r5 from "./assets/humanRookSounds/5.mpeg";
+import r6 from "./assets/humanRookSounds/6.mpeg";
+import r7 from "./assets/humanRookSounds/7.mpeg";
+import r8 from "./assets/humanRookSounds/8.mpeg";
+import r9 from "./assets/humanRookSounds/9.mpeg";
+import r10 from "./assets/humanRookSounds/10.mpeg";
+// Human pawn
+import p1 from "./assets/humanPawnAudio/alone.mp3";
+import p2 from "./assets/humanPawnAudio/charge.mp3";
+import p3 from "./assets/humanPawnAudio/run.mp3";
+import p4 from "./assets/humanPawnAudio/serve.mp3";
+import p5 from "./assets/humanPawnAudio/yes-lord.mp3";
 
 // Horde Objects
 const OrcPawn = {
+  team: 1,
   name: "pawn",
   img: pawn,
   sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
-  rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+  rules: (currentPosition, targetPosition, squares) => {
+    // team collision check
+    //if (squares.filter((square) => square.col === targetPosition.col && square.row === targetPosition.row).length > 0)
+    if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col + 1 &&
+      targetPosition.occupied &&
+      targetPosition.occupied.team !== currentPosition.occupied.team
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col - 1 &&
+      targetPosition.occupied &&
+      targetPosition.occupied.team !== currentPosition.occupied.team
+    )
+      return true;
+    else if (targetPosition.occupied) return false;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col
+    ) {
+      return true;
+    }
+    return false;
   },
 };
 const OrcRook = {
+  team: 1,
   name: "rook",
   img: rook,
+  sounds: [taurenRook, taurenRook2, sound_rook_1, taurenRook3, taurenRook4],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (
+      targetPosition.row === currentPosition.row ||
+      targetPosition.col === currentPosition.col
+    ) {
+      return true;
+    }
+    return false;
   },
 };
 const OrcKnight = {
+  team: 1,
   name: "knight",
   img: orcKnight,
+  sounds: [
+    orcRaiderSounds_1,
+    orcRaiderSounds_2,
+    orcRaiderSounds_3,
+    orcRaiderSounds_4,
+  ],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (
+      targetPosition.row === currentPosition.row - 2 &&
+      targetPosition.col === currentPosition.col - 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row - 2 &&
+      targetPosition.col === currentPosition.col + 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 2 &&
+      targetPosition.col === currentPosition.col + 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 2 &&
+      targetPosition.col === currentPosition.col - 1
+    )
+      return true;
+    if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col - 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col + 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col + 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col - 2
+    )
+      return true;
+    else return false;
   },
 };
 const OrcBishop = {
+  team: 1,
   name: "bishop",
   img: orcBishop,
+  sounds: [shamanSound],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    let arr = [
+      ...targetPosition.leftUp,
+      ...targetPosition.leftDown,
+      ...targetPosition.rightUp,
+      ...targetPosition.rightDown,
+    ];
+    if (arr.indexOf(currentPosition.idx) > -1) return true;
+    return false;
   },
 };
 const OrcQueen = {
+  team: 1,
   name: "queen",
   img: orcQueen,
+  sounds: [
+    orcQueenSounds_1,
+    queenSound_1,
+    queenSound_2,
+    queenSound_3,
+    queenSound_4,
+    queenSound_5,
+    queenSound_6,
+  ],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (currentPosition.row === targetPosition.row) return true;
+    else if (currentPosition.col === targetPosition.col) return true;
+    else {
+      let arr = [
+        ...targetPosition.leftUp,
+        ...targetPosition.leftDown,
+        ...targetPosition.rightUp,
+        ...targetPosition.rightDown,
+      ];
+      if (arr.indexOf(currentPosition.idx) > -1) return true;
+      return false;
+    }
   },
 };
 const OrcKing = {
+  team: 1,
   name: "king",
   img: orcKing,
+  sounds: [orcKingSound],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (
+      targetPosition.row > currentPosition.row + 1 ||
+      targetPosition.row < currentPosition.row - 1 ||
+      targetPosition.col > currentPosition.col + 1 ||
+      targetPosition.col < currentPosition.col - 1
+    )
+      return false;
+    return true;
   },
 };
 
 // Alliance Objects
 const HumanRook = {
+  team: 2,
   name: "rook",
   img: humanRook,
+  sounds: [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10],
   rules: (currentPosition, targetPosition) => {
     //..try and implement rules of movement here
   },
 };
 
 const HumanPawn = {
+  team: 2,
   name: "pawn",
   img: humanPawn,
-  sounds: [orcSoundOne, orcSoundTwo, orcSoundThree, orcSoundFour, orcSoundFive],
-  rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+  sounds: [p1, p2, p3, p4, p5],
+  rules: (currentPosition, targetPosition, squares) => {
+    // team collision check
+    //if (squares.filter((square) => square.col === targetPosition.col && square.row === targetPosition.row).length > 0)
+    if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col + 1 &&
+      targetPosition.occupied &&
+      targetPosition.occupied.team !== currentPosition.occupied.team
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col - 1 &&
+      targetPosition.occupied &&
+      targetPosition.occupied.team !== currentPosition.occupied.team
+    )
+      return true;
+    else if (targetPosition.occupied) return false;
+    else if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col
+    ) {
+      return true;
+    }
+    return false;
   },
 };
 const HumanKnight = {
+  team: 2,
   name: "knight",
   img: humanKnight,
+  sounds: [knightSound],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (
+      targetPosition.row === currentPosition.row - 2 &&
+      targetPosition.col === currentPosition.col - 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row - 2 &&
+      targetPosition.col === currentPosition.col + 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 2 &&
+      targetPosition.col === currentPosition.col + 1
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 2 &&
+      targetPosition.col === currentPosition.col - 1
+    )
+      return true;
+    if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col - 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row - 1 &&
+      targetPosition.col === currentPosition.col + 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col + 2
+    )
+      return true;
+    else if (
+      targetPosition.row === currentPosition.row + 1 &&
+      targetPosition.col === currentPosition.col - 2
+    )
+      return true;
+    else return false;
   },
 };
 const HumanBishop = {
+  team: 2,
   name: "bishop",
   img: humanBishop,
+  sounds: [
+    bishopSound_1,
+    bishopSound_2,
+    bishopSound_3,
+    bishopSound_4,
+    bishopSound_5,
+    bishopSound_6,
+    bishopSound_7,
+  ],
   rules: (currentPosition, targetPosition) => {
     //..try and implement rules of movement here
+    let arr = [
+      ...targetPosition.leftUp,
+      ...targetPosition.leftDown,
+      ...targetPosition.rightUp,
+      ...targetPosition.rightDown,
+    ];
+    if (arr.indexOf(currentPosition.idx) > -1) return true;
+    return false;
   },
 };
 const HumanQueen = {
+  team: 2,
   name: "queen",
   img: humanQueen,
+  sounds: [
+    queenSound_1,
+    queenSound_2,
+    queenSound_3,
+    queenSound_4,
+    queenSound_5,
+    queenSound_6,
+  ],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (currentPosition.row === targetPosition.row) return true;
+    else if (currentPosition.col === targetPosition.col) return true;
+    else {
+      let arr = [
+        ...targetPosition.leftUp,
+        ...targetPosition.leftDown,
+        ...targetPosition.rightUp,
+        ...targetPosition.rightDown,
+      ];
+      if (arr.indexOf(currentPosition.idx) > -1) return true;
+      return false;
+    }
   },
 };
 const HumanKing = {
+  team: 2,
   name: "king",
   img: humanKing,
+  sounds: [kingSounds],
   rules: (currentPosition, targetPosition) => {
-    //..try and implement rules of movement here
+    if (
+      targetPosition.row > currentPosition.row + 1 ||
+      targetPosition.row < currentPosition.row - 1 ||
+      targetPosition.col > currentPosition.col + 1 ||
+      targetPosition.col < currentPosition.col - 1
+    )
+      return false;
+    return true;
   },
 };
 
@@ -148,6 +434,92 @@ const col = (i) => {
     : i - 56;
 };
 
+// IMPROVEMENT:
+// These functions could be implemented directly on movement rules of a piece
+// and not stored directly in square objects only to filter through later
+
+// test function that replaces all 4:
+// edgeRow, edgeCol, directionVertical, directionHorizontal
+const findDiagonals = (i, edgeRow, edgeCol, directUpDown, directLeftRight) => {
+  let arr = [];
+  if (row(i) === edgeRow) return ["none"];
+  if (col(i) === edgeCol) return ["none"];
+  // updown = +
+  // leftright = amount
+  if (directUpDown === "down") {
+    // problem
+    for (
+      let square = i + directLeftRight;
+      square <= 64;
+      square += directLeftRight
+    ) {
+      if (row(square) === edgeRow) {
+        arr.push(square);
+        return arr;
+      } else if (col(square) === edgeCol) {
+        arr.push(square);
+        return arr;
+      } else {
+        arr.push(square);
+      }
+    }
+    return arr;
+  } else {
+    for (
+      let square = i - directLeftRight;
+      square >= 1;
+      square -= directLeftRight
+    ) {
+      if (row(square) === edgeRow) {
+        arr.push(square);
+        return arr;
+      } else if (col(square) === edgeCol) {
+        arr.push(square);
+        return arr;
+      } else {
+        arr.push(square);
+      }
+    }
+    return arr;
+  }
+};
+
+const findDiagonalsLeftDown = (i) => {
+  let arr = [];
+  if (row(i) === 8) return ["none"];
+  if (col(i) === 1) return ["none"];
+  for (let squareLeft = i + 7; squareLeft < 64; squareLeft += 7) {
+    if (row(squareLeft) === 8) {
+      arr.push(squareLeft);
+      return arr;
+    } else if (col(squareLeft) === 1) {
+      arr.push(squareLeft);
+      return arr;
+    } else {
+      arr.push(squareLeft);
+    }
+  }
+  return arr;
+};
+
+const findDiagonalsRightDown = (i) => {
+  let arr = [];
+  if (row(i) === 8) return ["none"];
+  if (col(i) === 8) return ["none"];
+  for (let square = i + 9; square <= 64; square += 9) {
+    if (row(square) === 8) {
+      arr.push(square);
+      return arr;
+    } else if (col(square) === 8) {
+      arr.push(square);
+      return arr;
+    } else {
+      arr.push(square);
+    }
+  }
+  return arr;
+};
+
 const initialBoard = () => {
   let arr = [];
   for (let i = 1; i <= 64; i++) {
@@ -155,6 +527,15 @@ const initialBoard = () => {
       idx: i,
       row: row(i),
       col: col(i),
+      // Universal direction finder test
+      // findDiagonals (i, edgeRow, edgeCol, directUpDown, directLeftRight)
+      leftUp: findDiagonals(i, 1, 1, "up", 9),
+      // An array of all the squares connected diagonally left down
+      leftDown: findDiagonalsLeftDown(i),
+      // An array of all the squares connected diagonally right Up
+      rightUp: findDiagonals(i, 1, 8, "up", 7),
+      // An array of all the squares connected diagonally right down
+      rightDown: findDiagonalsRightDown(i),
       selected: false,
       occupied:
         row(i) === 2
@@ -190,6 +571,10 @@ const initialBoard = () => {
 const Square = ({
   idx, // square 1- 64
   row, // row 1-8
+  leftUp,
+  rightUp,
+  leftDown,
+  rightDown,
   handleSelect, // select a square w/unit
   selected, // current square is selected
   occupied, // current square is occupied
@@ -197,7 +582,7 @@ const Square = ({
   moveUnit, // function to move unit to a new square
   col, // col 1-8
 }) => {
-  const occupantRules = occupied.rules;
+  // const occupantRules = occupied.rules;
 
   const setBg = (row) => {
     if (row % 2 !== 0) {
@@ -209,7 +594,7 @@ const Square = ({
 
   const selectOrMove = () => {
     if (select) {
-      moveUnit(idx, occupantRules);
+      moveUnit(idx /*occupantRules*/);
     } else if (occupied) {
       handleSelect(idx);
     }
@@ -224,11 +609,22 @@ const Square = ({
         background: setBg(row),
         color: "red",
         overflow: "hidden",
+        fontSize: "12px",
       }}
     >
-      {/* Row: {row}
-      col: {col} */}
-      {occupied ? <img src={occupied.img}></img> : ""}
+      {/*
+      Row:{row}
+      <br />
+      col: {col}
+      <br />
+     
+      col: {col}
+      Row:{row}
+      idx: {idx}
+      <br />
+      TestD: {leftUp}
+       */}
+      {occupied ? <img src={occupied.img} alt="Chest piece"></img> : ""}
     </div>
   );
 };
@@ -237,50 +633,64 @@ const Square = ({
 const CreateBoard = () => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(initialBoard()); // [{row, idx, selected}]
-  const [select, setSelect] = React.useState();
+  const [select, setSelect] = React.useState(undefined);
 
   // Play sound
-  const audioReaction = () => {
+  const audioReaction = (selectSquare) => {
+    if (!selectSquare) return;
     //Can we play via select => audio of selected
-    console.log(select);
     let audio = new Audio(
-      OrcPawn.sounds[Math.round(Math.random() * OrcPawn.sounds.length)]
+      selectSquare.occupied.sounds[
+        Math.round(Math.random() * selectSquare.occupied.sounds.length)
+      ]
     );
     audio.play();
   };
 
+  // This seems to work..Cleanup needed?
+  React.useEffect(() => {
+    //console.log("effect Added");
+    audioReaction(select);
+    return function cleanup() {
+      //...? remove
+      // Look at the React useEffect tutorial
+    };
+  }, [select]);
+
   // Selecting units
   const handleSelect = (idx) => {
-    setSelect(squares.filter((i) => i.idx === idx)[0]);
+    setSelect(() => squares.filter((i) => i.idx === idx)[0]);
     // Create new Squares array
-    // All seleccted are false except the square which triggered handleSelect
+    // All selected are false except the square which triggered handleSelect
     let newSquares = squares.map((square) => {
       let obj = { ...square };
       obj.selected = obj.idx === idx;
       return obj;
     });
     setSquares(newSquares);
-    audioReaction();
   };
 
   // Moving Units
-  // Triggered after a square has already been selected for movement
-  const moveUnit = (destinationIdx, occupantRules) => {
+  // Only Triggered after select
+  const moveUnit = (destinationIdx) => {
     let destinationSquare = squares.filter(
       (square) => square.idx === destinationIdx
     )[0];
-    // Tried to move to a square with another unit
-    // set Select on the new Square and stop movement attempt
+    //  Trying to move to a square with another unit
+    //  setSelect(new Square) and stop movement attempt
     if (
-      squares.filter((i) => i.idx === destinationIdx && i.occupied !== false)
-        .length > 0
+      squares.filter(
+        (i) =>
+          i.idx === destinationIdx &&
+          i.occupied !== false &&
+          i.occupied.team === select.occupied.team
+      ).length > 0
     ) {
       return handleSelect(destinationIdx);
     }
-    // rule to only allow units to move 1 square away
+    // implement occupied squares rules
     else if (
-      destinationSquare.row !== select.row + 1 ||
-      destinationSquare.col !== select.col
+      select.occupied.rules(select, destinationSquare, squares) === false
     ) {
       return;
     } else {
@@ -301,19 +711,28 @@ const CreateBoard = () => {
         return newSquareObj;
       });
       setSquares(newSquares);
-      audioReaction();
     }
   };
 
   return (
     <>
-      {squares.map((square) => (
+      {squares.map((square, index) => (
         <Square
+          key={index}
+          // Diagonal connecting arrays
+          leftUp={square.leftUp}
+          rightUp={square.rightUp}
+          leftDown={square.leftDown}
+          rightDown={square.rightDown}
+          // Horizontal and Vertical position
           row={square.row}
           col={square.col}
+          // Index of square 1-64
           idx={square.idx}
           handleSelect={handleSelect}
           moveUnit={moveUnit}
+          // Square can access if a square is selected ->
+          // then runs handleSelect() or moveunit()
           select={select}
           selected={square.selected}
           occupied={square.occupied}
