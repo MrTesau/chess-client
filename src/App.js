@@ -23,6 +23,11 @@ import orcRaiderSounds_3 from "./assets/orcRaiderSounds/3.mpeg";
 import orcRaiderSounds_4 from "./assets/orcRaiderSounds/4.mpeg";
 // Shaman
 import shamanSound from "./assets/orcShamanSounds/1.ogg";
+import shamanSound_1 from "./assets/orcShamanSounds/4r.ogg";
+import shamanSound_2 from "./assets/orcShamanSounds/12.ogg";
+import shamanSound_3 from "./assets/orcShamanSounds/34.ogg";
+import shamanSound_4 from "./assets/orcShamanSounds/123.ogg";
+import shamanSound_5 from "./assets/orcShamanSounds/re.ogg";
 // rook
 import taurenRook from "./assets/taurenRookSounds/greetings-traveller.mp3";
 import sound_rook_1 from "./assets/taurenRookSounds/2.mp3";
@@ -126,6 +131,7 @@ const OrcKnight = {
   name: "knight",
   img: orcKnight,
   sounds: [
+    orcSoundOne,
     orcRaiderSounds_1,
     orcRaiderSounds_2,
     orcRaiderSounds_3,
@@ -179,7 +185,15 @@ const OrcBishop = {
   team: 1,
   name: "bishop",
   img: orcBishop,
-  sounds: [shamanSound],
+  sounds: [
+    shamanSound,
+    orcSoundOne,
+    shamanSound_1,
+    shamanSound_2,
+    shamanSound_3,
+    shamanSound_4,
+    shamanSound_5,
+  ],
   rules: (currentPosition, targetPosition) => {
     let arr = [
       ...targetPosition.leftUp,
@@ -223,7 +237,7 @@ const OrcKing = {
   team: 1,
   name: "king",
   img: orcKing,
-  sounds: [orcKingSound],
+  sounds: [orcKingSound, orcSoundOne],
   rules: (currentPosition, targetPosition) => {
     if (
       targetPosition.row > currentPosition.row + 1 ||
@@ -283,7 +297,7 @@ const HumanKnight = {
   team: 2,
   name: "knight",
   img: humanKnight,
-  sounds: [knightSound],
+  sounds: [knightSound, p5],
   rules: (currentPosition, targetPosition) => {
     if (
       targetPosition.row === currentPosition.row - 2 &&
@@ -384,7 +398,7 @@ const HumanKing = {
   team: 2,
   name: "king",
   img: humanKing,
-  sounds: [kingSounds],
+  sounds: [kingSounds, knightSound],
   rules: (currentPosition, targetPosition) => {
     if (
       targetPosition.row > currentPosition.row + 1 ||
@@ -396,8 +410,6 @@ const HumanKing = {
     return true;
   },
 };
-
-// Create static layout of board with all pieces then look to implement movement?
 
 const row = (i) => {
   return i < 9
@@ -483,7 +495,7 @@ const findDiagonals = (i, edgeRow, edgeCol, directUpDown, directLeftRight) => {
     return arr;
   }
 };
-
+// These can be replaced with calls to the above function
 const findDiagonalsLeftDown = (i) => {
   let arr = [];
   if (row(i) === 8) return ["none"];
@@ -537,6 +549,7 @@ const initialBoard = () => {
       // An array of all the squares connected diagonally right down
       rightDown: findDiagonalsRightDown(i),
       selected: false,
+      // Maybe create a seperate function that sets occupied rules
       occupied:
         row(i) === 2
           ? OrcPawn
@@ -565,6 +578,7 @@ const initialBoard = () => {
           : false,
     });
   }
+  // arr of Objects with each square info
   return arr;
 };
 
@@ -594,7 +608,7 @@ const Square = ({
 
   const selectOrMove = () => {
     if (select) {
-      moveUnit(idx /*occupantRules*/);
+      moveUnit(idx);
     } else if (occupied) {
       handleSelect(idx);
     }
@@ -629,12 +643,10 @@ const Square = ({
   );
 };
 //////
-
 const CreateBoard = () => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(initialBoard()); // [{row, idx, selected}]
   const [select, setSelect] = React.useState(undefined);
-
   // Play sound
   const audioReaction = (selectSquare) => {
     if (!selectSquare) return;
@@ -713,7 +725,6 @@ const CreateBoard = () => {
       setSquares(newSquares);
     }
   };
-
   return (
     <>
       {squares.map((square, index) => (
