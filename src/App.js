@@ -195,6 +195,12 @@ const OrcBishop = {
     shamanSound_5,
   ],
   rules: (currentPosition, targetPosition) => {
+    // up or down? target > current
+    // that leaves 2 arrays
+    // find array current position is located in
+    // find squares between target and current that are occupied,
+    // dont need to go right up to target as friendly will switch select and enemy will be eaten
+    // if squares between are occupied return false
     let arr = [
       ...targetPosition.leftUp,
       ...targetPosition.leftDown,
@@ -532,6 +538,19 @@ const findDiagonalsRightDown = (i) => {
   return arr;
 };
 
+//create an "in attack range " value for all squares that is false, but turns true when a unit is in range?
+// only activate if square is occupid by enemy & in range of unit
+// add logic for king that forces a move that cancels in attack range
+
+//or..
+// after each unit moves run a function that checks if enemy king is in attack range
+// enemy moves then function runs again, if still in attack range allowed to move = false
+// if in attack range & no possible pieces to move in range & no possible pieces to kill attacking piece = gameover
+
+// need to make sure the move the king performs does not put him into another pieces attack range
+// eg logic to check rows,columns and diagonals + knight attack path: this can be a different function
+
+// or cheat and create user buttons for check, checkmate and concede, dont create logic
 const initialBoard = () => {
   let arr = [];
   for (let i = 1; i <= 64; i++) {
@@ -581,6 +600,10 @@ const initialBoard = () => {
   // arr of Objects with each square info
   return arr;
 };
+// to chnage theme: create new pieces objects
+// import new pieces
+// run initialBoard with occupied set to mew pieces
+// setPieces to initialbored with new pieces(this can be a button in your app)
 
 const Square = ({
   idx, // square 1- 64
@@ -647,9 +670,10 @@ const CreateBoard = () => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(initialBoard()); // [{row, idx, selected}]
   const [select, setSelect] = React.useState(undefined);
+  const [mute, setMute] = React.useState(false);
   // Play sound
   const audioReaction = (selectSquare) => {
-    if (!selectSquare) return;
+    if (!selectSquare || mute) return;
     //Can we play via select => audio of selected
     let audio = new Audio(
       selectSquare.occupied.sounds[
@@ -750,6 +774,9 @@ const CreateBoard = () => {
         />
       ))}
       <button onClick={() => setSquares(initialBoard())}>Reset</button>
+      <button onClick={() => setMute(!mute)}>
+        {mute === true ? "Turn on Sound" : "Mute Sound"}
+      </button>
     </>
   );
 };
