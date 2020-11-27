@@ -1,3 +1,53 @@
+const initialBoard = () => {
+  let arr = [];
+  for (let i = 1; i <= 64; i++) {
+    arr.push({
+      idx: i,
+      row: row(i),
+      col: col(i),
+      // Universal direction finder test
+      // findDiagonals (i, edgeRow, edgeCol, directUpDown, directLeftRight)
+      leftUp: findDiagonals(i, 1, 1, "up", 9),
+      // An array of all the squares connected diagonally left down
+      leftDown: findDiagonalsLeftDown(i),
+      // An array of all the squares connected diagonally right Up
+      rightUp: findDiagonals(i, 1, 8, "up", 7),
+      // An array of all the squares connected diagonally right down
+      rightDown: findDiagonalsRightDown(i),
+      selected: false,
+      // Maybe create a seperate function that sets occupied rules
+      occupied:
+        row(i) === 2
+          ? OrcPawn
+          : row(i) === 7
+          ? HumanPawn
+          : i === 1 || i === 8
+          ? OrcRook
+          : i === 2 || i === 7
+          ? OrcKnight
+          : i === 3 || i === 6
+          ? OrcBishop
+          : i === 4
+          ? OrcKing
+          : i === 5
+          ? OrcQueen
+          : i === 64 || i === 57
+          ? HumanRook
+          : i === 63 || i === 58
+          ? HumanKnight
+          : i === 62 || i === 59
+          ? HumanBishop
+          : i === 60
+          ? HumanKing
+          : i === 61
+          ? HumanQueen
+          : false,
+    });
+  }
+  // arr of Objects with each square info
+  return arr;
+};
+
 import React from "react";
 import "./App.css";
 import pawn from "./assets/img/Untitled.gif";

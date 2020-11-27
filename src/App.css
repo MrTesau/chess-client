@@ -1,9 +1,11 @@
 .container {
   width: 100vw !important;
   height: 100vh !important;
+  /*
   background: url(https://www.itl.cat/pngfile/big/303-3038310_larger-alliance-and-horde-backgrounds-as-requested-alliance.jpg);
   background-blend-mode: multiply;
   background-size: cover;
+  */
   display: flex;
   justify-content: center;
   align-items: center;
