@@ -91,17 +91,14 @@ const pieces = {
   // Team 1
   team_1_rook: {
     team: 1,
-    name: "rook",
+    name: "team_1_rook",
     img: rook_team_1,
     sounds: [team_1_sound_rook_11, team_1_sound_rook_21],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-    },
   },
   // secondary rook
   team_1_rook2: {
     team: 1,
-    name: "rook",
+    name: "team_1_rook",
     img: rook2_team_1,
     sounds: [
       team_1_sound_rook_1,
@@ -115,13 +112,10 @@ const pieces = {
       team_1_sound_rook_9,
       team_1_sound_rook_10,
     ],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-    },
   },
   team_1_pawn: {
     team: 1,
-    name: "pawn",
+    name: "team_1_pawn",
     img: pawn_team_1,
     sounds: [
       dream,
@@ -137,85 +131,22 @@ const pieces = {
       pawn7,
       pawn7,
     ],
-    rules: (currentPosition, targetPosition, squares) => {
-      // team collision check
-      //if (squares.filter((square) => square.col === targetPosition.col && square.row === targetPosition.row).length > 0)
-      if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col + 1 &&
-        targetPosition.occupied &&
-        targetPosition.occupied.team !== currentPosition.occupied.team
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col - 1 &&
-        targetPosition.occupied &&
-        targetPosition.occupied.team !== currentPosition.occupied.team
-      )
-        return true;
-      else if (targetPosition.occupied) return false;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col
-      ) {
-        return true;
-      }
-      return false;
-    },
   },
   team_1_knight: {
     team: 1,
-    name: "knight",
+    name: "team_1_knight",
     img: knight_team_1,
     sounds: [knight_sound_1, knight_sound_2],
-    rules: (currentPosition, targetPosition) => {
-      if (
-        targetPosition.row === currentPosition.row - 2 &&
-        targetPosition.col === currentPosition.col - 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 2 &&
-        targetPosition.col === currentPosition.col + 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 2 &&
-        targetPosition.col === currentPosition.col + 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 2 &&
-        targetPosition.col === currentPosition.col - 1
-      )
-        return true;
-      if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col - 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col + 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 1 &&
-        targetPosition.col === currentPosition.col + 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 1 &&
-        targetPosition.col === currentPosition.col - 2
-      )
-        return true;
-      else return false;
-    },
   },
   team_1_bishop: {
     team: 1,
-    name: "bishop",
+    name: "team_1_bishop",
+    sounds: [bishop2team1sound, bishop2team1sound2],
+    img: team_1_bishop2,
+  },
+  team_1_bishop2: {
+    team: 1,
+    name: "team_1_bishop",
     img: team_1_bishop1,
     sounds: [
       bishop1team1sound,
@@ -223,38 +154,10 @@ const pieces = {
       bishop1team1sound3,
       bishop1team1sound4,
     ],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-      let arr = [
-        ...targetPosition.leftUp,
-        ...targetPosition.leftDown,
-        ...targetPosition.rightUp,
-        ...targetPosition.rightDown,
-      ];
-      if (arr.indexOf(currentPosition.idx) > -1) return true;
-      return false;
-    },
-  },
-  team_1_bishop2: {
-    team: 1,
-    name: "bishop",
-    img: team_1_bishop2,
-    sounds: [bishop2team1sound, bishop2team1sound2],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-      let arr = [
-        ...targetPosition.leftUp,
-        ...targetPosition.leftDown,
-        ...targetPosition.rightUp,
-        ...targetPosition.rightDown,
-      ];
-      if (arr.indexOf(currentPosition.idx) > -1) return true;
-      return false;
-    },
   },
   team_1_queen: {
     team: 1,
-    name: "queen",
+    name: "team_1_queen",
     img: team_1_queen,
     sounds: [
       queen1sounds1,
@@ -275,24 +178,10 @@ const pieces = {
       queen1sounds6,
       dragons,
     ],
-    rules: (currentPosition, targetPosition) => {
-      if (currentPosition.row === targetPosition.row) return true;
-      else if (currentPosition.col === targetPosition.col) return true;
-      else {
-        let arr = [
-          ...targetPosition.leftUp,
-          ...targetPosition.leftDown,
-          ...targetPosition.rightUp,
-          ...targetPosition.rightDown,
-        ];
-        if (arr.indexOf(currentPosition.idx) > -1) return true;
-        return false;
-      }
-    },
   },
   team_1_king: {
     team: 1,
-    name: "king",
+    name: "team_1_king",
     img: team_1_king,
     sounds: [
       king1sounds,
@@ -304,31 +193,17 @@ const pieces = {
       king1sounds7,
       king1sounds8,
     ],
-    rules: (currentPosition, targetPosition) => {
-      if (
-        targetPosition.row > currentPosition.row + 1 ||
-        targetPosition.row < currentPosition.row - 1 ||
-        targetPosition.col > currentPosition.col + 1 ||
-        targetPosition.col < currentPosition.col - 1
-      )
-        return false;
-      return true;
-    },
   },
-
   // zombie Objects
   team_2_rook: {
     team: 2,
-    name: "rook",
+    name: "team_2_rook",
     img: rook_team_2,
     sounds: [giant1, giant2, giant3, giant4],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-    },
   },
   team_2_pawn: {
     team: 2,
-    name: "pawn",
+    name: "team_2_pawn",
     img: pawn_team_2,
     sounds: [
       pain,
@@ -344,145 +219,30 @@ const pieces = {
       zombies2,
       zombie9,
     ],
-    rules: (currentPosition, targetPosition, squares) => {
-      // team collision check
-      //if (squares.filter((square) => square.col === targetPosition.col && square.row === targetPosition.row).length > 0)
-      if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col + 1 &&
-        targetPosition.occupied &&
-        targetPosition.occupied.team !== currentPosition.occupied.team
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col - 1 &&
-        targetPosition.occupied &&
-        targetPosition.occupied.team !== currentPosition.occupied.team
-      )
-        return true;
-      else if (targetPosition.occupied) return false;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col
-      ) {
-        return true;
-      }
-      return false;
-    },
   },
-  /*
-
-import monster from "./audio/zombies/monster.mp3";
-
-
-
-
-import zombies from "./audio/zombies/zombie.mp3";
-import zombies2 from "./audio/zombies/zombie232.mpeg";
-
-  */
   team_2_knight: {
     team: 2,
-    name: "knight",
+    name: "team_2_knight",
     img: knight_team_2,
     sounds: [freeze, walker, footsteps],
-    rules: (currentPosition, targetPosition) => {
-      if (
-        targetPosition.row === currentPosition.row - 2 &&
-        targetPosition.col === currentPosition.col - 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 2 &&
-        targetPosition.col === currentPosition.col + 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 2 &&
-        targetPosition.col === currentPosition.col + 1
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 2 &&
-        targetPosition.col === currentPosition.col - 1
-      )
-        return true;
-      if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col - 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row - 1 &&
-        targetPosition.col === currentPosition.col + 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 1 &&
-        targetPosition.col === currentPosition.col + 2
-      )
-        return true;
-      else if (
-        targetPosition.row === currentPosition.row + 1 &&
-        targetPosition.col === currentPosition.col - 2
-      )
-        return true;
-      else return false;
-    },
   },
   team_2_bishop: {
     team: 2,
-    name: "bishop",
+    name: "team_2_bishop",
     img: team_2_bishop,
     sounds: [footsteps, freeze, walker, monster],
-    rules: (currentPosition, targetPosition) => {
-      //..try and implement rules of movement here
-      let arr = [
-        ...targetPosition.leftUp,
-        ...targetPosition.leftDown,
-        ...targetPosition.rightUp,
-        ...targetPosition.rightDown,
-      ];
-      if (arr.indexOf(currentPosition.idx) > -1) return true;
-      return false;
-    },
   },
   team_2_queen: {
     team: 2,
-    name: "queen",
+    name: "team_2_queen",
     img: team_2_queen,
-    sounds: [monster, dragons, monster],
-    rules: (currentPosition, targetPosition) => {
-      if (currentPosition.row === targetPosition.row) return true;
-      else if (currentPosition.col === targetPosition.col) return true;
-      else {
-        let arr = [
-          ...targetPosition.leftUp,
-          ...targetPosition.leftDown,
-          ...targetPosition.rightUp,
-          ...targetPosition.rightDown,
-        ];
-        if (arr.indexOf(currentPosition.idx) > -1) return true;
-        return false;
-      }
-    },
+    sounds: [monster, knight_sound_1, knight_sound_2, monster],
   },
   team_2_king: {
     team: 2,
-    name: "king",
+    name: "team_2_king",
     img: team_2_king,
     sounds: [freeze, footsteps],
-    rules: (currentPosition, targetPosition) => {
-      if (
-        targetPosition.row > currentPosition.row + 1 ||
-        targetPosition.row < currentPosition.row - 1 ||
-        targetPosition.col > currentPosition.col + 1 ||
-        targetPosition.col < currentPosition.col - 1
-      )
-        return false;
-      return true;
-    },
   },
 };
 

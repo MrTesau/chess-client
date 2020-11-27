@@ -13,8 +13,8 @@
 
 .board-container {
   border: 1px solid black;
-  width: 50vw;
-  height: 90vh;
+  width: 45vw;
+  height: 85vh;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
