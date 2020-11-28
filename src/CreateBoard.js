@@ -1,18 +1,11 @@
 import React from "react";
 import "./App.css";
+
 // Battleground themes
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "./battlegrounds/wow_hordvally.js";
 // the rules of movement
 import rulesLookup from "./movementLookup.js";
-
-// Bishop rules::
-// up or down? target > current
-// that leaves 2 arrays
-// find array current position is located in
-// find squares between target and current that are occupied,
-// dont need to go right up to target as friendly will switch select and enemy will be eaten
-// if squares between are occupied return false
 
 const row = (i) => {
   return i < 9
@@ -98,7 +91,7 @@ const findDiagonals = (i, edgeRow, edgeCol, directUpDown, directLeftRight) => {
     return arr;
   }
 };
-// These can be replaced with calls to the above function
+// This can be replaced with calls to the above function
 const findDiagonalsLeftDown = (i) => {
   let arr = [];
   if (row(i) === 8) return ["none"];
@@ -116,7 +109,7 @@ const findDiagonalsLeftDown = (i) => {
   }
   return arr;
 };
-
+// This can be replaced with calls to the above function
 const findDiagonalsRightDown = (i) => {
   let arr = [];
   if (row(i) === 8) return ["none"];
@@ -235,9 +228,10 @@ const Square = ({
   handleSelect, // select a square w/unit
   selected, // current square is selected
   occupied, // current square is occupied
-  select, // after selecting a square with a unit adopts that unit
+  selectedSquare, // after selecting a square with a unit adopts that unit
   moveUnit, // function to move unit to a new square
   col, // col 1-8
+  round,
 }) => {
   const setBg = (row) => {
     if (row % 2 !== 0) {
@@ -248,10 +242,12 @@ const Square = ({
   };
 
   const selectOrMove = () => {
-    if (select) {
+    if (selectedSquare) {
       moveUnit(idx);
     } else if (occupied) {
-      handleSelect(idx);
+      if (occupied.team === round) {
+        handleSelect(idx);
+      }
     }
   };
   return (
@@ -264,21 +260,17 @@ const Square = ({
         background: setBg(row),
         color: "red",
         overflow: "hidden",
-        fontSize: "12px",
+        fontSize: "11px",
       }}
     >
       {/*
-      Row:{row}
-      <br />
-      col: {col}
-      <br />
-     
-      col: {col}
-      Row:{row}
+      lD: {leftDown}
+      RD:{rightUp}
       idx: {idx}
       <br />
-      TestD: {leftUp}
-       */}
+      lu: {leftUp}
+      rU:{rightUp}
+      */}
       {occupied ? <img src={occupied.img} alt="Chest piece"></img> : ""}
     </div>
   );
@@ -287,96 +279,128 @@ const Square = ({
 
 // just clean the code/variable names up a bit, the Mapping over Square Object Array is fine.
 // Virtual Dom takes care of performance issues
+
 const CreateBoard = ({ setCurrentBG, wowBg, gotBg }) => {
   //const [selected, setSelected] = React.useState(false);
   const [squares, setSquares] = React.useState(
     setBattleground(gameOfThrones_1)
   ); // [{row, idx, selected}]
-  const [select, setSelect] = React.useState(undefined);
+  const [selectedSquare, setSelectedSquare] = React.useState(undefined);
   //const [mute, setMute] = React.useState(false);
-  // Play sound
-  const audioReaction = (selectSquare) => {
-    if (!selectSquare /*|| mute*/) return;
+  const [round, setRound] = React.useState(1); // round -> square checks round = team -> round switches after a move
+
+  //after each turn check if a king is in attack range, diagonally row col or horse
+  // Also scan own kings safety before allowing a unit to move
+
+  // removed select check
+  const audioReaction = (squareWithAudio) => {
+    if (!squareWithAudio /*||mute*/) return;
     //Can we play via select => audio of selected
     let audio = new Audio(
-      selectSquare.occupied.sounds[
-        Math.floor(Math.random() * selectSquare.occupied.sounds.length)
+      squareWithAudio.occupied.sounds[
+        Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
       ]
     );
     audio.currentTime = 0;
     audio.play();
   };
-
-  // This seems to work..Cleanup needed?
+  /* Might not need as we call audioReaction without relying on a state
   React.useEffect(() => {
-    //console.log("effect Added");
-    if (select) audioReaction(select);
+    audioReaction(selectedSquare);
     return function cleanup() {
       //...? remove
+      // This seems to work..Cleanup needed?
       // Look at the React useEffect tutorial
     };
-  }, [select]);
-
+  }, [selectedSquare]);
+  */
   // Selecting units
+  // removes previous selected = true if a peice has been selected
+  // Sets a  new square object to selected = true
+
   const handleSelect = (idx) => {
-    setSelect(() => squares.filter((i) => i.idx === idx)[0]);
-    // Create new Squares array
-    // All selected are false except the square which triggered handleSelect
-    let newSquares = squares.map((square) => {
-      let obj = { ...square };
-      obj.selected = obj.idx === idx;
-      return obj;
-    });
+    /*
+    if (selectedSquare) {
+      let newSquares = [...squares];
+      newSquares[selectedSquare.idx - 1].selected = false; // find and remove prevous selected
+      setSquares(newSquares); // reset squares
+    }
+    */
+    let newSquares = [...squares];
+    if (selectedSquare) {
+      newSquares[selectedSquare.idx - 1].selected = false;
+    }
+    setSelectedSquare(squares[idx - 1]);
+    newSquares[idx - 1].selected = true;
     setSquares(newSquares);
+    audioReaction(newSquares[idx - 1]); // Sounds play on multiple clicks..might break
   };
 
   // Moving Units
   // Only Triggered after select
   const moveUnit = (destinationIdx) => {
+    // try:
+    let destinationSquareObj = squares[destinationIdx - 1];
+    /* Old code for destSquareObj: Might need to go back
     let destinationSquareObj = squares.filter(
       (square) => square.idx === destinationIdx
     )[0];
+
+    */
     //  Trying to move to a square with another unit
-    //  setSelect(new Square) and stop movement attempt
-    if (
-      squares.filter(
+    /* Old working Code:
+     squares.filter(
         (i) =>
           i.idx === destinationIdx &&
           i.occupied !== false &&
-          i.occupied.team === select.occupied.team
+          i.occupied.team === selectedSquare.occupied.team
       ).length > 0
+      */
+    if (
+      squares[destinationIdx - 1].occupied &&
+      squares[destinationIdx - 1].occupied.team === selectedSquare.occupied.team
     ) {
       return handleSelect(destinationIdx);
     }
+
     // implement occupied squares rules
     else if (
-      rulesLookup[select.occupied.name](select, destinationSquareObj) === false
+      rulesLookup[selectedSquare.occupied.name](
+        selectedSquare,
+        destinationSquareObj,
+        squares
+      ) === false
     ) {
       return;
     } else {
-      // Redraw Squares
-      // remove all Selected
-      // find Destination and add Occupant piece
-      // Find old square with Occupant and remove
-      // setSelect to undefined
-      let newSquares = squares.map((square) => {
+      /*old working code:
+       let newSquares = squares.map((square) => {
         let newSquareObj = { ...square }; // copy each square
         newSquareObj.selected = false; // remove selected from all
         if (newSquareObj.idx === destinationIdx)
-          newSquareObj.occupied = select.occupied; // Add occupant (Pawn/Rook etc object)
-        if (newSquareObj.idx === select.idx) {
+          newSquareObj.occupied = selectedSquare.occupied; // Add occupant (Pawn/Rook etc object)
+        if (newSquareObj.idx === selectedSquare.idx) {
           newSquareObj.occupied = false; // remove old position
-          setSelect(undefined); // remove current selected
+          setSelectedSquare(undefined); // remove current selected
         }
         return newSquareObj;
       });
-      setSquares(newSquares);
+      */
+
+      let newSquares = [...squares];
+      newSquares[destinationIdx - 1].occupied = selectedSquare.occupied;
+      newSquares[selectedSquare.idx - 1].occupied = false;
+      newSquares[selectedSquare.idx - 1].selected = false;
+      setSelectedSquare(undefined); // Transder to new square completed: remove selectedSquare
+      setSquares(newSquares); // set Squares arr
+      setRound((round) => (round === 1 ? 2 : 1));
     }
   };
   return (
     <>
       {squares.map((square, index) => (
         <Square
+          round={round}
           key={index}
           // Diagonal connecting arrays
           leftUp={square.leftUp}
@@ -392,7 +416,7 @@ const CreateBoard = ({ setCurrentBG, wowBg, gotBg }) => {
           moveUnit={moveUnit}
           // Square can access if a square is selected ->
           // then runs handleSelect() or moveunit()
-          select={select}
+          selectedSquare={selectedSquare}
           selected={square.selected}
           occupied={square.occupied}
         />
@@ -401,7 +425,7 @@ const CreateBoard = ({ setCurrentBG, wowBg, gotBg }) => {
         onClick={() => {
           setCurrentBG(wowBg);
           setSquares(setBattleground(WoWBattleground));
-          setSelect(undefined);
+          setSelectedSquare(undefined);
         }}
       >
         World of Warcraft
@@ -410,7 +434,7 @@ const CreateBoard = ({ setCurrentBG, wowBg, gotBg }) => {
         onClick={() => {
           setCurrentBG(gotBg);
           setSquares(setBattleground(gameOfThrones_1));
-          setSelect(undefined);
+          setSelectedSquare(undefined);
         }}
       >
         Game Of Thrones

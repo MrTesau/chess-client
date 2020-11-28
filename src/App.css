@@ -13,12 +13,13 @@
 
 .board-container {
   border: 1px solid black;
-  width: 45vw;
-  height: 85vh;
+  width: 40%;
+  height: 75%;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
 }
+/* MEdia queries For small screens? */
 
 img {
   padding: 0;
