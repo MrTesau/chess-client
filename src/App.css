@@ -1,4 +1,10 @@
+:root {
+  padding: 0;
+  margin: 0;
+}
 .container {
+  top: 0;
+  margin: 0px !important;
   width: 100vw !important;
   height: 100vh !important;
   /*
@@ -8,13 +14,14 @@
   */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 2%;
 }
 
 .board-container {
-  border: 1px solid black;
-  width: 40%;
-  height: 75%;
+  /*border: 1px solid black;*/
+  width: 38%;
+  height: 70%;
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
@@ -26,5 +33,5 @@ img {
   margin: 0;
   width: 100%;
   height: 100%;
-  filter: grayscale(30%);
+  filter: grayscale(20%);
 }
