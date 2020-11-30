@@ -92,6 +92,7 @@ const pieces = {
   team_1_rook: {
     team: 1,
     name: "team_1_rook",
+    piece: "Rook",
     img: rook_team_1,
     sounds: [team_1_sound_rook_11, team_1_sound_rook_21],
   },
@@ -99,6 +100,7 @@ const pieces = {
   team_1_rook2: {
     team: 1,
     name: "team_1_rook",
+    piece: "Rook",
     img: rook2_team_1,
     sounds: [
       team_1_sound_rook_1,
@@ -116,6 +118,7 @@ const pieces = {
   team_1_pawn: {
     team: 1,
     name: "team_1_pawn",
+    piece: "Pawn",
     img: pawn_team_1,
     sounds: [
       dream,
@@ -134,6 +137,7 @@ const pieces = {
   },
   team_1_knight: {
     team: 1,
+    piece: "Knight",
     name: "team_1_knight",
     img: knight_team_1,
     sounds: [knight_sound_1, knight_sound_2],
@@ -141,12 +145,14 @@ const pieces = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
+    piece: "Bishop",
     sounds: [bishop2team1sound, bishop2team1sound2],
     img: team_1_bishop2,
   },
   team_1_bishop2: {
     team: 1,
     name: "team_1_bishop",
+    piece: "Bishop",
     img: team_1_bishop1,
     sounds: [
       bishop1team1sound,
@@ -158,6 +164,7 @@ const pieces = {
   team_1_queen: {
     team: 1,
     name: "team_1_queen",
+    piece: "Queen",
     img: team_1_queen,
     sounds: [
       queen1sounds1,
@@ -182,6 +189,7 @@ const pieces = {
   team_1_king: {
     team: 1,
     name: "team_1_king",
+    piece: "King",
     img: team_1_king,
     sounds: [
       king1sounds,
@@ -198,12 +206,14 @@ const pieces = {
   team_2_rook: {
     team: 2,
     name: "team_2_rook",
+    piece: "Rook",
     img: rook_team_2,
     sounds: [giant1, giant2, giant3, giant4],
   },
   team_2_pawn: {
     team: 2,
     name: "team_2_pawn",
+    piece: "Pawn",
     img: pawn_team_2,
     sounds: [
       pain,
@@ -223,24 +233,28 @@ const pieces = {
   team_2_knight: {
     team: 2,
     name: "team_2_knight",
+    piece: "Knight",
     img: knight_team_2,
     sounds: [freeze, walker, footsteps],
   },
   team_2_bishop: {
     team: 2,
     name: "team_2_bishop",
+    piece: "Bishop",
     img: team_2_bishop,
     sounds: [footsteps, freeze, walker, monster],
   },
   team_2_queen: {
     team: 2,
     name: "team_2_queen",
+    piece: "Queen",
     img: team_2_queen,
     sounds: [monster, knight_sound_1, knight_sound_2, monster],
   },
   team_2_king: {
     team: 2,
     name: "team_2_king",
+    piece: "King",
     img: team_2_king,
     sounds: [freeze, footsteps],
   },

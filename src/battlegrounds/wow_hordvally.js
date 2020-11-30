@@ -81,6 +81,7 @@ const WoWBattleground = {
     team: 1,
     name: "team_1_pawn",
     img: pawn,
+    piece: "Pawn",
     sounds: [
       orcSoundOne,
       orcSoundTwo,
@@ -93,11 +94,13 @@ const WoWBattleground = {
     team: 1,
     name: "team_1_rook",
     img: rook,
+    piece: "Rook",
     sounds: [taurenRook, taurenRook2, sound_rook_1, taurenRook3, taurenRook4],
   },
   team_1_knight: {
     team: 1,
     name: "team_1_knight",
+    piece: "Knight",
     img: orcKnight,
     sounds: [
       orcSoundOne,
@@ -110,6 +113,7 @@ const WoWBattleground = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
+    piece: "Bishop",
     img: orcBishop,
     sounds: [
       shamanSound,
@@ -124,6 +128,7 @@ const WoWBattleground = {
   team_1_queen: {
     team: 1,
     name: "team_1_queen",
+    piece: "Queen",
     img: orcQueen,
     sounds: [
       orcQueenSounds_1,
@@ -138,6 +143,7 @@ const WoWBattleground = {
   team_1_king: {
     team: 1,
     name: "team_1_king",
+    piece: "King",
     img: orcKing,
     sounds: [orcKingSound, orcSoundOne],
   },
@@ -145,24 +151,28 @@ const WoWBattleground = {
   team_2_rook: {
     team: 2,
     name: "team_2_rook",
+    piece: "Rook",
     img: humanRook,
     sounds: [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10],
   },
   team_2_pawn: {
     team: 2,
     name: "team_2_pawn",
+    piece: "Pawn",
     img: humanPawn,
     sounds: [p1, p2, p3, p4, p5],
   },
   team_2_knight: {
     team: 2,
     name: "team_2_knight",
+    piece: "Knight",
     img: humanKnight,
     sounds: [knightSound, p5],
   },
   team_2_bishop: {
     team: 2,
     name: "team_2_bishop",
+    piece: "Bishop",
     img: humanBishop,
     sounds: [
       bishopSound_1,
@@ -177,6 +187,7 @@ const WoWBattleground = {
   team_2_queen: {
     team: 2,
     name: "team_2_queen",
+    piece: "Queen",
     img: humanQueen,
     sounds: [
       queenSound_1,
@@ -190,6 +201,7 @@ const WoWBattleground = {
   team_2_king: {
     team: 2,
     name: "team_2_king",
+    piece: "King",
     img: humanKing,
     sounds: [kingSounds, knightSound],
   },

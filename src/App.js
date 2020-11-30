@@ -13,6 +13,9 @@ import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "./battlegrounds/wow_hordvally.js";
 import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
 
+import parch from "./assets/img/parch1.png";
+import SelectBg from "./bg-buttons.js";
+
 const row = (i) => {
   return i < 9
     ? 1
@@ -134,20 +137,6 @@ const findDiagonalsRightDown = (i) => {
   return arr;
 };
 
-//create an "in attack range " value for all squares that is false, but turns true when a unit is in range?
-// only activate if square is occupid by enemy & in range of unit
-// add logic for king that forces a move that cancels in attack range
-
-//or..
-// after each unit moves run a function that checks if enemy king is in attack range
-// enemy moves then function runs again, if still in attack range allowed to move = false
-// if in attack range & no possible pieces to move in range & no possible pieces to kill attacking piece = gameover
-
-// need to make sure the move the king performs does not put him into another pieces attack range
-// eg logic to check rows,columns and diagonals + knight attack path: this can be a different function
-
-// or cheat and create user buttons for check, checkmate and concede, dont create logic
-
 // Square Objects
 // This can be implemented with class for theme and classes for piece objects
 // implement into teams to allow splitting eg  LoL vs Horde
@@ -250,52 +239,153 @@ const App = () => {
   const [currentBG, setCurrentBgImg] = React.useState(() => {
     return Math.random() > 0.5 ? lolBg : lolBg2;
   });
-
+  const [selectedSquare, setSelectedSquare] = React.useState(undefined);
+  const [round, setRound] = React.useState(1);
   const [squares, setSquares] = React.useState(
     setBattleground(LoLBattleground)
   ); // [{row, idx, selected}]
   return (
     <div
-      className="container"
       style={{
         backgroundImage: `url(${currentBG})`,
         backgroundBlendMode: "multiply",
         backgroundSize: "cover",
+        width: "100vw",
+        height: "100vh",
+        padding: "0px",
       }}
     >
-      <div className="board-container">
-        <CreateBoard squares={squares} setSquares={setSquares} />
+      <SelectBg
+        currentBG={currentBG}
+        setCurrentBgImg={setCurrentBgImg}
+        squares={squares}
+        setSquares={setSquares}
+        setBattleground={setBattleground}
+        lolBg={lolBg}
+        lolBg2={lolBg2}
+        wowBg={wowBg}
+        gotBg={gotBg}
+      />
 
-        <button
-          onClick={() => {
-            setCurrentBgImg(wowBg);
-            //setBattlegroundUniverse();
-            setSquares(setBattleground(WoWBattleground));
-            // setSelectedSquare(undefined);
+      <div className="container">
+        <div
+          className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "75% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
           }}
         >
-          World of Warcraft
-        </button>
-        <button
-          onClick={() => {
-            setCurrentBgImg(gotBg);
-            //setBattlegroundUniverse();
-            setSquares(setBattleground(gameOfThrones_1));
-            //  setSelectedSquare(undefined);
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "90%",
+            }}
+          >
+            <div style={{ fontSize: "large" }}>
+              <p>
+                {currentBG === wowBg
+                  ? "The Horde"
+                  : currentBG === gotBg
+                  ? "The North"
+                  : " Blue Team Champions"}
+              </p>
+            </div>
+            <div style={{ fontSize: "medium" }}>
+              <p>Currently Selected Piece:</p>
+            </div>
+            <div style={{ fontSize: "large" }}>
+              {round === 1
+                ? selectedSquare
+                  ? `${selectedSquare.occupied.piece}`
+                  : "None"
+                : "None"}
+            </div>
+
+            <div style={{ fontSize: "medium" }}>
+              <p>Status:</p>
+            </div>
+            <div
+              style={{
+                fontSize: "x-large",
+                color: round === 1 ? "#013220" : "#8B0000",
+              }}
+            >
+              {round === 1
+                ? "Your Move! Choose Wisely"
+                : "...Waiting on the Enemy"}
+            </div>
+          </div>
+        </div>
+        <div className="board-container">
+          <CreateBoard
+            squares={squares}
+            setSquares={setSquares}
+            selectedSquare={selectedSquare}
+            setSelectedSquare={setSelectedSquare}
+            round={round}
+            setRound={setRound}
+          />
+        </div>
+        <div
+          className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "75% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
           }}
         >
-          Game Of Thrones
-        </button>
-        <button
-          onClick={() => {
-            setCurrentBgImg(() => {
-              return Math.random() > 0.5 ? lolBg : lolBg2;
-            });
-            setSquares(setBattleground(LoLBattleground));
-          }}
-        >
-          League Of legends
-        </button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "90%",
+            }}
+          >
+            <div style={{ fontSize: "large" }}>
+              <p>
+                {currentBG === wowBg
+                  ? "The Alliance"
+                  : currentBG === gotBg
+                  ? "The White Walkers"
+                  : " Red Team Champions"}
+              </p>
+            </div>
+            <div style={{ fontSize: "medium" }}>
+              <p>Currently Selected Piece:</p>
+            </div>
+            <div style={{ fontSize: "large" }}>
+              {round === 2
+                ? selectedSquare
+                  ? `${selectedSquare.occupied.piece}`
+                  : "None"
+                : "None"}
+            </div>
+
+            <div style={{ fontSize: "medium" }}>
+              <p>Status:</p>
+            </div>
+            <div
+              style={{
+                fontSize: "x-large",
+                color: round === 2 ? "#013220" : "#8B0000",
+              }}
+            >
+              {round === 2
+                ? "Your Move! Choose Wisely"
+                : "...Waiting on the Enemy"}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
