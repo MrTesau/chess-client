@@ -56,7 +56,7 @@ const Square = ({
         minWidth: "12.5%",
         border: !selected
           ? "none" /*setBg(row) === "rgb(245, 230, 217)"
-            ? "1px solid black"
+            ? "1px solid  #121213"
             : "none"*/
           : "2px solid red",
         background: setBg(row),

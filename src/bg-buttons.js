@@ -2,6 +2,7 @@ import React from "react";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "./battlegrounds/wow_hordvally.js";
 import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
+import classicBattleground from "./battlegrounds/classic/classic.js";
 
 export const SelectBG = ({
   setCurrentBgImg,
@@ -46,6 +47,16 @@ export const SelectBG = ({
           }}
         >
           League Of legends
+        </button>
+        <button
+          onClick={() => {
+            setCurrentBgImg(() => {
+              return Math.random() > 0.5 ? lolBg : lolBg2;
+            });
+            setSquares(setBattleground(classicBattleground));
+          }}
+        >
+          Classic Chess
         </button>
       </div>
     </div>
