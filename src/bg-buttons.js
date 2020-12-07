@@ -1,8 +1,17 @@
 import React from "react";
+// Menu
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+// Battlegrounds
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "./battlegrounds/wow_hordvally.js";
 import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
 import classicBattleground from "./battlegrounds/classic/classic.js";
+// Icon and Icon Button
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import IconButton from "@material-ui/core/IconButton";
+import Hidden from "@material-ui/core/Hidden";
 
 export const SelectBG = ({
   setCurrentBgImg,
@@ -14,51 +23,86 @@ export const SelectBG = ({
   lolBg,
   lolBg2,
 }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
-    <div id="buttons-container">
-      <p> Select Your Battleground:</p>
-      <div>
-        <button
+    <div className="menu-buttons">
+      <Hidden xsDown>
+        <Button
+          variant="contained"
+          size="small"
+          color="primary"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+          style={{ fontSize: "0.65rem" }}
+        >
+          Select Battleground
+        </Button>
+      </Hidden>
+      <Hidden smUp>
+        <IconButton
+          aria-label="more"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <MoreVertIcon style={{ color: "white" }} />
+        </IconButton>
+      </Hidden>
+
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem
           onClick={() => {
             setCurrentBgImg(wowBg);
-            //setBattlegroundUniverse();
             setSquares(setBattleground(WoWBattleground));
-            // setSelectedSquare(undefined);
+            handleClose();
           }}
         >
-          World of Warcraft
-        </button>
-        <button
+          &nbsp;&nbsp;World of Warcraft&nbsp;
+        </MenuItem>
+        <MenuItem
           onClick={() => {
             setCurrentBgImg(gotBg);
-            //setBattlegroundUniverse();
             setSquares(setBattleground(gameOfThrones_1));
-            //  setSelectedSquare(undefined);
+            handleClose();
           }}
         >
-          Game Of Thrones
-        </button>
-        <button
+          &nbsp;&nbsp;Game of Thrones&nbsp;
+        </MenuItem>
+
+        <MenuItem
           onClick={() => {
             setCurrentBgImg(() => {
               return Math.random() > 0.5 ? lolBg : lolBg2;
             });
             setSquares(setBattleground(LoLBattleground));
+            handleClose();
           }}
         >
-          League Of legends
-        </button>
-        <button
+          &nbsp;&nbsp;League of Legends&nbsp;
+        </MenuItem>
+        <MenuItem
           onClick={() => {
-            setCurrentBgImg(() => {
-              return Math.random() > 0.5 ? lolBg : lolBg2;
-            });
             setSquares(setBattleground(classicBattleground));
+            handleClose();
           }}
         >
-          Classic Chess
-        </button>
-      </div>
+          &nbsp;&nbsp;Classic Chess&nbsp;
+        </MenuItem>
+      </Menu>
     </div>
   );
 };

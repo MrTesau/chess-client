@@ -7,6 +7,7 @@ import lolBg from "./assets/img/rift2.jpeg";
 import lolBg2 from "./assets/img/rift.jpg";
 // ChessBoard
 import CreateBoard from "./CreateBoard.js";
+
 // Battleground themes
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "./battlegrounds/wow_hordvally.js";
@@ -14,14 +15,9 @@ import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
 // Responsive tools
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-// Bg Assets
+
 import parch from "./assets/img/parch1.png";
 import SelectBg from "./bg-buttons.js";
-//volume
-import { mdiVolumeOff } from "@mdi/js";
-import { mdiVolumeHigh } from "@mdi/js";
-import Icon from "@mdi/react";
-import { Button } from "@material-ui/core";
 
 const row = (i) => {
   return i < 9
@@ -251,13 +247,8 @@ const App = () => {
   const [squares, setSquares] = React.useState(
     setBattleground(LoLBattleground)
   ); // [{row, idx, selected}]
-  const [volume, setVolume] = React.useState(true);
   return (
-    <Grid
-      container
-      xs={12}
-      justify="center"
-      alignItems="center"
+    <div
       style={{
         backgroundImage: `url(${currentBG})`,
         backgroundBlendMode: "multiply",
@@ -266,72 +257,40 @@ const App = () => {
         height: "100vh",
         padding: "0px",
       }}
-      spacing={0}
     >
-      <div style={{ position: "fixed", top: 5, left: 10 }}>
-        <SelectBg
-          currentBG={currentBG}
-          setCurrentBgImg={setCurrentBgImg}
-          squares={squares}
-          setSquares={setSquares}
-          setBattleground={setBattleground}
-          lolBg={lolBg}
-          lolBg2={lolBg2}
-          wowBg={wowBg}
-          gotBg={gotBg}
-        />
-      </div>
-      <div style={{ position: "fixed", top: 7, right: 20 }}>
-        {volume ? (
-          <Icon
-            path={mdiVolumeHigh}
-            title="volume"
-            size={0.9}
-            color={"white"}
-            onClick={() => setVolume(!volume)}
-          />
-        ) : (
-          <Icon
-            path={mdiVolumeOff}
-            title="volume"
-            size={0.9}
-            color={"white"}
-            onClick={() => setVolume(!volume)}
-          />
-        )}
-      </div>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        alignContent="space-around"
-        md={3}
-        sm={6}
-        xs={8}
-        style={{
-          backgroundImage: `url(${parch})`,
-          backgroundBlendMode: "multiply",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          height: "18vw",
-          // border: "2px solid black",
-        }}
-        className={"bg-container"}
-      >
+      <SelectBg
+        currentBG={currentBG}
+        setCurrentBgImg={setCurrentBgImg}
+        squares={squares}
+        setSquares={setSquares}
+        setBattleground={setBattleground}
+        lolBg={lolBg}
+        lolBg2={lolBg2}
+        wowBg={wowBg}
+        gotBg={gotBg}
+      />
+
+      <div className="container">
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            width: "100%",
-            opacity: "0.85",
-          }}
           className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "75% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
         >
-          <Hidden xsDown>
-            <div style={{ fontSize: "x-large" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "90%",
+            }}
+          >
+            <div style={{ fontSize: "large" }}>
               <p>
                 {currentBG === wowBg
                   ? "The Horde"
@@ -340,46 +299,32 @@ const App = () => {
                   : " Blue Team Champions"}
               </p>
             </div>
-          </Hidden>
-
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            <p>Currently Selected:</p>
-          </div>
-
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            {round === 1
-              ? selectedSquare
-                ? `${selectedSquare.occupied.piece}`
-                : "None"
-              : "None"}
-          </div>
-          <Hidden smDown>
+            <div style={{ fontSize: "medium" }}>
+              <p>Currently Selected Piece:</p>
+            </div>
             <div style={{ fontSize: "large" }}>
+              {round === 1
+                ? selectedSquare
+                  ? `${selectedSquare.occupied.piece}`
+                  : "None"
+                : "None"}
+            </div>
+
+            <div style={{ fontSize: "medium" }}>
               <p>Status:</p>
             </div>
-          </Hidden>
-          <div
-            className="info-area-text"
-            style={{
-              fontSize: "x-large",
-              color: round === 1 ? "#013220" : "#8B0000",
-            }}
-          >
-            {round === 1
-              ? "Your Move!" // Choose Wisely"
-              : "...Waiting for Enemy"}
+            <div
+              style={{
+                fontSize: "x-large",
+                color: round === 1 ? "#013220" : "#8B0000",
+              }}
+            >
+              {round === 1
+                ? "Your Move! Choose Wisely"
+                : "...Waiting on the Enemy"}
+            </div>
           </div>
         </div>
-      </Grid>
-      <Grid
-        container
-        xs={11}
-        sm={10}
-        md={8}
-        lg={5}
-        justify="center"
-        //style={{ border: "2px solid black" }}
-      >
         <div className="board-container">
           <CreateBoard
             squares={squares}
@@ -388,40 +333,28 @@ const App = () => {
             setSelectedSquare={setSelectedSquare}
             round={round}
             setRound={setRound}
-            volume={volume}
           />
         </div>
-      </Grid>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        md={3}
-        sm={6}
-        xs={8}
-        style={{
-          backgroundImage: `url(${parch})`,
-          backgroundBlendMode: "multiply",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          height: "18vw",
-        }}
-        className="bg-container"
-      >
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            width: "100%",
-            opacity: "0.85",
-          }}
           className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "75% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
         >
-          <Hidden xsDown>
-            <div style={{ fontSize: "x-large" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "90%",
+            }}
+          >
+            <div style={{ fontSize: "large" }}>
               <p>
                 {currentBG === wowBg
                   ? "The Alliance"
@@ -430,38 +363,34 @@ const App = () => {
                   : " Red Team Champions"}
               </p>
             </div>
-          </Hidden>
-
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            <p>Currently Selected Piece:</p>
-          </div>
-
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            {round === 2
-              ? selectedSquare
-                ? `${selectedSquare.occupied.piece}`
-                : "None"
-              : "None"}
-          </div>
-          <Hidden smDown>
+            <div style={{ fontSize: "medium" }}>
+              <p>Currently Selected Piece:</p>
+            </div>
             <div style={{ fontSize: "large" }}>
+              {round === 2
+                ? selectedSquare
+                  ? `${selectedSquare.occupied.piece}`
+                  : "None"
+                : "None"}
+            </div>
+
+            <div style={{ fontSize: "medium" }}>
               <p>Status:</p>
             </div>
-          </Hidden>
-          <div
-            className="info-area-text"
-            style={{
-              fontSize: "x-large",
-              color: round === 2 ? "#013220" : "#8B0000",
-            }}
-          >
-            {round === 2
-              ? "Your Move!" //"Your Move! Choose Wisely.."
-              : "...Waiting for Enemy"}
+            <div
+              style={{
+                fontSize: "x-large",
+                color: round === 2 ? "#013220" : "#8B0000",
+              }}
+            >
+              {round === 2
+                ? "Your Move! Choose Wisely"
+                : "...Waiting on the Enemy"}
+            </div>
           </div>
         </div>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

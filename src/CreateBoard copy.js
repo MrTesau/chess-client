@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-
 // the rules of movement
 import rulesLookup from "./movementLookup.js";
 //create an "in attack range " value for all squares that is false, but turns true when a unit is in range?
@@ -51,19 +50,19 @@ const Square = ({
   };
   return (
     <div
-      id="chess-square"
       onClick={selectOrMove}
       style={{
-        //minHeight: "12.5%",
-        //minWidth: "12.5%",
+        minHeight: "12.5%",
+        minWidth: "12.5%",
         border: !selected
           ? "none" /*setBg(row) === "rgb(245, 230, 217)"
             ? "1px solid  #121213"
             : "none"*/
           : "2px solid red",
         background: setBg(row),
-
+        color: "red",
         overflow: "hidden",
+        fontSize: "11px",
       }}
     >
       {/*
@@ -90,7 +89,6 @@ const CreateBoard = ({
   setSelectedSquare,
   round,
   setRound,
-  volume,
   //setCurrentBgImg,
   // wowBg,
   //gotBg,
@@ -117,7 +115,7 @@ const CreateBoard = ({
         Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
       ]
     );
-    //audio.volume = 0.05;
+    audio.volume = 0.05;
     //audio.currentTime = 0;
     audio.play();
   };
@@ -134,8 +132,7 @@ const CreateBoard = ({
     newSquares[idx - 1].selected = true;
     setSquares(newSquares);
     // Sounds play on multiple clicks..might break
-    if (volume) audioReaction(newSquares[idx - 1]);
-    console.log(squares.length);
+    audioReaction(newSquares[idx - 1]);
   };
 
   // Moving Units
