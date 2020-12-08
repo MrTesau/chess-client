@@ -263,9 +263,14 @@ const App = () => {
         backgroundBlendMode: "multiply",
         backgroundSize: "cover",
         width: "100vw",
-        height: "100vh",
+        // auto height to fit content
+        // min-height to ensure content covers 1 screen atleast
+        // Otherwise content/border is squeezed into minimum req space eg 70% of screen
+        height: "auto",
+        minHeight: "100vh",
         padding: "0px",
       }}
+      className="grid-test"
       spacing={0}
     >
       <div style={{ position: "fixed", top: 5, left: 10 }}>
@@ -433,7 +438,7 @@ const App = () => {
           </Hidden>
 
           <div className="info-area-text" style={{ fontSize: "large" }}>
-            <p>Currently Selected Piece:</p>
+            <p>Currently Selected:</p>
           </div>
 
           <div className="info-area-text" style={{ fontSize: "large" }}>

@@ -47,9 +47,15 @@
     height: 35vw !important;
   }
   .info-area-text {
-    font-size: 1rem !important;
+    font-size: 1.125rem !important;
     opacity: 1 !important;
   }
+  /*
+  .grid-test {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+  */
 }
 
 #chess-square {

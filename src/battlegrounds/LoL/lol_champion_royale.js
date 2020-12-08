@@ -40,10 +40,10 @@ import n4 from "./audio/4.mp3";
 import n5 from "./audio/5.mp3";
 import n6 from "./audio/6.mp3";
 import n7 from "./audio/7.mp3";
-import n8 from "./audio/1.mp3";
-import n9 from "./audio/2.mp3";
-import n10 from "./audio/3.mp3";
-import n11 from "./audio/4.mp3";
+import n8 from "./audio/8.mp3";
+import n9 from "./audio/8.mp3";
+import n10 from "./audio/10.mp3";
+import n11 from "./audio/11.mp3";
 // trundle
 import t1 from "./audio/t1.mp3";
 import t2 from "./audio/t2.mp3";
