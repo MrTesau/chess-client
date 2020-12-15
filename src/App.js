@@ -291,23 +291,18 @@ const App = () => {
         )}
       </div>
       {/* Team Parchment */}
-      <Grid
-        item
-        xl={2}
-        md={3}
-        sm={4}
-        xs={8}
-        style={{
-          backgroundImage: `url(${parch})`,
-          backgroundBlendMode: "multiply",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          //border: "2px solid black",
-        }}
-        className={"parchment-container"}
-      >
-        <div className="info-area">
+      <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
+        <div
+          className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            //border: "2px solid black",
+          }}
+        >
           <Hidden xsDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
@@ -361,22 +356,18 @@ const App = () => {
         </div>
       </Grid>
       {/* Team Parchment */}
-      <Grid
-        item
-        xl={2}
-        md={3}
-        sm={4}
-        xs={8}
-        style={{
-          backgroundImage: `url(${parch})`,
-          backgroundBlendMode: "multiply",
-          backgroundSize: "100% 100%",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
-        className="parchment-container"
-      >
-        <div className="info-area">
+      <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
+        <div
+          className="info-area"
+          style={{
+            backgroundImage: `url(${parch})`,
+            backgroundBlendMode: "multiply",
+            backgroundSize: "100% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            //border: "2px solid black",
+          }}
+        >
           <Hidden xsDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
