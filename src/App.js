@@ -224,7 +224,6 @@ const setBattleground = (Battleground) => {
           : false,
     });
   }
-  // arr of Objects with each square info
   return arr;
 };
 
@@ -241,7 +240,6 @@ const App = () => {
   return (
     <Grid
       container
-      xs={12}
       justify="center"
       alignItems="center"
       style={{
@@ -256,9 +254,10 @@ const App = () => {
         minHeight: "100vh",
         padding: "0px",
       }}
-      className="grid-test"
       spacing={0}
     >
+      {" "}
+      {/* Select bg Button menu */}
       <div style={{ position: "fixed", top: 5, left: 10 }}>
         <SelectBg
           currentBG={currentBG}
@@ -291,13 +290,12 @@ const App = () => {
           />
         )}
       </div>
+      {/* Team Parchment */}
       <Grid
-        container
-        justify="center"
-        alignItems="center"
-        alignContent="space-around"
+        item
+        xl={2}
         md={3}
-        sm={6}
+        sm={4}
         xs={8}
         style={{
           backgroundImage: `url(${parch})`,
@@ -305,22 +303,11 @@ const App = () => {
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          height: "18vw",
-          // border: "2px solid black",
+          //border: "2px solid black",
         }}
-        className={"bg-container"}
+        className={"parchment-container"}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            width: "100%",
-            opacity: "0.85",
-          }}
-          className="info-area"
-        >
+        <div className="info-area">
           <Hidden xsDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
@@ -332,11 +319,9 @@ const App = () => {
               </p>
             </div>
           </Hidden>
-
           <div className="info-area-text" style={{ fontSize: "large" }}>
             <p>Currently Selected:</p>
           </div>
-
           <div className="info-area-text" style={{ fontSize: "large" }}>
             {round === 1
               ? selectedSquare
@@ -362,15 +347,7 @@ const App = () => {
           </div>
         </div>
       </Grid>
-      <Grid
-        container
-        xs={11}
-        sm={10}
-        md={8}
-        lg={5}
-        justify="center"
-        //style={{ border: "2px solid black" }}
-      >
+      <Grid item xs={11} lg={5} className="center-grid-item">
         <div className="board-container">
           <CreateBoard
             squares={squares}
@@ -383,12 +360,12 @@ const App = () => {
           />
         </div>
       </Grid>
+      {/* Team Parchment */}
       <Grid
-        container
-        justify="center"
-        alignItems="center"
+        item
+        xl={2}
         md={3}
-        sm={6}
+        sm={4}
         xs={8}
         style={{
           backgroundImage: `url(${parch})`,
@@ -396,21 +373,10 @@ const App = () => {
           backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          height: "18vw",
         }}
-        className="bg-container"
+        className="parchment-container"
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            width: "100%",
-            opacity: "0.85",
-          }}
-          className="info-area"
-        >
+        <div className="info-area">
           <Hidden xsDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
@@ -422,11 +388,9 @@ const App = () => {
               </p>
             </div>
           </Hidden>
-
           <div className="info-area-text" style={{ fontSize: "large" }}>
             <p>Currently Selected:</p>
           </div>
-
           <div className="info-area-text" style={{ fontSize: "large" }}>
             {round === 2
               ? selectedSquare
