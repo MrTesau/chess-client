@@ -1,10 +1,12 @@
 import React from "react";
-import "./App.css";
+import "../App.css";
 import rulesLookup from "./movementLookup.js";
 
 const Square = ({
-  idx, // square 1-64
-  row, // row 1-8
+  // square 1-64
+  idx,
+  // row 1-8
+  row,
   //leftUp,
   //rightUp,
   //leftDown,

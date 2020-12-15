@@ -39,8 +39,8 @@
 
 @media (max-width: 1280px) {
   .board-container {
-    width: 70vw;
-    height: 70vw;
+    width: 500px;
+    height: 500px;
   }
   .parchment-container {
     background-size: 100% 100% !important;
@@ -54,8 +54,7 @@
     opacity: 0.85;
     font-family: Pirata One, sans-serif;
     font-size: larger;
-    border: 2px solid black;
-    width: 300px !important;
+    width: 280px !important;
     height: 135px;
   }
   .info-area-text {
@@ -79,10 +78,10 @@
 
     opacity: 0.85;
     font-family: Pirata One, sans-serif;
-    font-size: larger;
-    border: 2px solid black;
-    width: 200px !important;
-    height: 110px !important;
+    font-size: 10px !important;
+
+    width: 150px !important;
+    height: 90px !important;
   }
 }
 /* Responsive independant styles */
@@ -103,4 +102,24 @@ button {
   width: 100%;
   height: 100%;
   filter: grayscale(20%);
+}
+.battleground-container {
+  width: 100vw !important;
+  /* auto height to fit content
+  min-height to ensure content covers 1 screen atleast
+  Otherwise content/border is squeezed into minimum req space eg 70% of screen */
+  height: auto;
+  min-height: 100vh !important;
+  padding: 0px;
+}
+
+.fixed-div {
+  position: absolute !important;
+  top: 8px !important;
+  left: 10px !important;
+}
+.volume-fixed {
+  position: absolute !important;
+  top: 8px !important;
+  right: 5px !important;
 }

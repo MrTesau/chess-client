@@ -1,28 +1,24 @@
 import React from "react";
 import "./App.css";
-// backgrounds
+// Backgrounds
 import wowBg from "./assets/img/wowBG.jpg";
 import gotBg from "./assets/img/gotBG.jpg";
 import lolBg from "./assets/img/rift2.jpeg";
 import lolBg2 from "./assets/img/rift.jpg";
-// ChessBoard
-import CreateBoard from "./CreateBoard.js";
-// Battleground themes
+// ChessBoard Imports
+import CreateBoard from "./boardSetup/CreateBoard.js";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
-// Responsive tools
-import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
-// Bg Assets
+import setBattleground from "./boardSetup/boardFunctions.js";
 import parch from "./assets/img/parch1.png";
 import SelectBg from "./boardSetup/bg-buttons.js";
-//volume
+// Volume
 import { mdiVolumeOff } from "@mdi/js";
 import { mdiVolumeHigh } from "@mdi/js";
 import Icon from "@mdi/react";
-// Home Intro Modal
-import HomeModal from "./homeModal.js";
-import wood_desk from "./wood.jpg";
-import setBattleground from "./boardSetup/boardFunctions.js";
+import HomeModal from "./boardSetup/homeModal.js";
+// Responsive
+import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 
 const App = () => {
   const [currentBG, setCurrentBgImg] = React.useState(gotBg);
@@ -41,22 +37,12 @@ const App = () => {
         backgroundImage: `url(${currentBG})`,
         backgroundBlendMode: "multiply",
         backgroundSize: "cover",
-        width: "100vw",
-        // auto height to fit content
-        // min-height to ensure content covers 1 screen atleast
-        // Otherwise content/border is squeezed into minimum req space eg 70% of screen
-        height: "auto",
-        minHeight: "100vh",
-        padding: "0px",
       }}
       spacing={0}
+      className="battleground-container"
     >
-      {" "}
       {/* Select bg Button menu */}
-      <div style={{ position: "fixed", top: 5, left: 10 }}>
-        <br />
-        <HomeModal bg={wood_desk} />
-        <br />
+      <div className="fixed-div">
         <SelectBg
           currentBG={currentBG}
           setCurrentBgImg={setCurrentBgImg}
@@ -68,13 +54,17 @@ const App = () => {
           wowBg={wowBg}
           gotBg={gotBg}
         />
+        <Hidden xsDown>
+          <br />
+          <HomeModal />
+        </Hidden>
       </div>
-      <div style={{ position: "fixed", top: 7, right: 20 }}>
+      <div className="volume-fixed">
         {volume ? (
           <Icon
             path={mdiVolumeHigh}
             title="volume"
-            size={0.9}
+            size={0.8}
             color={"white"}
             onClick={() => setVolume(!volume)}
           />
@@ -82,7 +72,7 @@ const App = () => {
           <Icon
             path={mdiVolumeOff}
             title="volume"
-            size={0.9}
+            size={0.7}
             color={"white"}
             onClick={() => setVolume(!volume)}
           />
@@ -98,10 +88,9 @@ const App = () => {
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
-            //border: "2px solid black",
           }}
         >
-          <Hidden xsDown>
+          <Hidden smDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
                 {currentBG === wowBg
@@ -166,7 +155,7 @@ const App = () => {
             //border: "2px solid black",
           }}
         >
-          <Hidden xsDown>
+          <Hidden smDown>
             <div style={{ fontSize: "x-large" }}>
               <p>
                 {currentBG === wowBg
