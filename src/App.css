@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Pirata+One|Bilbo+Swash+Caps&display=swap");
 * {
-  margin: 0px !important;
-  padding: 0px !important;
+  margin: 0px;
+  padding: 0px;
 }
 /* layout: Parchment -- Board -- Parchment */
 .center-grid-item {

@@ -4,10 +4,10 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 // Battlegrounds
-import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
-import WoWBattleground from "./battlegrounds/wow_hordvally.js";
-import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
-import classicBattleground from "./battlegrounds/classic/classic.js";
+import gameOfThrones_1 from "../battlegrounds/got/got_North_V_Zombies.js";
+import WoWBattleground from "../battlegrounds/wow_hordvally.js";
+import LoLBattleground from "../battlegrounds/LoL/lol_champion_royale.js";
+import classicBattleground from "../battlegrounds/classic/classic.js";
 // Icon and Icon Button
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";

@@ -2,9 +2,6 @@ const movementRules = {
   // Team 1 Rules:
   team_1_pawn: (currentPosition, targetPosition, squares) => {
     // team collision check
-    //if (squares.filter((square) => square.col === targetPosition.col && square.row === targetPosition.row).length > 0)
-    console.log(currentPosition);
-    console.log(targetPosition);
     if (
       currentPosition.row === 2 &&
       targetPosition.row === 4 &&
@@ -63,7 +60,7 @@ const movementRules = {
       let movementCol = squares.filter(
         (square) => square.col === currentPosition.col
       );
-      //console.log(movementCol);
+
       movementCol =
         currentPosition.idx < targetPosition.idx
           ? movementCol.filter(
@@ -78,7 +75,6 @@ const movementRules = {
                 square.idx < currentPosition.idx &&
                 square.occupied !== false
             );
-      //console.log(movementCol);
       return movementCol.length === 0;
     }
   },
@@ -132,7 +128,6 @@ const movementRules = {
       ...targetPosition.rightUp,
       ...targetPosition.rightDown,
     ];
-
     // Return if targets Diagonally connected Array of connected idx's does not contain currentLocation.idx
     if (arr.indexOf(currentPosition.idx) < 0) return false;
     // Up board ( curr < target) eg idx 2 to idx 9
@@ -148,8 +143,6 @@ const movementRules = {
           : [...targetPosition.rightDown];
       // upsqauresArr contains idx values. idexes are +1 of a zero indexed array (squares first idx = 1) so squares[0] == idx:1
       directionArr = directionArr.filter((i) => i !== "none");
-      console.log(directionArr);
-
       if (currentPosition.idx < targetPosition.idx) {
         // let the problem ones through ( occupied & in range)
         // must remember the range (occupied square must be in between or it doesnt matter)
@@ -324,10 +317,7 @@ const movementRules = {
       ...targetPosition.rightUp,
       ...targetPosition.rightDown,
     ];
-    //console.log(arr);
-    // Return if targets Diagonally connected Array of connected idx's does not contain currentLocation.idx
     if (arr.indexOf(currentPosition.idx) < 0) return false;
-    // Up board ( curr < target) eg idx 2 to idx 9
     else {
       let directionArr =
         targetPosition.leftUp.indexOf(currentPosition.idx) >= 0
@@ -337,8 +327,6 @@ const movementRules = {
           : targetPosition.leftDown.indexOf(currentPosition.idx) >= 0
           ? [...targetPosition.leftDown]
           : [...targetPosition.rightDown];
-      //console.log(targetPosition.leftDown);
-      //console.log(directionArr);
       // upsqauresArr contains idx values. idexes are +1 of a zero indexed array (squares first idx = 1) so squares[0] == idx:1
       directionArr = directionArr.filter((i) => i !== "none");
 
@@ -354,14 +342,13 @@ const movementRules = {
         // array should always contain current position. if anything else is present a piece is blocking it
         return directionArr.length === 0;
       } else if (currentPosition.idx > targetPosition.idx) {
-        //console.log(directionArr);
         directionArr = directionArr.filter(
           (i) =>
             squares[i - 1].occupied !== false &&
             i > targetPosition.idx &&
             i < currentPosition.idx
         );
-        //console.log(directionArr);
+
         return directionArr.length === 0;
       }
     }
@@ -378,7 +365,6 @@ const movementRules = {
       let team_2_bishop = movementRules.team_2_bishop.bind(movementRules);
       results.push(team_2_bishop(currentPosition, targetPosition, squares));
     }
-    //console.log(results);
     return results.indexOf(true) > -1;
   },
   team_2_king: (currentPosition, targetPosition) => {

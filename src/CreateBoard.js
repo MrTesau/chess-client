@@ -63,7 +63,6 @@ const Square = ({
     </div>
   );
 };
-
 const CreateBoard = ({
   squares,
   setSquares,
@@ -85,9 +84,7 @@ const CreateBoard = ({
     );
     audio.play();
   };
-  // Selecting units
-  // removes previous selected = true if a peice has been selected
-  // Sets a  new square object to selected = true
+  // Select Square
   const handleSelect = (idx) => {
     let newSquares = [...squares];
     if (selectedSquare) {
@@ -96,12 +93,11 @@ const CreateBoard = ({
     setSelectedSquare(squares[idx - 1]);
     newSquares[idx - 1].selected = true;
     setSquares(newSquares);
-    // Sounds play on multiple clicks..might break
-    if (volume) audioReaction(newSquares[idx - 1]);
-    console.log(squares.length);
+    if (volume) {
+      audioReaction(newSquares[idx - 1]);
+    }
   };
-  // Moving Units
-  // Only Triggered after selectSquare is defined
+  // Moving Units - After square is selected
   const moveUnit = (destinationIdx) => {
     let destinationSquareObj = squares[destinationIdx - 1];
     if (
@@ -109,9 +105,7 @@ const CreateBoard = ({
       squares[destinationIdx - 1].occupied.team === selectedSquare.occupied.team
     ) {
       return handleSelect(destinationIdx);
-    }
-    // implement occupied squares movement rules
-    else if (
+    } else if (
       rulesLookup[selectedSquare.occupied.name](
         selectedSquare,
         destinationSquareObj,
