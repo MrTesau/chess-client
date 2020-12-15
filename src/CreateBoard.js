@@ -1,35 +1,25 @@
 import React from "react";
 import "./App.css";
-
-// the rules of movement
 import rulesLookup from "./movementLookup.js";
-//create an "in attack range " value for all squares that is false, but turns true when a unit is in range?
-// only activate if square is occupid by enemy & in range of unit
-// add logic for king that forces a move that cancels in attack range
-
-//or..
-// after each unit moves run a function that checks if enemy king is in attack range
-// enemy moves then function runs again, if still in attack range allowed to move = false
-// if in attack range & no possible pieces to move in range & no possible pieces to kill attacking piece = gameover
-
-// need to make sure the move the king performs does not put him into another pieces attack range
-// eg logic to check rows,columns and diagonals + knight attack path: this can be a different function
-
-// or cheat and create user buttons for check, checkmate and concede, dont create logic
 
 const Square = ({
-  idx, // square 1- 64
+  idx, // square 1-64
   row, // row 1-8
-  leftUp,
-  rightUp,
-  leftDown,
-  rightDown,
-  handleSelect, // select a square w/unit
-  selected, // current square is selected
-  occupied, // current square is occupied
-  selectedSquare, // after selecting a square with a unit adopts that unit
-  moveUnit, // function to move unit to a new square
-  col, // col 1-8
+  //leftUp,
+  //rightUp,
+  //leftDown,
+  //rightDown,
+  //select an occupied square
+  handleSelect,
+  // Boolean: current square is selected
+  selected,
+  // current square is occupied ? pieceObject : false
+  occupied,
+  // Pass createBoard.selectedSquare to allow moveUnit() calls
+  selectedSquare,
+  // pass props moveUnit
+  moveUnit,
+  //col, // col 1-8
   round,
 }) => {
   const setBg = (row) => {
@@ -39,7 +29,6 @@ const Square = ({
       return idx % 2 !== 0 ? "#121213" : "rgb(245, 230, 217)";
     }
   };
-
   const selectOrMove = () => {
     if (selectedSquare) {
       moveUnit(idx);
@@ -54,34 +43,26 @@ const Square = ({
       id="chess-square"
       onClick={selectOrMove}
       style={{
-        //minHeight: "12.5%",
-        //minWidth: "12.5%",
-        border: !selected
-          ? "none" /*setBg(row) === "rgb(245, 230, 217)"
-            ? "1px solid  #121213"
-            : "none"*/
-          : "2px solid red",
+        border: !selected ? "none" : "2px solid red",
         background: setBg(row),
-
         overflow: "hidden",
       }}
     >
-      {/*
+      {/* 
+      For testing Positional Rules:
+
       lD: {leftDown}
       RD:{rightUp}
       idx: {idx}
       <br />
       lu: {leftUp}
       rU:{rightUp}
+      
       */}
       {occupied ? <img src={occupied.img} alt="Chest piece"></img> : ""}
     </div>
   );
 };
-///
-
-// Mapping over Square Object Array is fine.
-// Virtual Dom takes care of performance issues
 
 const CreateBoard = ({
   squares,
@@ -95,33 +76,15 @@ const CreateBoard = ({
   // wowBg,
   //gotBg,
 }) => {
-  //const [selected, setSelected] = React.useState(false);
-
-  //const [selectedSquare, setSelectedSquare] = React.useState(undefined);
-  //const [mute, setMute] = React.useState(false);
-  // round -> square checks round = team -> round switches after a move
-
-  //after each turn check if a king is in attack range, diagonally row col or horse
-  // Also scan own kings safety before allowing a unit to move
-  const kingInCheck = () => {
-    //... Run all enemy unit attack moves
-    // see if king is in range, if yes force king to break/piece to kill attacker
-  };
-
-  // removed select check
   const audioReaction = (squareWithAudio) => {
-    if (!squareWithAudio /*||mute*/) return;
-    //Can we play via select => audio of selected
+    if (!squareWithAudio) return;
     let audio = new Audio(
       squareWithAudio.occupied.sounds[
         Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
       ]
     );
-    //audio.volume = 0.05;
-    //audio.currentTime = 0;
     audio.play();
   };
-
   // Selecting units
   // removes previous selected = true if a peice has been selected
   // Sets a  new square object to selected = true
@@ -137,9 +100,8 @@ const CreateBoard = ({
     if (volume) audioReaction(newSquares[idx - 1]);
     console.log(squares.length);
   };
-
   // Moving Units
-  // Only Triggered after selectSquare defined
+  // Only Triggered after selectSquare is defined
   const moveUnit = (destinationIdx) => {
     let destinationSquareObj = squares[destinationIdx - 1];
     if (
@@ -187,68 +149,57 @@ const CreateBoard = ({
           idx={square.idx}
           handleSelect={handleSelect}
           moveUnit={moveUnit}
-          // Square can access if a square is selected ->
-          // then runs handleSelect() or moveunit()
           selectedSquare={selectedSquare}
           selected={square.selected}
           occupied={square.occupied}
         />
       ))}
-      {/*   
-      <div className="volume">
-        <input type="range" />
-        <div id="v lm"></div>
-      </div>
-      */}
-
-      {/*}
-      <button onClick={() => setMute(!mute)}>
-        {mute === true ? "Turn on Sound" : "Mute Sound"}
-      </button>
-      */}
     </>
   );
 };
-//mix n match teams
 export default CreateBoard;
+/*
+Future Features to implement:
 
-// Old code That might be useful:
+After each turn check if a king is in attack range, diagonally row col or horse
+Also scan own kings safety before allowing a unit to move
 
-/* Old code for destSquareObj: Might need to go back
-    let destinationSquareObj = squares.filter(
-      (square) => square.idx === destinationIdx
-    )[0];
+const kingInCheck = () => {
+    //... Run all enemy unit attack moves
+    // see if king is in range, if yes force king to break/piece to kill attacker
+  };
+  
+Basic autoMove functionality:
 
-    */
-//  Trying to move to a square with another unit
-/* Old working Code:
-     squares.filter(
-        (i) =>
-          i.idx === destinationIdx &&
-          i.occupied !== false &&
-          i.occupied.team === selectedSquare.occupied.team
-      ).length > 0
-      */
-/*old working code:
-       let newSquares = squares.map((square) => {
-        let newSquareObj = { ...square }; // copy each square
-        newSquareObj.selected = false; // remove selected from all
-        if (newSquareObj.idx === destinationIdx)
-          newSquareObj.occupied = selectedSquare.occupied; // Add occupant (Pawn/Rook etc object)
-        if (newSquareObj.idx === selectedSquare.idx) {
-          newSquareObj.occupied = false; // remove old position
-          setSelectedSquare(undefined); // remove current selected
-        }
-        return newSquareObj;
-      });
-      */
-/* Might not need as we call audioReaction without relying on a state
-  React.useEffect(() => {
-    audioReaction(selectedSquare);
-    return function cleanup() {
-      //...? remove
-      // This seems to work..Cleanup needed?
-      // Look at the React useEffect tutorial
-    };
-  }, [selectedSquare]);
+  const autoMove = () => {
+    console.log("called");
+    console.log(round);
+    if (() => round === 1) return;
+    let team2 = squares.filter((square) => square.occupied.team === 2);
+    console.log(team2);
+    // select a piece
+    let movingPiece = team2[Math.floor(Math.random() * team2.length)];
+    // find if it can move anywhere
+    if (canMove(movingPiece) === false) {
+      if (team2.length === 0) return;
+      team2 = team2.filter((square) => square.idx !== movingPiece.idx);
+      movingPiece = team2[Math.floor(Math.random() * team2.length)];
+      canMove(movingPiece);
+    } else {
+      let destination = canMove(movingPiece);
+      handleSelected(movingPiece.idx);
+      moveUnit(destination);
+    }
+  };
+  const canMove = (movingPiece) => {
+    for (let i = 0; i < 64; i++) {
+      if (
+        rulesLookup[movingPiece.occupied.name](movingPiece, squares[i], squares)
+      ) {
+        return i + 1;
+      }
+    }
+    return false;
+  };
+
   */

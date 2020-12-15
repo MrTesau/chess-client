@@ -21,7 +21,6 @@ import SelectBg from "./bg-buttons.js";
 import { mdiVolumeOff } from "@mdi/js";
 import { mdiVolumeHigh } from "@mdi/js";
 import Icon from "@mdi/react";
-import { Button } from "@material-ui/core";
 
 const row = (i) => {
   return i < 9
@@ -57,21 +56,14 @@ const col = (i) => {
     ? i - 48
     : i - 56;
 };
-
-// IMPROVEMENT:
-// These functions could be implemented directly on movement rules of a piece
-// and not stored directly in square objects only to filter through later
-
-// test function that replaces all 4:
-// edgeRow, edgeCol, directionVertical, directionHorizontal
+// Improvement Needed:
+// function that replaces seperate diagonals:
+// accepts: edgeRow, edgeCol, directionVertical, directionHorizontal
 const findDiagonals = (i, edgeRow, edgeCol, directUpDown, directLeftRight) => {
   let arr = [];
   if (row(i) === edgeRow) return ["none"];
   if (col(i) === edgeCol) return ["none"];
-  // updown = +
-  // leftright = amount
   if (directUpDown === "down") {
-    // problem
     for (
       let square = i + directLeftRight;
       square <= 64;
@@ -107,7 +99,7 @@ const findDiagonals = (i, edgeRow, edgeCol, directUpDown, directLeftRight) => {
     return arr;
   }
 };
-// This can be replaced with calls to the above function
+// Replace with findDiagonals() call
 const findDiagonalsLeftDown = (i) => {
   let arr = [];
   if (row(i) === 8) return ["none"];
@@ -125,7 +117,7 @@ const findDiagonalsLeftDown = (i) => {
   }
   return arr;
 };
-// This can be replaced with calls to the above function
+// Replace with findDiagonals() call
 const findDiagonalsRightDown = (i) => {
   let arr = [];
   if (row(i) === 8) return ["none"];
@@ -143,7 +135,6 @@ const findDiagonalsRightDown = (i) => {
   }
   return arr;
 };
-
 // Square Objects
 // This can be implemented with class for theme and classes for piece objects
 // implement into teams to allow splitting eg  LoL vs Horde
@@ -174,17 +165,12 @@ const setBattleground = (Battleground) => {
       idx: i,
       row: row(i),
       col: col(i),
-      // Universal direction finder test
-      // findDiagonals (i, edgeRow, edgeCol, directUpDown, directLeftRight)
+      // Arrays of diagonally connected squares
       leftUp: findDiagonals(i, 1, 1, "up", 9),
-      // An array of all the squares connected diagonally left down
       leftDown: findDiagonalsLeftDown(i),
-      // An array of all the squares connected diagonally right Up
       rightUp: findDiagonals(i, 1, 8, "up", 7),
-      // An array of all the squares connected diagonally right down
       rightDown: findDiagonalsRightDown(i),
       isSquareSelected: false,
-      // Maybe create a seperate function that sets occupied rules
       occupied:
         row(i) === 2
           ? team_1_pawn
