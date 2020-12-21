@@ -5,6 +5,7 @@ const movementRules = {
     if (
       currentPosition.row === 2 &&
       targetPosition.row === 4 &&
+      targetPosition.col === currentPosition.col &&
       targetPosition.occupied === false
     ) {
       return true;
@@ -239,7 +240,11 @@ const movementRules = {
   },
   team_2_pawn: (currentPosition, targetPosition, squares) => {
     if (currentPosition.row === 7) {
-      if (targetPosition.row === 5 && targetPosition.occupied === false)
+      if (
+        targetPosition.row === 5 &&
+        targetPosition.occupied === false &&
+        targetPosition.col === currentPosition.col
+      )
         return true;
     }
     // team collision check
