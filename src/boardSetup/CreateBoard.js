@@ -83,7 +83,9 @@ const CreateBoard = ({
     squares.map((square) => {
       if (square.occupied) {
         let arr = square.occupied.sounds.map((sound) => new Audio(sound));
-        audioLookup[square.occupied.name] = arr;
+        square.occupied.uniqueN
+          ? (audioLookup[square.occupied.uniqueN] = arr)
+          : (audioLookup[square.occupied.name] = arr);
       }
     });
     setAudioFiles(audioLookup);
@@ -97,10 +99,13 @@ const CreateBoard = ({
       ]
     );
     */
-
-    audioFiles[squareWithAudio.occupied.name][
-      Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
-    ].play();
+    squareWithAudio.occupied.uniqueN
+      ? audioFiles[squareWithAudio.occupied.uniqueN][
+          Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
+        ].play()
+      : audioFiles[squareWithAudio.occupied.name][
+          Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
+        ].play();
 
     //console.log(audioFiles);
     //console.log(squareWithAudio);
