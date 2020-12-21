@@ -159,6 +159,7 @@ const pieces = {
   team_1_rook: {
     team: 1,
     name: "team_1_rook",
+    uniqueN: "team_1_rook1",
     piece: "Rook",
     img: rook_team_1,
     sounds: [r1, r2, r4, r3, r5, r6, r7],
@@ -167,6 +168,7 @@ const pieces = {
   team_1_rook2: {
     team: 1,
     name: "team_1_rook",
+    uniqueN: "team_1rook2",
     piece: "Rook",
     img: rook2_team_1,
     sounds: [j1, j2, j3, j4],
@@ -174,6 +176,7 @@ const pieces = {
   team_1_knight: {
     team: 1,
     name: "team_1_knight",
+    uniqueN: "team_1_knight",
     piece: "Knight",
     img: knight_team_1,
     sounds: [h1, h2, h3, h4, h5],
@@ -181,6 +184,7 @@ const pieces = {
   team_1_knight2: {
     team: 1,
     name: "team_1_knight",
+    uniqueN: "team_1_knight2",
     piece: "Knight",
     img: knight2_team_1,
     sounds: [c1, c2, c3, c4, c5],
@@ -211,6 +215,7 @@ const pieces = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
+    uniqueN: "team_1_bishop",
     piece: "Bishop",
     sounds: [v1, v2, v3, v4, v5],
     img: team_1_bishop1,
@@ -218,6 +223,7 @@ const pieces = {
   team_1_bishop2: {
     team: 1,
     name: "team_1_bishop",
+    uniqueN: "team_1_bishop2",
     piece: "Bishop",
     img: team_1_bishop2,
     sounds: [sw1, sw2, sw3],
@@ -225,6 +231,7 @@ const pieces = {
   team_2_rook: {
     team: 2,
     name: "team_2_rook",
+    uniqueN: "team_2_rook",
     piece: "Rook",
     img: rook_team_2,
     sounds: [dr1, dr2, dr3, dr4, dr5, dr6],
@@ -232,6 +239,7 @@ const pieces = {
   team_2_rook2: {
     team: 2,
     name: "team_2_rook",
+    uniqueN: "team_2_rook2",
     piece: "Rook",
     img: rook2_team_2,
     sounds: [y1, y2, y3, y4, y5, y6, y7, y8, y9],
@@ -240,6 +248,7 @@ const pieces = {
   team_2_knight: {
     team: 2,
     piece: "Knight",
+    uniqueN: "team_2_knight",
     name: "team_2_knight",
     img: knight_team_2,
     sounds: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11],
@@ -248,6 +257,7 @@ const pieces = {
     team: 2,
     piece: "Knight",
     name: "team_2_knight",
+    uniqueN: "team_2_knight2",
     img: knight2_team_2,
     sounds: [vol1, vol2, vol3],
   },
