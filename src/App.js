@@ -139,6 +139,7 @@ const App = () => {
             round={round}
             setRound={setRound}
             volume={volume}
+            currentBG={currentBG}
           />
         </div>
       </Grid>

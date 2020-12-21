@@ -73,18 +73,37 @@ const CreateBoard = ({
   round,
   setRound,
   volume,
-  //setCurrentBgImg,
+  currentBG,
   // wowBg,
   //gotBg,
 }) => {
+  const [audioFiles, setAudioFiles] = React.useState({});
+  React.useEffect(() => {
+    let audioLookup = {};
+    squares.map((square) => {
+      if (square.occupied) {
+        let arr = square.occupied.sounds.map((sound) => new Audio(sound));
+        audioLookup[square.occupied.name] = arr;
+      }
+    });
+    setAudioFiles(audioLookup);
+  }, [currentBG]);
   const audioReaction = (squareWithAudio) => {
     if (!squareWithAudio) return;
+    /*
     let audio = new Audio(
       squareWithAudio.occupied.sounds[
         Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
       ]
     );
-    audio.play();
+    */
+
+    audioFiles[squareWithAudio.occupied.name][
+      Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
+    ].play();
+
+    //console.log(audioFiles);
+    //console.log(squareWithAudio);
   };
   // Select Square
   const handleSelect = (idx) => {
