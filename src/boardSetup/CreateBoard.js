@@ -65,18 +65,17 @@ const Square = ({
     </div>
   );
 };
-const CreateBoard = ({
-  squares,
-  setSquares,
-  selectedSquare,
-  setSelectedSquare,
-  round,
-  setRound,
-  volume,
-  currentBG,
-  // wowBg,
-  //gotBg,
-}) => {
+const CreateBoard = (props) => {
+  const {
+    squares,
+    setSquares,
+    selectedSquare,
+    setSelectedSquare,
+    round,
+    setRound,
+    volume,
+    currentBG,
+  } = props;
   const [audioFiles, setAudioFiles] = React.useState({});
   React.useEffect(() => {
     let audioLookup = {};
@@ -91,24 +90,13 @@ const CreateBoard = ({
     setAudioFiles(audioLookup);
   }, [currentBG]);
   const audioReaction = (squareWithAudio) => {
-    if (!squareWithAudio) return;
-    /*
-    let audio = new Audio(
-      squareWithAudio.occupied.sounds[
-        Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
-      ]
-    );
-    */
-    squareWithAudio.occupied.uniqueN
-      ? audioFiles[squareWithAudio.occupied.uniqueN][
-          Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
-        ].play()
-      : audioFiles[squareWithAudio.occupied.name][
-          Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
-        ].play();
-
-    //console.log(audioFiles);
-    //console.log(squareWithAudio);
+    audioFiles[
+      squareWithAudio.occupied.uniqueN
+        ? squareWithAudio.occupied.uniqueN
+        : squareWithAudio.occupied.name
+    ][
+      Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
+    ].play();
   };
   // Select Square
   const handleSelect = (idx) => {
