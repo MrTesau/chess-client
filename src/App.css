@@ -17,6 +17,8 @@
   display: grid;
   grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
   grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
+  box-shadow: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.5),
+    0.125em 0.125em 0.95em rgba(0, 0, 0, 0.5);
 }
 .parchment-container {
   display: flex;
