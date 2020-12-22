@@ -13,6 +13,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Hidden from "@material-ui/core/Hidden";
 
+import lotrbg from "../battlegrounds/lotr/lotrbg.jpg";
+import lotrtheme from "../battlegrounds/lotr/menvsorcs.js";
+
 export const SelectBG = ({
   setCurrentBgImg,
   setSquares,
@@ -81,6 +84,15 @@ export const SelectBG = ({
           }}
         >
           &nbsp;&nbsp;Game of Thrones&nbsp;
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setCurrentBgImg(lotrbg);
+            setSquares(setBattleground(lotrtheme));
+            handleClose();
+          }}
+        >
+          &nbsp;&nbsp;Lord of the Rings&nbsp;
         </MenuItem>
 
         <MenuItem
