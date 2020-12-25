@@ -78,7 +78,7 @@ const lotrBattleground = {
   },
   team_1_knight2: {
     team: 1,
-    name: "team_1_bishop",
+    name: "team_1_knight",
     uniqueN: "team_1_knight2",
     piece: "Bishop",
     img: knight2,

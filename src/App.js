@@ -16,6 +16,9 @@ import { mdiVolumeOff } from "@mdi/js";
 import { mdiVolumeHigh } from "@mdi/js";
 import Icon from "@mdi/react";
 import HomeModal from "./boardSetup/homeModal.js";
+import { mdiPlayCircleOutline } from "@mdi/js";
+import { mdiStopCircleOutline } from "@mdi/js";
+import Button from "@material-ui/core/Button";
 // Responsive
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
@@ -27,6 +30,7 @@ const App = () => {
   const [squares, setSquares] = React.useState(
     setBattleground(gameOfThrones_1)
   );
+  const [autoPlay, setAutoPlay] = React.useState(false);
   const [volume, setVolume] = React.useState(true);
   return (
     <Grid
@@ -75,6 +79,25 @@ const App = () => {
             size={0.7}
             color={"white"}
             onClick={() => setVolume(!volume)}
+          />
+        )}
+      </div>
+      <div className="autoplay-fixed">
+        {!autoPlay ? (
+          <Icon
+            path={mdiPlayCircleOutline}
+            title="autoplay"
+            size={0.8}
+            color={"white"}
+            onClick={() => setAutoPlay(true)}
+          />
+        ) : (
+          <Icon
+            path={mdiStopCircleOutline}
+            title="volume"
+            size={0.8}
+            color={"white"}
+            onClick={() => setAutoPlay(false)}
           />
         )}
       </div>
@@ -140,6 +163,7 @@ const App = () => {
             setRound={setRound}
             volume={volume}
             currentBG={currentBG}
+            autoPlay={autoPlay}
           />
         </div>
       </Grid>

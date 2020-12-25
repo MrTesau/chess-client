@@ -123,5 +123,11 @@ button {
 .volume-fixed {
   position: absolute !important;
   top: 8px !important;
-  right: 5px !important;
+  right: 1rem !important;
+}
+
+.autoplay-fixed {
+  position: absolute !important;
+  top: 8px !important;
+  right: 3rem !important;
 }

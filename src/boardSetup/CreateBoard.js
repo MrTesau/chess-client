@@ -75,6 +75,7 @@ const CreateBoard = (props) => {
     setRound,
     volume,
     currentBG,
+    autoPlay,
   } = props;
   const [audioFiles, setAudioFiles] = React.useState({});
   React.useEffect(() => {
@@ -98,6 +99,56 @@ const CreateBoard = (props) => {
       Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
     ].play();
   };
+  // Brute force automove
+  // Needs testing
+  const checkSquare = (movingPiece, max, team2) => {
+    // need to employ a check to make sure a selected square has possible moves
+    if (max < 0) {
+      let team = team2.filter(
+        (i) => i.occupied.name === movingPiece.occupied.name
+      );
+      let newMovingPiece = team[Math.floor(Math.random() * team.length)];
+      return checkSquare(newMovingPiece, 63, team);
+    }
+    let destination = Math.floor(Math.random() * max);
+    if (
+      rulesLookup[movingPiece.occupied.name](
+        movingPiece,
+        squares[destination],
+        squares
+      ) === true &&
+      squares[destination].occupied.team !== 2
+    ) {
+      audioFiles[movingPiece.occupied.name][
+        Math.floor(Math.random() * movingPiece.occupied.sounds.length)
+      ].play();
+      return squares[destination];
+    } else {
+      return checkSquare(movingPiece, max - 1, team2);
+    }
+  };
+  // AutoMove
+  React.useEffect(() => {
+    if (round === 1 || !autoPlay) return;
+    setTimeout(function moveUnit() {
+      let team2 = squares.filter((square) => square.occupied.team === 2);
+      let movingPiece = team2[Math.floor(Math.random() * team2.length)];
+      let destinationSquare = checkSquare(movingPiece, 63, team2);
+      let newSquares = [...squares];
+      newSquares.map((square) => {
+        if (square.idx === destinationSquare.idx) {
+          square.occupied = movingPiece.occupied;
+        } else if (square.idx === movingPiece.idx) {
+          square.occupied = false;
+        }
+      });
+      // set squares, set round
+      setSquares(newSquares);
+      setRound(1);
+      // play audio
+    }, 2000);
+  }, [round]);
+
   // Select Square
   const handleSelect = (idx) => {
     let newSquares = [...squares];
@@ -137,8 +188,10 @@ const CreateBoard = (props) => {
       // set Squares arr
       setSquares(newSquares);
       setRound((round) => (round === 1 ? 2 : 1));
+      //moveFunction();
     }
   };
+
   return (
     <>
       {squares.map((square, index) => (
