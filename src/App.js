@@ -214,7 +214,9 @@ const App = () => {
             }}
           >
             {round === 2
-              ? "Your Move!" //"Your Move! Choose Wisely.."
+              ? autoPlay
+                ? "Calculating Stratey"
+                : "Your Move!" //"Your Move! Choose Wisely.."
               : "...Waiting for Enemy"}
           </div>
         </div>
