@@ -113,6 +113,7 @@ const CreateBoard = (props) => {
     }
     */
     //let destination = Math.floor(Math.random() * max);
+    //console.log(movingPiece);
     for (let i = 0; i < 64; i++) {
       if (
         rulesLookup[movingPiece.occupied.name](
@@ -125,6 +126,9 @@ const CreateBoard = (props) => {
         audioFiles[movingPiece.occupied.name][
           Math.floor(Math.random() * movingPiece.occupied.sounds.length)
         ].play();
+        //need to track whats moving to see why the dont follow the rules
+        console.log(movingPiece);
+        console.log(squares[i]);
         return squares[i];
       }
     }
