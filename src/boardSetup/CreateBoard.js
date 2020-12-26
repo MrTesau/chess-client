@@ -101,7 +101,7 @@ const CreateBoard = (props) => {
   };
   // Brute force automove
   // Needs testing
-  const checkSquare = (movingPiece, max, team2) => {
+  const checkSquare = (team2) => {
     // need to employ a check to make sure a selected square has possible moves
     /*
     if (max < 0) {
@@ -114,6 +114,7 @@ const CreateBoard = (props) => {
     */
     //let destination = Math.floor(Math.random() * max);
     //console.log(movingPiece);
+    let movingPiece = team2[Math.floor(Math.random() * team2.length)];
     for (let i = 0; i < 64; i++) {
       if (
         rulesLookup[movingPiece.occupied.name](
@@ -127,26 +128,28 @@ const CreateBoard = (props) => {
           Math.floor(Math.random() * movingPiece.occupied.sounds.length)
         ].play();
         //need to track whats moving to see why the dont follow the rules
-        console.log(movingPiece);
-        console.log(squares[i]);
-        return squares[i];
+        //console.log(movingPiece);
+        // console.log(squares[i]);
+        return { destinationSquare: squares[i], movingPiece };
       }
     }
 
-    let newMovingPiece = team2[Math.floor(Math.random() * team2.length)];
-    return checkSquare(newMovingPiece, 63, team2);
+    //let newMovingPiece = team2[Math.floor(Math.random() * team2.length)];
+    return checkSquare(team2);
   };
   // AutoMove
   React.useEffect(() => {
     if (round === 1 || !autoPlay) return;
     setTimeout(function moveUnit() {
       let team2 = squares.filter((square) => square.occupied.team === 2);
-      let movingPiece = team2[Math.floor(Math.random() * team2.length)];
-      /*let possibleSquares = squares.filter(
-        (square) => squares.occupied.team !== 2
-      );*/
-      let destinationSquare = checkSquare(movingPiece, 63, team2);
+      let moveRandom = checkSquare(team2);
+
+      let { destinationSquare, movingPiece } = moveRandom;
+      //console.log(destinationSquare);
+      //console.log(movingPiece);
+
       let newSquares = [...squares];
+
       newSquares.map((square) => {
         if (square.idx === destinationSquare.idx) {
           square.occupied = movingPiece.occupied;
@@ -157,6 +160,7 @@ const CreateBoard = (props) => {
       // set squares, set round
       setSquares(newSquares);
       setRound(1);
+
       // play audio
     }, 1000);
   }, [round]);
