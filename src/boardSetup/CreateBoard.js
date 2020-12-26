@@ -89,6 +89,10 @@ const CreateBoard = (props) => {
       }
     });
     setAudioFiles(audioLookup);
+    // Again unsure if cleanup is needed
+    return () => {
+      setAudioFiles(null);
+    };
   }, [currentBG]);
   const audioReaction = (squareWithAudio) => {
     audioFiles[
@@ -99,21 +103,8 @@ const CreateBoard = (props) => {
       Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
     ].play();
   };
-  // Brute force automove
-  // Needs testing
+  // check moving square
   const checkSquare = (team2) => {
-    // need to employ a check to make sure a selected square has possible moves
-    /*
-    if (max < 0) {
-      let team = team2.filter(
-        (i) => i.occupied.name === movingPiece.occupied.name
-      );
-      let newMovingPiece = team[Math.floor(Math.random() * team.length)];
-      return checkSquare(newMovingPiece, 63, team);
-    }
-    */
-    //let destination = Math.floor(Math.random() * max);
-    //console.log(movingPiece);
     let movingPiece = team2[Math.floor(Math.random() * team2.length)];
     for (let i = 0; i < 64; i++) {
       if (
@@ -127,42 +118,42 @@ const CreateBoard = (props) => {
         audioFiles[movingPiece.occupied.name][
           Math.floor(Math.random() * movingPiece.occupied.sounds.length)
         ].play();
-        //need to track whats moving to see why the dont follow the rules
-        //console.log(movingPiece);
-        // console.log(squares[i]);
         return { destinationSquare: squares[i], movingPiece };
       }
     }
-
-    //let newMovingPiece = team2[Math.floor(Math.random() * team2.length)];
     return checkSquare(team2);
   };
+  const autoMoveUnit = () => {
+    let team2 = squares.filter((square) => square.occupied.team === 2);
+    let moveRandom = checkSquare(team2);
+    let { destinationSquare, movingPiece } = moveRandom;
+    let newSquares = [...squares];
+    newSquares.map((square) => {
+      if (square.idx === destinationSquare.idx) {
+        square.occupied = movingPiece.occupied;
+      } else if (square.idx === movingPiece.idx) {
+        square.occupied = false;
+      }
+    });
+    // set squares, set round
+    setSquares(newSquares);
+    setRound(1);
+  };
   // AutoMove
+  // check round
+  // if 2 assign move to autoMove
+  // run move on timer
+  // remove move
+  // im unsure if this is the correct way to cleanup, or if this is even needed.. Must Check.
   React.useEffect(() => {
+    console.log("Adding");
     if (round === 1 || !autoPlay) return;
-    setTimeout(function moveUnit() {
-      let team2 = squares.filter((square) => square.occupied.team === 2);
-      let moveRandom = checkSquare(team2);
-
-      let { destinationSquare, movingPiece } = moveRandom;
-      //console.log(destinationSquare);
-      //console.log(movingPiece);
-
-      let newSquares = [...squares];
-
-      newSquares.map((square) => {
-        if (square.idx === destinationSquare.idx) {
-          square.occupied = movingPiece.occupied;
-        } else if (square.idx === movingPiece.idx) {
-          square.occupied = false;
-        }
-      });
-      // set squares, set round
-      setSquares(newSquares);
-      setRound(1);
-
-      // play audio
-    }, 1000);
+    let move = autoMoveUnit;
+    setTimeout(move, 1000);
+    return () => {
+      console.log("unmounting...");
+      move = null;
+    };
   }, [round]);
 
   // Select Square
