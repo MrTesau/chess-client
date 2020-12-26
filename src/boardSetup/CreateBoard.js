@@ -129,10 +129,6 @@ const CreateBoard = (props) => {
       }
     }
 
-    /*
-        let team = team2.filter(
-          (i) => i.occupied.name === movingPiece.occupied.name
-        ); */
     let newMovingPiece = team2[Math.floor(Math.random() * team2.length)];
     return checkSquare(newMovingPiece, 63, team2);
   };
