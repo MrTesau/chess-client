@@ -6,6 +6,7 @@ const movementRules = {
       currentPosition.row === 2 &&
       targetPosition.row === 4 &&
       targetPosition.col === currentPosition.col &&
+      squares[currentPosition.idx + 7].occupied === false &&
       targetPosition.occupied === false
     ) {
       return true;
