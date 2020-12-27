@@ -33,7 +33,6 @@ const CreateBoard = (props) => {
       setAudioFiles(null);
     };
   }, [currentBG]);
-
   const audioReaction = (squareWithAudio) => {
     audioFiles[
       squareWithAudio.occupied.uniqueN
@@ -52,6 +51,7 @@ const CreateBoard = (props) => {
         : team1[Math.floor(Math.random() * team1.length)];
     // start at pawn to try and improve performance
     //let movingPiece = team1[team1.length - 1];
+
     let testSquares = squares.filter(
       (sq) =>
         rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
@@ -76,7 +76,7 @@ const CreateBoard = (props) => {
           };
     }
     team1.splice(team1.indexOf(movingPiece), 1);
-    // Remove last as we are moving from pawns
+    // Remove last if starting from pawns
     //team1.pop();
     return team1.length === 1
       ? {
@@ -88,32 +88,31 @@ const CreateBoard = (props) => {
   // Auto Move Handler
   const autoMoveUnit = () => {
     let team1 = squares.filter((square) => square.occupied.team === 1);
-    let moveRandom = checkSquare(team1);
-
-    let { destinationSquare, movingPiece } = moveRandom;
-    let newSquares = [...squares];
-    let pieceObject = { ...movingPiece.occupied };
-    newSquares.map((square) => {
-      if (square.idx === destinationSquare.idx) {
-        square.occupied = pieceObject;
-      } else if (square.idx === movingPiece.idx) {
-        // This was causing issues
-        // (By value vs By reference assignment)
-        square.occupied = false;
-      }
-    });
-    setSquares(newSquares);
-    setRound(2);
+    if (team1.length) {
+      let moveRandom = checkSquare(team1);
+      let { destinationSquare, movingPiece } = moveRandom;
+      let newSquares = [...squares];
+      let pieceObject = { ...movingPiece.occupied };
+      newSquares.map((square) => {
+        if (square.idx === destinationSquare.idx) {
+          square.occupied = pieceObject;
+        } else if (square.idx === movingPiece.idx) {
+          // This was causing issues
+          // (By value vs By reference assignment)
+          square.occupied = false;
+        }
+      });
+      setSquares(newSquares);
+      setRound(2);
+    }
   };
   // AutoMove
-  // check round
   // if  Round == 2 assign move to autoMove
   // run move on timer
   // remove move
   // Unsure if this is the correct cleanup, or if cleanup needed.. Must Check.
   React.useEffect(() => {
     if (round === 2 || !autoPlay) return;
-
     let move = autoMoveUnit;
     setTimeout(move, 1000);
     return () => {
@@ -181,7 +180,7 @@ const CreateBoard = (props) => {
           handleSelect={handleSelect}
           moveUnit={moveUnit}
           selectedSquare={selectedSquare}
-          selected={square.selected}
+          // selected={square.selected}
           occupied={square.occupied}
         />
       ))}

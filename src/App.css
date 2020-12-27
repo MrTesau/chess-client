@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
 }
-
 .board-container {
   width: 40vw;
   height: 40vw;
@@ -38,7 +37,6 @@
   font-size: larger;
 }
 /* Media queries For different screens */
-
 @media (max-width: 1280px) {
   .board-container {
     width: 500px;
@@ -87,7 +85,6 @@
   }
 }
 /* Responsive independant styles */
-
 .info-area div {
   opacity: 0.95;
 }
@@ -113,8 +110,9 @@ button {
   height: auto;
   min-height: 100vh !important;
   padding: 0px;
+  background-blend-mode: multiply !important;
+  background-size: cover !important;
 }
-
 .fixed-div {
   position: absolute !important;
   top: 8px !important;
@@ -133,6 +131,6 @@ button {
 }
 @media (min-width: 1000px) {
   .autoplay-fixed {
-    left: 10rem !important;
+    left: 8rem !important;
   }
 }

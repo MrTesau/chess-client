@@ -7,12 +7,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import gameOfThrones_1 from "../battlegrounds/got/got_North_V_Zombies.js";
 import WoWBattleground from "../battlegrounds/wow_hordvally.js";
 import LoLBattleground from "../battlegrounds/LoL/lol_champion_royale.js";
-import classicBattleground from "../battlegrounds/classic/classic.js";
 // Icon and Icon Button
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Hidden from "@material-ui/core/Hidden";
-
 import lotrbg from "../battlegrounds/lotr/lotrbg.jpg";
 import lotrtheme from "../battlegrounds/lotr/menvsorcs.js";
 
@@ -26,7 +24,6 @@ export const SelectBG = ({
   lolBg2,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,7 +40,7 @@ export const SelectBG = ({
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={handleClick}
-          style={{ fontSize: "0.65rem" }}
+          style={{ fontSize: "0.68rem", textTransform: "none" }}
         >
           Select Battleground
         </Button>
@@ -58,7 +55,6 @@ export const SelectBG = ({
           <MoreVertIcon style={{ color: "white" }} />
         </IconButton>
       </Hidden>
-
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -104,14 +100,6 @@ export const SelectBG = ({
           }}
         >
           &nbsp;&nbsp;League of Legends&nbsp;
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setSquares(setBattleground(classicBattleground));
-            handleClose();
-          }}
-        >
-          &nbsp;&nbsp;Classic Chess&nbsp;
         </MenuItem>
       </Menu>
     </div>

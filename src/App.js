@@ -39,13 +39,10 @@ const App = () => {
       alignItems="center"
       style={{
         backgroundImage: `url(${currentBG})`,
-        backgroundBlendMode: "multiply",
-        backgroundSize: "cover",
       }}
       spacing={0}
       className="battleground-container"
     >
-      {/* Select bg Button menu */}
       <div className="fixed-div">
         <SelectBg
           currentBG={currentBG}

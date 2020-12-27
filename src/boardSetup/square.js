@@ -8,7 +8,7 @@ const Square = ({
   //select an occupied square
   handleSelect,
   // Boolean: current square is selected
-  selected,
+  //selected,
   // current square is occupied ? pieceObject : false
   occupied,
   // Pass createBoard.selectedSquare to allow moveUnit() calls
