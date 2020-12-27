@@ -47,30 +47,36 @@ const CreateBoard = (props) => {
   // Recursive call until suitable piece found
   const checkSquare = (team1) => {
     let movingPiece = team1[Math.floor(Math.random() * team1.length)];
-    console.log(team1);
-    console.log(movingPiece);
-    for (let i = 0; i < 64; i++) {
-      if (
-        rulesLookup[movingPiece.occupied.name](
-          movingPiece,
-          squares[i],
-          squares
-        ) === true &&
-        squares[i].occupied.team !== 1
-      ) {
-        if (volume) {
-          audioReaction(movingPiece);
-        }
-        console.log(movingPiece);
-        return { destinationSquare: squares[i], movingPiece };
-      }
+    // changed for to foreach
+    //test
+    let pos = squares.filter((sq) => {
+      return (
+        rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
+          true && sq.occupied.team !== 1
+      );
+    });
+
+    if (pos.length > 0) {
+      audioReaction(movingPiece);
+      return {
+        destinationSquare: { ...pos[Math.floor(Math.random() * pos.length)] },
+        movingPiece,
+      };
+    } else {
+      team1.splice(team1.indexOf(movingPiece), 1);
+      return team1.length === 1
+        ? {
+            destinationSquare: { ...team1[0] },
+            movingPiece,
+          }
+        : checkSquare(team1);
     }
-    return checkSquare(team1);
   };
   // Auto Move Handler
   const autoMoveUnit = () => {
     let team1 = squares.filter((square) => square.occupied.team === 1);
     let moveRandom = checkSquare(team1);
+
     let { destinationSquare, movingPiece } = moveRandom;
     let newSquares = [...squares];
     let pieceObject = { ...movingPiece.occupied };
