@@ -30,7 +30,10 @@ export default function SimpleModal(props) {
       backgroundSize: "cover",
       borderRadius: "15px",
       boxShadow: "none",
-      padding: "20px",
+      padding: "30px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
     divider: {
       backgroundColor: "#7b9095",
@@ -51,7 +54,7 @@ export default function SimpleModal(props) {
       justify="center"
       style={{ width: "100vw", height: "100vh" }}
     >
-      <Grid xs={11} lg={5} className={classes.paper}>
+      <Grid item xs={11} lg={6} className={classes.paper}>
         <Card className={classes.root}>
           <CardActionArea>
             <CardContent>
@@ -127,7 +130,7 @@ export default function SimpleModal(props) {
     <>
       <div onClick={handleOpen}>
         <Button variant="contained" color="primary" size="small">
-          <HelpIcon style={{ fontSize: 20 }} color={"white"} />
+          <HelpIcon style={{ fontSize: 20 }} />
         </Button>
       </div>
       <Modal

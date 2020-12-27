@@ -39,11 +39,11 @@ import humanKing from "../assets/img/var.gif";
 import humanBishop from "../assets/img/wiz.gif";
 import humanQueen from "../assets/img/jana.gif";
 //Bishop
-import bishopSound_1 from "../assets/humanBishopSounds/1.ogg";
-import bishopSound_2 from "../assets/humanBishopSounds/2.ogg";
-import bishopSound_3 from "../assets/humanBishopSounds/3.ogg";
-import bishopSound_4 from "../assets/humanBishopSounds/4.ogg";
-import bishopSound_5 from "../assets/humanBishopSounds/5.ogg";
+import bishopSound_1 from "../assets/humanBishopSounds/1.mp3";
+import bishopSound_2 from "../assets/humanBishopSounds/2.mp3";
+import bishopSound_3 from "../assets/humanBishopSounds/3.mp3";
+import bishopSound_4 from "../assets/humanBishopSounds/4.mp3";
+import bishopSound_5 from "../assets/humanBishopSounds/5.mp3";
 import bishopSound_6 from "../assets/humanBishopSounds/alright.mp3";
 import bishopSound_7 from "../assets/humanBishopSounds/hello.mp3";
 //king
@@ -51,23 +51,23 @@ import kingSounds from "../assets/humanKingSounds/1.mpeg";
 //knight
 import knightSound from "../assets/humanKnightSounds/ax.mp3";
 // Q
-import queenSound_1 from "../assets/humanQueenSounds/1.ogg";
-import queenSound_2 from "../assets/humanQueenSounds/2.ogg";
-import queenSound_3 from "../assets/humanQueenSounds/3.ogg";
-import queenSound_4 from "../assets/humanQueenSounds/4.ogg";
-import queenSound_5 from "../assets/humanQueenSounds/5.ogg";
-import queenSound_6 from "../assets/humanQueenSounds/6.ogg";
+import queenSound_1 from "../assets/humanQueenSounds/1.mp3";
+import queenSound_2 from "../assets/humanQueenSounds/2.mp3";
+import queenSound_3 from "../assets/humanQueenSounds/3.mp3";
+import queenSound_4 from "../assets/humanQueenSounds/4.mp3";
+import queenSound_5 from "../assets/humanQueenSounds/5.mp3";
+import queenSound_6 from "../assets/humanQueenSounds/6.mp3";
 //rook
-import r1 from "../assets/humanRookSounds/1.mpeg";
-import r2 from "../assets/humanRookSounds/2.mpeg";
-import r3 from "../assets/humanRookSounds/3.mpeg";
-import r4 from "../assets/humanRookSounds/4.mpeg";
-import r5 from "../assets/humanRookSounds/5.mpeg";
-import r6 from "../assets/humanRookSounds/6.mpeg";
-import r7 from "../assets/humanRookSounds/7.mpeg";
-import r8 from "../assets/humanRookSounds/8.mpeg";
-import r9 from "../assets/humanRookSounds/9.mpeg";
-import r10 from "../assets/humanRookSounds/10.mpeg";
+import r1 from "../assets/humanRookSounds/1.mp3";
+import r2 from "../assets/humanRookSounds/2.mp3";
+import r3 from "../assets/humanRookSounds/3.mp3";
+import r4 from "../assets/humanRookSounds/4.mp3";
+import r5 from "../assets/humanRookSounds/5.mp3";
+import r6 from "../assets/humanRookSounds/6.mp3";
+import r7 from "../assets/humanRookSounds/7.mp3";
+import r8 from "../assets/humanRookSounds/8.mp3";
+import r9 from "../assets/humanRookSounds/9.mp3";
+import r10 from "../assets/humanRookSounds/10.mp3";
 // Human pawn
 import p1 from "../assets/humanPawnAudio/alone.mp3";
 import p2 from "../assets/humanPawnAudio/charge.mp3";

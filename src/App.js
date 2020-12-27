@@ -58,7 +58,7 @@ const App = () => {
           wowBg={wowBg}
           gotBg={gotBg}
         />
-        <Hidden xsDown>
+        <Hidden mdDown>
           <br />
           <HomeModal />
         </Hidden>
@@ -84,21 +84,69 @@ const App = () => {
       </div>
       <div className="autoplay-fixed">
         {!autoPlay ? (
-          <Icon
-            path={mdiPlayCircleOutline}
-            title="autoplay"
-            size={0.8}
-            color={"white"}
-            onClick={() => setAutoPlay(true)}
-          />
+          <>
+            <Hidden lgUp>
+              <Icon
+                path={mdiPlayCircleOutline}
+                title="autoplay"
+                size={0.8}
+                color={"white"}
+                onClick={() => setAutoPlay(true)}
+              />
+            </Hidden>
+            <Hidden mdDown>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setAutoPlay(true)}
+                style={{ textTransform: "none", fontSize: "0.7rem" }}
+              >
+                <Icon
+                  path={mdiPlayCircleOutline}
+                  title="autoplay"
+                  size={0.8}
+                  color={"white"}
+                />{" "}
+                &nbsp; Play Advanced AI
+              </Button>
+            </Hidden>
+          </>
         ) : (
-          <Icon
-            path={mdiStopCircleOutline}
-            title="volume"
-            size={0.8}
-            color={"white"}
-            onClick={() => setAutoPlay(false)}
-          />
+          <>
+            <Hidden lgUp>
+              <Icon
+                path={mdiStopCircleOutline}
+                title="volume"
+                size={0.8}
+                color={"white"}
+                onClick={() => {
+                  setAutoPlay(false);
+                  setCurrentBgImg(gotBg);
+                  setSquares(setBattleground(gameOfThrones_1));
+                }}
+              />
+            </Hidden>
+            <Hidden mdDown>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  setAutoPlay(false);
+                  setCurrentBgImg(gotBg);
+                  setSquares(setBattleground(gameOfThrones_1));
+                }}
+                style={{ textTransform: "none", fontSize: "0.7rem" }}
+              >
+                <Icon
+                  path={mdiStopCircleOutline}
+                  title="volume"
+                  size={0.8}
+                  color={"white"}
+                />{" "}
+                &nbsp; Admit Defeat
+              </Button>
+            </Hidden>
+          </>
         )}
       </div>
       {/* Team Parchment */}
