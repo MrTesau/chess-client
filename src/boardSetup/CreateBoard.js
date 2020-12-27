@@ -46,7 +46,10 @@ const CreateBoard = (props) => {
   // Check moving square => square and Piece OK to move
   // Recursive call until suitable piece found
   const checkSquare = (team1) => {
-    let movingPiece = team1[Math.floor(Math.random() * team1.length)];
+    let movingPiece =
+      team1.length > 14
+        ? team1[team1.length - 1]
+        : team1[Math.floor(Math.random() * team1.length)];
     // start at pawn to try and improve performance
     //let movingPiece = team1[team1.length - 1];
     let testSquares = squares.filter(

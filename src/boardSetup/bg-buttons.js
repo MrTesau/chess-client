@@ -20,7 +20,6 @@ export const SelectBG = ({
   setCurrentBgImg,
   setSquares,
   setBattleground,
-  squares,
   wowBg,
   gotBg,
   lolBg,
