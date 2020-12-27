@@ -43,7 +43,11 @@ const Square = ({
       id="chess-square"
       onClick={selectOrMove}
       style={{
-        border: !selected ? "none" : "2px solid red",
+        border: selectedSquare
+          ? selectedSquare.idx === idx
+            ? "2px solid red"
+            : "none"
+          : "none",
         background: setBg(row),
         overflow: "hidden",
       }}

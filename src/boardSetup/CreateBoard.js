@@ -94,6 +94,7 @@ const CreateBoard = (props) => {
   // Unsure if this is the correct cleanup, or if cleanup needed.. Must Check.
   React.useEffect(() => {
     if (round === 2 || !autoPlay) return;
+
     let move = autoMoveUnit;
     setTimeout(move, 1000);
     return () => {

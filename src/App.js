@@ -91,14 +91,22 @@ const App = () => {
                 title="autoplay"
                 size={0.8}
                 color={"white"}
-                onClick={() => setAutoPlay(true)}
+                onClick={() => {
+                  setRound(1);
+                  setAutoPlay(true);
+                  setSelectedSquare(undefined);
+                }}
               />
             </Hidden>
             <Hidden mdDown>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => setAutoPlay(true)}
+                onClick={() => {
+                  setRound(1);
+                  setSelectedSquare(undefined);
+                  setAutoPlay(true);
+                }}
                 style={{ textTransform: "none", fontSize: "0.7rem" }}
               >
                 <Icon
@@ -195,7 +203,9 @@ const App = () => {
             }}
           >
             {round === 1
-              ? "Your Move!" // Choose Wisely"
+              ? autoPlay
+                ? "Calculating Stratey"
+                : "Your Move!" //"Your Move! Choose Wisely.."
               : "...Waiting for Enemy"}
           </div>
         </div>
@@ -262,9 +272,7 @@ const App = () => {
             }}
           >
             {round === 2
-              ? autoPlay
-                ? "Calculating Stratey"
-                : "Your Move!" //"Your Move! Choose Wisely.."
+              ? "Your Move!" // Choose Wisely"
               : "...Waiting for Enemy"}
           </div>
         </div>
