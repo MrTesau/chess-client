@@ -131,3 +131,8 @@ button {
   top: 8px !important;
   right: 3rem !important;
 }
+@media (min-width: 1000px) {
+  .autoplay-fixed {
+    left: 10rem !important;
+  }
+}

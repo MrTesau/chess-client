@@ -25,10 +25,11 @@ const movementRules = {
       return true;
     } else if (
       targetPosition.row === currentPosition.row + 1 &&
-      targetPosition.col === currentPosition.col
+      targetPosition.col === currentPosition.col &&
+      targetPosition.occupied === false
     ) {
       return true;
-    } else if (targetPosition.occupied) return false;
+    }
 
     return false;
   },

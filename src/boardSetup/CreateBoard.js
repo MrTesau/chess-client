@@ -47,30 +47,40 @@ const CreateBoard = (props) => {
   // Recursive call until suitable piece found
   const checkSquare = (team1) => {
     let movingPiece = team1[Math.floor(Math.random() * team1.length)];
-    // changed for to foreach
-    //test
-    let pos = squares.filter((sq) => {
-      return (
+    // start at pawn to try and improve performance
+    //let movingPiece = team1[team1.length - 1];
+    let testSquares = squares.filter(
+      (sq) =>
         rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
           true && sq.occupied.team !== 1
-      );
-    });
-
-    if (pos.length > 0) {
+    );
+    if (testSquares.length) {
       audioReaction(movingPiece);
-      return {
-        destinationSquare: { ...pos[Math.floor(Math.random() * pos.length)] },
-        movingPiece,
-      };
-    } else {
-      team1.splice(team1.indexOf(movingPiece), 1);
-      return team1.length === 1
+      // test if enemy occupies a square, kill enemy
+      let enemy = testSquares.filter((sq) => sq.occupied.team === 2);
+      return enemy.length
         ? {
-            destinationSquare: { ...team1[0] },
+            destinationSquare: {
+              ...enemy[0],
+            },
             movingPiece,
           }
-        : checkSquare(team1);
+        : {
+            destinationSquare: {
+              ...testSquares[Math.floor(Math.random() * testSquares.length)],
+            },
+            movingPiece,
+          };
     }
+    team1.splice(team1.indexOf(movingPiece), 1);
+    // Remove last as we are moving from pawns
+    //team1.pop();
+    return team1.length === 1
+      ? {
+          destinationSquare: { ...team1[0] },
+          movingPiece,
+        }
+      : checkSquare(team1);
   };
   // Auto Move Handler
   const autoMoveUnit = () => {
