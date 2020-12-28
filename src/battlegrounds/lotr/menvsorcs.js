@@ -29,6 +29,7 @@ import k from "./men/k.mp3";
 import clever from "./men/terriblyclever.mp3";
 import late from "./men/wizardneverlate.mp3";
 import soldiers from "./men/pawn.mp3";
+import ground from "./men/pawn2.mp3";
 import pass from "./men/pass.mp3";
 import flee from "./men/flee.mp3";
 import one from "./men/one.mp3";
@@ -58,7 +59,7 @@ const lotrBattleground = {
     name: "team_1_pawn",
     img: pawn1,
     piece: "Pawn",
-    sounds: [soldiers, flee],
+    sounds: [soldiers, flee, ground],
   },
 
   team_1_rook: {

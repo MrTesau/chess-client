@@ -51,7 +51,6 @@ const CreateBoard = (props) => {
         : team1[Math.floor(Math.random() * team1.length)];
     // start at pawn to try and improve performance
     //let movingPiece = team1[team1.length - 1];
-
     let testSquares = squares.filter(
       (sq) =>
         rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
@@ -88,6 +87,7 @@ const CreateBoard = (props) => {
   // Auto Move Handler
   const autoMoveUnit = () => {
     let team1 = squares.filter((square) => square.occupied.team === 1);
+    // Wrap in conditional to make sure team1 still has pieces left
     if (team1.length) {
       let moveRandom = checkSquare(team1);
       let { destinationSquare, movingPiece } = moveRandom;
