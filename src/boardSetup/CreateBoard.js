@@ -42,44 +42,50 @@ const CreateBoard = (props) => {
       Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
     ].play();
   };
-  // Check moving square => square and Piece OK to move
-  // Recursive call until suitable piece found
-  // new strat
-  // filter squares -> find occupied by 1 and can move to attack enemy
-  // filter squares -> find occupied and can move at all
-  // pick random index if first works
-  // pick random index if 2nd works
+
+  // Cond 1: Find squares occupied with enemies
   const FindEnemies = (movingPiece) => {
-    let testSquares = squares.filter(
-      (sq) =>
-        rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
-          true && sq.occupied.team === 2
-    );
-    return testSquares;
+    for (let i = 0; i < squares.length; i++) {
+      if (
+        rulesLookup[movingPiece.occupied.name](
+          movingPiece,
+          squares[i],
+          squares
+        ) === true &&
+        squares[i].occupied.team === 2
+      ) {
+        return squares[i];
+      }
+    }
   };
+  // Cond 2: find any squares you can move to
   const FindMovement = (movingPiece) => {
-    let testSquares = squares.filter(
-      (sq) =>
-        rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
-        true
-    );
-    return testSquares;
+    for (let i = 0; i < squares.length; i++) {
+      if (
+        rulesLookup[movingPiece.occupied.name](
+          movingPiece,
+          squares[i],
+          squares
+        ) === true &&
+        squares[i].occupied.team !== 1
+      ) {
+        return squares[i];
+      }
+    }
   };
   const checkSquare = (team1, finder) => {
     let movingPiece = team1[Math.floor(Math.random() * team1.length)];
     let testSquares = finder(movingPiece);
-    if (testSquares.length) {
+    if (testSquares) {
       audioReaction(movingPiece);
       return {
         destinationSquare: {
-          ...testSquares[Math.floor(Math.random() * testSquares.length)],
+          ...testSquares,
         },
         movingPiece,
       };
     }
     team1.splice(team1.indexOf(movingPiece), 1);
-    // Remove last if starting from pawns
-    //team1.pop();
     return team1.length === 1
       ? finder.name === "FindEnemies"
         ? checkSquare(
