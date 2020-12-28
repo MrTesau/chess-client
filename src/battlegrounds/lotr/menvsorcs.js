@@ -59,7 +59,7 @@ const lotrBattleground = {
     name: "team_1_pawn",
     img: pawn1,
     piece: "Pawn",
-    sounds: [soldiers, flee, ground],
+    sounds: [soldiers, flee, ground, ground, soldiers],
   },
 
   team_1_rook: {
