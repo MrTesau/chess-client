@@ -2,6 +2,40 @@ import React from "react";
 import "../App.css";
 import rulesLookup from "./movementLookup.js";
 import Square from "./square.js";
+// AutoPlay Functions
+const FindEnemy = {
+  name: "findEnemy",
+  move: (movingPiece, squares) => {
+    for (let i = 0; i < squares.length; i++) {
+      if (
+        rulesLookup[movingPiece.occupied.name](
+          movingPiece,
+          squares[i],
+          squares
+        ) === true &&
+        squares[i].occupied.team === 2
+      ) {
+        return squares[i];
+      }
+    }
+  },
+};
+const FindSquare = {
+  move: (movingPiece, squares) => {
+    for (let i = 0; i < squares.length; i++) {
+      if (
+        rulesLookup[movingPiece.occupied.name](
+          movingPiece,
+          squares[i],
+          squares
+        ) === true &&
+        squares[i].occupied.team !== 1
+      ) {
+        return squares[i];
+      }
+    }
+  },
+};
 
 const CreateBoard = (props) => {
   const {
@@ -16,6 +50,7 @@ const CreateBoard = (props) => {
     autoPlay,
   } = props;
   const [audioFiles, setAudioFiles] = React.useState({});
+
   // useEffect Calls
   React.useEffect(() => {
     let audioLookup = {};
@@ -42,64 +77,52 @@ const CreateBoard = (props) => {
       Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
     ].play();
   };
-
-  // Cond 1: Find squares occupied with enemies
-  const checkSquare = (team1) => {
+  const checkSquare = (team1, finder) => {
     let movingPiece = team1[Math.floor(Math.random() * team1.length)];
-    // start at pawn to try and improve performance
-    //let movingPiece = team1[team1.length - 1];
-    let testSquares = squares.filter(
-      (sq) =>
-        rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
-          true && sq.occupied.team !== 1
-    );
-    if (testSquares.length) {
+    let testSquares = finder.move(movingPiece, squares);
+    if (testSquares) {
       audioReaction(movingPiece);
-      // test if enemy occupies a square, kill enemy
-      let enemy = testSquares.filter((sq) => sq.occupied.team === 2);
-      return enemy.length
-        ? {
-            destinationSquare: {
-              ...enemy[0],
-            },
-            movingPiece,
-          }
-        : {
-            destinationSquare: {
-              ...testSquares[Math.floor(Math.random() * testSquares.length)],
-            },
-            movingPiece,
-          };
+      return {
+        destinationSquare: {
+          ...testSquares,
+        },
+        movingPiece,
+      };
     }
     team1.splice(team1.indexOf(movingPiece), 1);
-    // Remove last as we are moving from pawns
-    //team1.pop();
     return team1.length === 1
-      ? {
-          destinationSquare: { ...team1[0] },
-          movingPiece,
-        }
-      : checkSquare(team1);
+      ? finder.name === "findEnemy" // Likely the cause of error in production
+        ? checkSquare(
+            squares.filter((sq) => sq.occupied.team === 1),
+            FindSquare
+          )
+        : {
+            destinationSquare: { ...team1[0] },
+            movingPiece,
+          }
+      : checkSquare(team1, finder);
   };
   // Auto Move Handler
   const autoMoveUnit = () => {
     let team1 = squares.filter((square) => square.occupied.team === 1);
-    let moveRandom = checkSquare(team1);
-
-    let { destinationSquare, movingPiece } = moveRandom;
-    let newSquares = [...squares];
-    let pieceObject = { ...movingPiece.occupied };
-    newSquares.map((square) => {
-      if (square.idx === destinationSquare.idx) {
-        square.occupied = pieceObject;
-      } else if (square.idx === movingPiece.idx) {
-        // This was causing issues
-        // (By value vs By reference assignment)
-        square.occupied = false;
-      }
-    });
-    setSquares(newSquares);
-    setRound(2);
+    // Wrap in conditional to make sure team1 still has pieces left
+    if (team1.length) {
+      let moveRandom = checkSquare(team1, FindEnemy);
+      let { destinationSquare, movingPiece } = moveRandom;
+      let newSquares = [...squares];
+      let pieceObject = { ...movingPiece.occupied };
+      newSquares.map((square) => {
+        if (square.idx === destinationSquare.idx) {
+          square.occupied = pieceObject;
+        } else if (square.idx === movingPiece.idx) {
+          // This was causing issues
+          // (By value vs By reference assignment)
+          square.occupied = false;
+        }
+      });
+      setSquares(newSquares);
+      setRound(2);
+    }
   };
   // AutoMove
   // if  Round == 2 assign move to autoMove
