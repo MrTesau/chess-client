@@ -58,7 +58,7 @@ const CreateBoard = (props) => {
       }
     }
   };
-  // Cond 2: find any squares you can move to
+  // Cond 2: find any squares you can move t
   const FindMovement = (movingPiece) => {
     for (let i = 0; i < squares.length; i++) {
       if (
