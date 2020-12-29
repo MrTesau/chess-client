@@ -1,41 +1,10 @@
 import React from "react";
 import "../App.css";
 import rulesLookup from "./movementLookup.js";
+import AutoplayHelpers from "./autoplayFunctions.js";
 import Square from "./square.js";
+const { FindEnemy, FindSquare } = AutoplayHelpers;
 // AutoPlay Functions
-const FindEnemy = {
-  name: "findEnemy",
-  move: (movingPiece, squares) => {
-    for (let i = 0; i < squares.length; i++) {
-      if (
-        rulesLookup[movingPiece.occupied.name](
-          movingPiece,
-          squares[i],
-          squares
-        ) === true &&
-        squares[i].occupied.team === 2
-      ) {
-        return squares[i];
-      }
-    }
-  },
-};
-const FindSquare = {
-  move: (movingPiece, squares) => {
-    for (let i = 0; i < squares.length; i++) {
-      if (
-        rulesLookup[movingPiece.occupied.name](
-          movingPiece,
-          squares[i],
-          squares
-        ) === true &&
-        squares[i].occupied.team !== 1
-      ) {
-        return squares[i];
-      }
-    }
-  },
-};
 
 const CreateBoard = (props) => {
   const {
@@ -91,7 +60,7 @@ const CreateBoard = (props) => {
     }
     team1.splice(team1.indexOf(movingPiece), 1);
     return team1.length === 1
-      ? finder.name === "findEnemy" // Likely the cause of error in production
+      ? finder.name === "findEnemy" // cant access function.name in production, converted to object
         ? checkSquare(
             squares.filter((sq) => sq.occupied.team === 1),
             FindSquare
