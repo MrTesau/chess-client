@@ -44,81 +44,62 @@ const CreateBoard = (props) => {
   };
 
   // Cond 1: Find squares occupied with enemies
-  const FindEnemies = (movingPiece) => {
-    for (let i = 0; i < squares.length; i++) {
-      if (
-        rulesLookup[movingPiece.occupied.name](
-          movingPiece,
-          squares[i],
-          squares
-        ) === true &&
-        squares[i].occupied.team === 2
-      ) {
-        return squares[i];
-      }
-    }
-  };
-  // Cond 2: find any squares you can move t
-  const FindMovement = (movingPiece) => {
-    for (let i = 0; i < squares.length; i++) {
-      if (
-        rulesLookup[movingPiece.occupied.name](
-          movingPiece,
-          squares[i],
-          squares
-        ) === true &&
-        squares[i].occupied.team !== 1
-      ) {
-        return squares[i];
-      }
-    }
-  };
-  const checkSquare = (team1, finder) => {
+  const checkSquare = (team1) => {
     let movingPiece = team1[Math.floor(Math.random() * team1.length)];
-    let testSquares = finder(movingPiece);
-    if (testSquares) {
+    // start at pawn to try and improve performance
+    //let movingPiece = team1[team1.length - 1];
+    let testSquares = squares.filter(
+      (sq) =>
+        rulesLookup[movingPiece.occupied.name](movingPiece, sq, squares) ===
+          true && sq.occupied.team !== 1
+    );
+    if (testSquares.length) {
       audioReaction(movingPiece);
-      return {
-        destinationSquare: {
-          ...testSquares,
-        },
-        movingPiece,
-      };
-    }
-    team1.splice(team1.indexOf(movingPiece), 1);
-    return team1.length === 1
-      ? finder.name === "FindEnemies"
-        ? checkSquare(
-            squares.filter((sq) => sq.occupied.team === 1),
-            FindMovement
-          )
-        : {
-            destinationSquare: { ...team1[0] },
+      // test if enemy occupies a square, kill enemy
+      let enemy = testSquares.filter((sq) => sq.occupied.team === 2);
+      return enemy.length
+        ? {
+            destinationSquare: {
+              ...enemy[0],
+            },
             movingPiece,
           }
-      : checkSquare(team1, finder);
+        : {
+            destinationSquare: {
+              ...testSquares[Math.floor(Math.random() * testSquares.length)],
+            },
+            movingPiece,
+          };
+    }
+    team1.splice(team1.indexOf(movingPiece), 1);
+    // Remove last as we are moving from pawns
+    //team1.pop();
+    return team1.length === 1
+      ? {
+          destinationSquare: { ...team1[0] },
+          movingPiece,
+        }
+      : checkSquare(team1);
   };
   // Auto Move Handler
   const autoMoveUnit = () => {
     let team1 = squares.filter((square) => square.occupied.team === 1);
-    // Wrap in conditional to make sure team1 still has pieces left
-    if (team1.length) {
-      let moveRandom = checkSquare(team1, FindEnemies);
-      let { destinationSquare, movingPiece } = moveRandom;
-      let newSquares = [...squares];
-      let pieceObject = { ...movingPiece.occupied };
-      newSquares.map((square) => {
-        if (square.idx === destinationSquare.idx) {
-          square.occupied = pieceObject;
-        } else if (square.idx === movingPiece.idx) {
-          // This was causing issues
-          // (By value vs By reference assignment)
-          square.occupied = false;
-        }
-      });
-      setSquares(newSquares);
-      setRound(2);
-    }
+    let moveRandom = checkSquare(team1);
+
+    let { destinationSquare, movingPiece } = moveRandom;
+    let newSquares = [...squares];
+    let pieceObject = { ...movingPiece.occupied };
+    newSquares.map((square) => {
+      if (square.idx === destinationSquare.idx) {
+        square.occupied = pieceObject;
+      } else if (square.idx === movingPiece.idx) {
+        // This was causing issues
+        // (By value vs By reference assignment)
+        square.occupied = false;
+      }
+    });
+    setSquares(newSquares);
+    setRound(2);
   };
   // AutoMove
   // if  Round == 2 assign move to autoMove
