@@ -19,6 +19,7 @@ const styles = (theme) => ({
     justifyContent: "center",
     alignItems: "center",
     minHeight: "19rem",
+    outline: "none",
   },
   paperCreate: {
     flexDirection: "row",
