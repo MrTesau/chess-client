@@ -33,8 +33,6 @@ const App = () => {
   const [playerId, setPlayerId] = useState(Math.floor(Math.random() * 10000));
   const [newPlayer, setNewPlayer] = useState(1);
   const [player, setPlayer] = useState(0); // 1 or 2, allow movement
-  const [MoveData, setMoveData] = useState(""); // for Enemy audio Effect
-  //if (!multiplayer) return;  // Dont connect until multiP activated?
   useEffect(() => {
     let audioLookup = {};
     squares.map((square) => {
@@ -57,13 +55,15 @@ const App = () => {
     socket.on("returnedGames", (game) => {
       SetLobby(game);
     });
-    // This should be seperated into another useEffect which updates each round
+  }, [ENDPOINT]);
+
+  useEffect(() => {
     socket.on("recieveMove", (moveData) => {
       let newRound = moveData.round === 1 ? 2 : 1;
       setRound(newRound);
       TrackEnemy(moveData);
     });
-  }, [ENDPOINT]);
+  }, []);
 
   // Share created game on New Game Created/New Connection
   useEffect(() => {
@@ -120,13 +120,13 @@ const App = () => {
       Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
     ].play();
   };
-
   // Update board on Enemy move
   const TrackEnemy = (moveData) => {
     let newSquares = [...squares];
     // Have to make new Audio because React is accessing "stale" state
     // https://github.com/facebook/react/issues/16975
     // This is an inefficient workaround - May not allow volume control
+    // Below solution causes issues with accessing squares:
     //possible solution: create a 2nd useffect that runs after connection. This one updates on round.
     new Audio(
       newSquares[moveData.movingPiece].occupied.sounds[
@@ -161,7 +161,7 @@ const App = () => {
     SendMove,
     multiplayer,
     player,
-    MoveData,
+
     audioReaction,
   };
   const MenuProps = {

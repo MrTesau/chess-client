@@ -1,4 +1,4 @@
-export const ENDPOINT = "https://fantasy-chess-server.herokuapp.com/";
+export const ENDPOINT = "http://localhost:5000/"; //https://fantasy-chess-server.herokuapp.com/";
 // "http://localhost:5000/";
 // cors issues, budget stackOverflow solution
 export const connectionOptions = {

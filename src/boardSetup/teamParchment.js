@@ -15,9 +15,7 @@ const teamParchment = (props) => {
       }}
     >
       {props.round === 0 ? (
-        <div style={{ color: "#8B0000" }}>
-          Your Game is listed in the Lobby. Have a friend join.{" "}
-        </div>
+        <div style={{ color: "#8B0000" }}>...Waiting on Enemy </div>
       ) : (
         <>
           <Hidden smDown>

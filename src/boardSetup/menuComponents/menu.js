@@ -55,12 +55,10 @@ export default function SimpleModal(props) {
         container
         alignItems="center"
         justify="center"
-        //style={{ border: "1px solid grey" }}
+        style={{ outline: "none" }}
         className={classes.root}
-        xs={11}
-        md={6}
       >
-        <Grid item xs={11} md={6} lg={5}>
+        <Grid item xs={11} md={6} lg={5} style={{ outline: "none" }}>
           {AboutOpen ? (
             <About setAboutOpen={setAboutOpen} />
           ) : themes ? (
