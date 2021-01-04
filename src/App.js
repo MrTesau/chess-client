@@ -57,6 +57,7 @@ const App = () => {
     socket.on("returnedGames", (game) => {
       SetLobby(game);
     });
+    // This should be seperated into another useEffect which updates each round
     socket.on("recieveMove", (moveData) => {
       let newRound = moveData.round === 1 ? 2 : 1;
       setRound(newRound);
@@ -125,7 +126,8 @@ const App = () => {
     let newSquares = [...squares];
     // Have to make new Audio because React is accessing "stale" state
     // https://github.com/facebook/react/issues/16975
-    // This is an inefficient workaround
+    // This is an inefficient workaround - May not allow volume control
+    //possible solution: create a 2nd useffect that runs after connection. This one updates on round.
     new Audio(
       newSquares[moveData.movingPiece].occupied.sounds[
         Math.floor(

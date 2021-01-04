@@ -6,11 +6,6 @@ import CardContent from "@material-ui/core/CardContent";
 import menuStyles from "./menuStyles.js";
 import TextField from "@material-ui/core/TextField";
 
-// Call connection from App props
-// Set GameId from returned value -> use a ref to gameId ? 36.04
-// list GameID in findGames Arr
-// connect to io/wait for another player to join game
-
 export default function SimpleModal(props) {
   const [gameName, setGameName] = useState({});
   const useStyles = makeStyles(menuStyles);
