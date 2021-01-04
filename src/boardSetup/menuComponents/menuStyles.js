@@ -1,6 +1,9 @@
 import wood_desk from "./wood.jpg";
 
 const styles = (theme) => ({
+  root: {
+    outline: "none",
+  },
   paper: {
     backgroundImage: `url(${wood_desk})`,
     backgroundBlendMode: "multiply",
