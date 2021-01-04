@@ -49,6 +49,7 @@ export default function SimpleModal(props) {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        outline: "none",
       }}
     >
       <Grid
