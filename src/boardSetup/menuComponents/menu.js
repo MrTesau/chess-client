@@ -55,7 +55,7 @@ export default function SimpleModal(props) {
         container
         alignItems="center"
         justify="center"
-        style={{ outline: "none" }}
+        style={{ outline: "none", boxShadow: "none" }}
         className={classes.root}
       >
         <Grid item xs={11} md={6} lg={5} style={{ outline: "none" }}>
