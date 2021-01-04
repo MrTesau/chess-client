@@ -113,6 +113,7 @@ const WoWBattleground = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
+
     piece: "Bishop",
     img: orcBishop,
     sounds: [

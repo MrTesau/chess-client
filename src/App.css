@@ -89,7 +89,9 @@
   opacity: 0.95;
 }
 button {
-  padding: 5px !important;
+  padding: 0.4rem !important;
+  padding-left: 0.7rem !important;
+  padding-right: 0.7rem !important;
 }
 #chess-square {
   padding: 0 !important;

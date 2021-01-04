@@ -1,37 +1,185 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import "./App.css";
-// Backgrounds
-import wowBg from "./assets/img/wowBG.jpg";
 import gotBg from "./assets/img/gotBG.jpg";
-import lolBg from "./assets/img/rift2.jpeg";
-import lolBg2 from "./assets/img/rift.jpg";
-// ChessBoard Imports
 import CreateBoard from "./boardSetup/CreateBoard.js";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
-import setBattleground from "./boardSetup/boardFunctions.js";
-import parch from "./assets/img/parch1.png";
-import SelectBg from "./boardSetup/bg-buttons.js";
-// Volume
-import { mdiVolumeOff } from "@mdi/js";
-import { mdiVolumeHigh } from "@mdi/js";
-import Icon from "@mdi/react";
-import HomeModal from "./boardSetup/homeModal.js";
-import { mdiPlayCircleOutline } from "@mdi/js";
-import { mdiStopCircleOutline } from "@mdi/js";
-import Button from "@material-ui/core/Button";
-// Responsive
+import { setBattleground, resetSquares } from "./boardSetup/boardFunctions.js";
+import AutoPlayButton from "./boardSetup/bg-buttons.js";
+import HomeModal from "./boardSetup/menuComponents/menu.js";
 import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
+import playFunction from "./boardSetup/autoplayFunctions.js";
+import Parchment from "./boardSetup/teamParchment.js";
+import { mdiRefresh } from "@mdi/js";
+import { Button } from "@material-ui/core";
+import io from "socket.io-client";
+import Icon from "@mdi/react";
+import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
+let socket;
 
 const App = () => {
-  const [currentBG, setCurrentBgImg] = React.useState(gotBg);
-  const [selectedSquare, setSelectedSquare] = React.useState(undefined);
-  const [round, setRound] = React.useState(1);
-  const [squares, setSquares] = React.useState(
-    setBattleground(gameOfThrones_1)
-  );
-  const [autoPlay, setAutoPlay] = React.useState(false);
-  const [volume, setVolume] = React.useState(true);
+  const [currentTheme, setCurrentTheme] = useState(gameOfThrones_1);
+  const [currentBG, setCurrentBgImg] = useState(gotBg);
+  const [selectedSquare, setSelectedSquare] = useState(undefined);
+  const [squares, setSquares] = useState(setBattleground(gameOfThrones_1));
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [volume, setVolume] = useState(true);
+  const [audioFiles, setAudioFiles] = useState({});
+  // Multiplayer dependant state:
+  const [multiplayer, setMultiplayer] = useState(false);
+  const [round, setRound] = useState(1);
+  const [gameAvailable, setGameAvailable] = useState();
+  const [allGameRooms, setAllGameRooms] = useState([]);
+  const [gameRoom, setGameRoom] = useState("");
+  const [playerId, setPlayerId] = useState(Math.floor(Math.random() * 10000));
+  const [newPlayer, setNewPlayer] = useState(1);
+  const [player, setPlayer] = useState(0); // 1 or 2, allow movement
+  const [MoveData, setMoveData] = useState(""); // for Enemy audio Effect
+  //if (!multiplayer) return;  // Dont connect until multiP activated?
+  useEffect(() => {
+    let audioLookup = {};
+    squares.map((square) => {
+      if (square.occupied) {
+        let arr = square.occupied.sounds.map((sound) => new Audio(sound));
+        square.occupied.uniqueN
+          ? (audioLookup[square.occupied.uniqueN] = arr)
+          : (audioLookup[square.occupied.name] = arr);
+      }
+    });
+    setAudioFiles(audioLookup);
+  }, [currentBG]);
+
+  useEffect(() => {
+    socket = io.connect(ENDPOINT, connectionOptions);
+    socket.on("hello", () => {
+      // Work around to auto load game lobby
+      setNewPlayer(newPlayer + 1);
+    });
+    socket.on("returnedGames", (game) => {
+      SetLobby(game);
+    });
+    socket.on("recieveMove", (moveData) => {
+      let newRound = moveData.round === 1 ? 2 : 1;
+      setRound(newRound);
+      TrackEnemy(moveData);
+    });
+  }, [ENDPOINT]);
+
+  // Share created game on New Game Created/New Connection
+  useEffect(() => {
+    ShareGames(gameAvailable);
+  }, [gameAvailable, newPlayer]);
+
+  const ShareGames = (gameAvailable) => {
+    if (!gameAvailable) {
+      return;
+    } else {
+      socket.emit("gamesAvailable", gameAvailable, (error) => {
+        if (error) {
+          console.log(error);
+        }
+      });
+    }
+  };
+  // Set Lobby to Find Games on Socket "returnedGames"
+  const SetLobby = (game) => {
+    setAllGameRooms((allGameRooms) => {
+      allGameRooms = allGameRooms.filter((g) => g.playerId !== game.playerId);
+      return [...allGameRooms, game];
+    });
+  };
+  // Join game, Created Game player = 1
+  // FindGame player = 2
+  const JoinGameRoom = (game) => {
+    socket.emit("join", game, (callbackReturn) => {
+      if (callbackReturn.length) {
+        // Cant move (round 0) until 2nd player joins
+        callbackReturn.length < 2 ? setRound(0) : setRound(2);
+        setPlayer(callbackReturn.length);
+      }
+      if (callbackReturn.error) {
+        alert(error);
+      }
+    });
+  };
+  // Move sequence
+  const SendMove = (moveData) => {
+    moveData.gameName = gameRoom;
+    socket.emit("sendMove", moveData, (error) => {
+      if (error) {
+        alert(error);
+      }
+    });
+  };
+  const audioReaction = (squareWithAudio) => {
+    audioFiles[
+      squareWithAudio.occupied.uniqueN
+        ? squareWithAudio.occupied.uniqueN
+        : squareWithAudio.occupied.name
+    ][
+      Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
+    ].play();
+  };
+
+  // Update board on Enemy move
+  const TrackEnemy = (moveData) => {
+    let newSquares = [...squares];
+    // Have to make new Audio because React is accessing "stale" state
+    // https://github.com/facebook/react/issues/16975
+    // This is an inefficient workaround
+    new Audio(
+      newSquares[moveData.movingPiece].occupied.sounds[
+        Math.floor(
+          Math.random() *
+            newSquares[moveData.movingPiece].occupied.sounds.length
+        )
+      ]
+    ).play();
+
+    newSquares[moveData.destination].occupied = {
+      ...squares[moveData.movingPiece].occupied,
+    };
+    newSquares[moveData.movingPiece].occupied = false;
+    setSquares(newSquares);
+  };
+  const BoardProps = {
+    squares,
+    setSquares,
+    selectedSquare,
+    setSelectedSquare,
+    round,
+    setRound,
+    volume,
+    currentBG,
+    autoPlay,
+    playFunction: autoPlay
+      ? playFunction.autoMoveUnit
+      : // : multiplayer
+        // ? TrackEnemy
+        "",
+    SendMove,
+    multiplayer,
+    player,
+    MoveData,
+    audioReaction,
+  };
+  const MenuProps = {
+    JoinGameRoom,
+    allGameRooms,
+    setAllGameRooms,
+    setGameAvailable,
+    playerId,
+    setMultiplayer,
+    setCurrentTheme,
+    volume,
+    setVolume,
+    squares,
+    setSquares,
+    setCurrentBgImg,
+    setAutoPlay,
+    setGameRoom,
+    setPlayer,
+    setRound,
+  };
   return (
     <Grid
       container
@@ -44,238 +192,63 @@ const App = () => {
       className="battleground-container"
     >
       <div className="fixed-div">
-        <SelectBg
-          currentBG={currentBG}
-          setCurrentBgImg={setCurrentBgImg}
-          squares={squares}
-          setSquares={setSquares}
-          setBattleground={setBattleground}
-          lolBg={lolBg}
-          lolBg2={lolBg2}
-          wowBg={wowBg}
-          gotBg={gotBg}
-        />
-        <Hidden mdDown>
-          <br />
-          <HomeModal />
-        </Hidden>
-      </div>
-      <div className="volume-fixed">
-        {volume ? (
-          <Icon
-            path={mdiVolumeHigh}
-            title="volume"
-            size={0.8}
-            color={"white"}
-            onClick={() => setVolume(!volume)}
+        <HomeModal {...MenuProps} />
+        {!multiplayer ? (
+          <AutoPlayButton
+            autoPlay={autoPlay}
+            setRound={setRound}
+            setAutoPlay={setAutoPlay}
+            setSelectedSquare={setSelectedSquare}
+            squares={squares}
+            setSquares={setSquares}
+            resetSquares={resetSquares}
+            setBattleground={setBattleground}
+            currentTheme={currentTheme}
           />
         ) : (
-          <Icon
-            path={mdiVolumeOff}
-            title="volume"
-            size={0.7}
-            color={"white"}
-            onClick={() => setVolume(!volume)}
-          />
-        )}
-      </div>
-      <div className="autoplay-fixed">
-        {!autoPlay ? (
-          <>
-            <Hidden lgUp>
-              <Icon
-                path={mdiPlayCircleOutline}
-                title="autoplay"
-                size={0.8}
-                color={"white"}
-                onClick={() => {
-                  setRound(1);
-                  setAutoPlay(true);
-                  setSelectedSquare(undefined);
-                }}
-              />
-            </Hidden>
-            <Hidden mdDown>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  setRound(1);
-                  setSelectedSquare(undefined);
-                  setAutoPlay(true);
-                }}
-                style={{ textTransform: "none", fontSize: "0.7rem" }}
-              >
-                <Icon
-                  path={mdiPlayCircleOutline}
-                  title="autoplay"
-                  size={0.8}
-                  color={"white"}
-                />{" "}
-                &nbsp; Play Advanced AI
-              </Button>
-            </Hidden>
-          </>
-        ) : (
-          <>
-            <Hidden lgUp>
-              <Icon
-                path={mdiStopCircleOutline}
-                title="volume"
-                size={0.8}
-                color={"white"}
-                onClick={() => {
-                  setAutoPlay(false);
-                  setCurrentBgImg(gotBg);
-                  setSquares(setBattleground(gameOfThrones_1));
-                }}
-              />
-            </Hidden>
-            <Hidden mdDown>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  setAutoPlay(false);
-                  setCurrentBgImg(gotBg);
-                  setSquares(setBattleground(gameOfThrones_1));
-                }}
-                style={{ textTransform: "none", fontSize: "0.7rem" }}
-              >
-                <Icon
-                  path={mdiStopCircleOutline}
-                  title="volume"
-                  size={0.8}
-                  color={"white"}
-                />{" "}
-                &nbsp; Admit Defeat
-              </Button>
-            </Hidden>
-          </>
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            onClick={() => {
+              setRound(2);
+              setSelectedSquare(undefined);
+              setSquares(setBattleground(currentTheme));
+              alert(
+                "If You are resetting a multiplayer match please refresh page and create new game"
+              );
+            }}
+            style={{
+              fontSize: "0.7rem",
+              margin: "0.3rem",
+              marginLeft: "0rem",
+            }}
+          >
+            <Icon
+              path={mdiRefresh}
+              title="autoplay"
+              size={0.87}
+              color={"white"}
+            />{" "}
+            &nbsp; Reset Game
+          </Button>
         )}
       </div>
       {/* Team Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
-        <div
-          className="info-area"
-          style={{
-            backgroundImage: `url(${parch})`,
-            backgroundBlendMode: "multiply",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
-        >
-          <Hidden smDown>
-            <div style={{ fontSize: "x-large" }}>
-              <p>
-                {currentBG === wowBg
-                  ? "The Horde"
-                  : currentBG === gotBg
-                  ? "The North"
-                  : " Blue Team Champions"}
-              </p>
-            </div>
-          </Hidden>
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            <p>Currently Selected:</p>
-          </div>
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            {round === 1
-              ? selectedSquare
-                ? `${selectedSquare.occupied.piece}`
-                : "None"
-              : "None"}
-          </div>
-          <Hidden smDown>
-            <div style={{ fontSize: "large" }}>
-              <p>Status:</p>
-            </div>
-          </Hidden>
-          <div
-            className="info-area-text"
-            style={{
-              fontSize: "x-large",
-              color: round === 1 ? "#013220" : "#8B0000",
-            }}
-          >
-            {round === 1
-              ? autoPlay
-                ? "Calculating Stratey"
-                : "Your Move!" //"Your Move! Choose Wisely.."
-              : "...Waiting for Enemy"}
-          </div>
-        </div>
+        <Parchment selectedSquare={selectedSquare} team={1} round={round} />
       </Grid>
+      {/* Board  */}
       <Grid item xs={11} lg={5} className="center-grid-item">
         <div className="board-container">
-          <CreateBoard
-            squares={squares}
-            setSquares={setSquares}
-            selectedSquare={selectedSquare}
-            setSelectedSquare={setSelectedSquare}
-            round={round}
-            setRound={setRound}
-            volume={volume}
-            currentBG={currentBG}
-            autoPlay={autoPlay}
-          />
+          <CreateBoard {...BoardProps} />
         </div>
       </Grid>
       {/* Team Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
-        <div
-          className="info-area"
-          style={{
-            backgroundImage: `url(${parch})`,
-            backgroundBlendMode: "multiply",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            //border: "2px solid black",
-          }}
-        >
-          <Hidden smDown>
-            <div style={{ fontSize: "x-large" }}>
-              <p>
-                {currentBG === wowBg
-                  ? "The Alliance"
-                  : currentBG === gotBg
-                  ? "The White Walkers"
-                  : " Red Team Champions"}
-              </p>
-            </div>
-          </Hidden>
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            <p>Currently Selected:</p>
-          </div>
-          <div className="info-area-text" style={{ fontSize: "large" }}>
-            {round === 2
-              ? selectedSquare
-                ? `${selectedSquare.occupied.piece}`
-                : "None"
-              : "None"}
-          </div>
-          <Hidden smDown>
-            <div style={{ fontSize: "large" }}>
-              <p>Status:</p>
-            </div>
-          </Hidden>
-          <div
-            className="info-area-text"
-            style={{
-              fontSize: "x-large",
-              color: round === 2 ? "#013220" : "#8B0000",
-            }}
-          >
-            {round === 2
-              ? "Your Move!" // Choose Wisely"
-              : "...Waiting for Enemy"}
-          </div>
-        </div>
+        <Parchment selectedSquare={selectedSquare} team={2} round={round} />
       </Grid>
     </Grid>
   );
 };
-
 export default App;

@@ -1,108 +1,109 @@
 import React from "react";
-// Menu
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-// Battlegrounds
 import gameOfThrones_1 from "../battlegrounds/got/got_North_V_Zombies.js";
-import WoWBattleground from "../battlegrounds/wow_hordvally.js";
-import LoLBattleground from "../battlegrounds/LoL/lol_champion_royale.js";
-// Icon and Icon Button
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import IconButton from "@material-ui/core/IconButton";
+//import { resetSquares } from "./boardFunctions.js";
+import gotBg from "../assets/img/gotBG.jpg";
 import Hidden from "@material-ui/core/Hidden";
-import lotrbg from "../battlegrounds/lotr/lotrbg.jpg";
-import lotrtheme from "../battlegrounds/lotr/menvsorcs.js";
+import { mdiPlayCircleOutline } from "@mdi/js";
+import { mdiStopCircleOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 
-export const SelectBG = ({
-  setCurrentBgImg,
-  setSquares,
-  setBattleground,
-  wowBg,
-  gotBg,
-  lolBg,
-  lolBg2,
-}) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+export const SelectBG = (props) => {
+  const {
+    setRound,
+    setAutoPlay,
+    setSelectedSquare,
+    setSquares,
+    //setCurrentBgImg,
+    autoPlay,
+    squares,
+    resetSquares,
+    currentTheme,
+    setBattleground,
+  } = props;
   return (
-    <div className="menu-buttons">
-      <Hidden xsDown>
-        <Button
-          variant="contained"
-          size="small"
-          color="primary"
-          aria-controls="simple-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-          style={{ fontSize: "0.68rem", textTransform: "none" }}
-        >
-          Select Battleground
-        </Button>
-      </Hidden>
-      <Hidden smUp>
-        <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <MoreVertIcon style={{ color: "white" }} />
-        </IconButton>
-      </Hidden>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem
-          onClick={() => {
-            setCurrentBgImg(wowBg);
-            setSquares(setBattleground(WoWBattleground));
-            handleClose();
-          }}
-        >
-          &nbsp;&nbsp;World of Warcraft&nbsp;
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setCurrentBgImg(gotBg);
-            setSquares(setBattleground(gameOfThrones_1));
-            handleClose();
-          }}
-        >
-          &nbsp;&nbsp;Game of Thrones&nbsp;
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setCurrentBgImg(lotrbg);
-            setSquares(setBattleground(lotrtheme));
-            handleClose();
-          }}
-        >
-          &nbsp;&nbsp;Lord of the Rings&nbsp;
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            setCurrentBgImg(() => {
-              return Math.random() > 0.5 ? lolBg : lolBg2;
-            });
-            setSquares(setBattleground(LoLBattleground));
-            handleClose();
-          }}
-        >
-          &nbsp;&nbsp;League of Legends&nbsp;
-        </MenuItem>
-      </Menu>
-    </div>
+    <>
+      {!autoPlay ? (
+        <>
+          <Hidden lgUp>
+            <Icon
+              path={mdiPlayCircleOutline}
+              title="autoplay"
+              size={0.86}
+              color={"white"}
+              onClick={() => {
+                setRound(1);
+                setAutoPlay(true);
+                setSelectedSquare(undefined);
+              }}
+            />
+          </Hidden>
+          <Hidden mdDown>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              onClick={() => {
+                setRound(1);
+                setSelectedSquare(undefined);
+                setAutoPlay(true);
+              }}
+              style={{
+                fontSize: "0.7rem",
+                margin: "0.3rem",
+                marginLeft: "0rem",
+              }}
+            >
+              <Icon
+                path={mdiPlayCircleOutline}
+                title="autoplay"
+                size={0.87}
+                color={"white"}
+              />{" "}
+              &nbsp; Play Advanced AI
+            </Button>
+          </Hidden>
+        </>
+      ) : (
+        <>
+          <Hidden lgUp>
+            <Icon
+              path={mdiStopCircleOutline}
+              title="volume"
+              size={0.8}
+              color={"white"}
+              onClick={() => {
+                setAutoPlay(false);
+                setSquares(setBattleground(currentTheme));
+              }}
+            />
+          </Hidden>
+          <Hidden mdDown>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                setAutoPlay(false);
+                setSquares(setBattleground(currentTheme));
+              }}
+              style={{
+                fontSize: "0.7rem",
+                margin: "0.3rem",
+                marginLeft: "0rem",
+              }}
+            >
+              <Icon
+                path={mdiStopCircleOutline}
+                title="volume"
+                size={0.87}
+                color={"white"}
+              />{" "}
+              &nbsp; Admit Defeat
+            </Button>
+          </Hidden>
+        </>
+      )}
+    </>
   );
 };
 export default SelectBG;

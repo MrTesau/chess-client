@@ -114,7 +114,7 @@ const findDiagonalsRightDown = (i) => {
 // Square Objects
 // This can be implemented with class for theme and classes for piece objects
 // implement into teams to allow splitting eg  LoL vs Horde
-const setBattleground = (Battleground) => {
+export const setBattleground = (Battleground) => {
   const {
     team_1_pawn,
     team_1_rook,
@@ -146,7 +146,7 @@ const setBattleground = (Battleground) => {
       leftDown: findDiagonalsLeftDown(i),
       rightUp: findDiagonals(i, 1, 8, "up", 7),
       rightDown: findDiagonalsRightDown(i),
-      isSquareSelected: false,
+      //isSquareSelected: false,
       occupied:
         row(i) === 2
           ? team_1_pawn
@@ -202,5 +202,80 @@ const setBattleground = (Battleground) => {
   }
   return arr;
 };
-
-export default setBattleground;
+export const resetSquares = (Battleground, squares) => {
+  const {
+    team_1_pawn,
+    team_1_rook,
+    team_1_rook2,
+    team_1_bishop,
+    team_1_knight,
+    team_1_queen,
+    team_1_king,
+    team_2_pawn,
+    team_2_rook,
+    team_2_bishop,
+    team_2_knight,
+    team_2_queen,
+    team_2_king,
+    team_1_bishop2,
+    team_1_knight2,
+    team_2_knight2,
+    team_2_bishop2,
+    team_2_rook2,
+  } = Battleground;
+  let arr = [...squares];
+  for (let i = 0; i < 64; i++) {
+    arr[i].occupied =
+      row(i) === 2
+        ? team_1_pawn
+        : row(i) === 7
+        ? team_2_pawn
+        : i === 1
+        ? team_1_rook
+        : // For boards with 2 characters for 1 piece
+        i === 8
+        ? team_1_rook2
+          ? team_1_rook2
+          : team_1_rook
+        : i === 2
+        ? team_1_knight
+        : i === 7
+        ? team_1_knight2
+          ? team_1_knight2
+          : team_1_knight
+        : i === 3
+        ? team_1_bishop
+        : i === 6
+        ? team_1_bishop2
+          ? team_1_bishop2
+          : team_1_bishop
+        : i === 4
+        ? team_1_king
+        : i === 5
+        ? team_1_queen
+        : i === 64
+        ? team_2_rook
+        : i === 57
+        ? team_2_rook2
+          ? team_2_rook2
+          : team_2_rook
+        : i === 63
+        ? team_2_knight
+        : i === 58
+        ? team_2_knight2
+          ? team_2_knight2
+          : team_2_knight
+        : i === 62
+        ? team_2_bishop
+        : i === 59
+        ? team_2_bishop2
+          ? team_2_bishop2
+          : team_2_bishop
+        : i === 60
+        ? team_2_king
+        : i === 61
+        ? team_2_queen
+        : false;
+  }
+  return arr;
+};

@@ -65,13 +65,14 @@ const lotrBattleground = {
   team_1_rook: {
     team: 1,
     name: "team_1_rook",
+    uniqueN: "team_1_rook",
     img: rook1,
     piece: "Rook",
     sounds: [gim1, gim2, gim3, gim4, one],
   },
   team_1_rook2: {
     team: 1,
-    name: "team_1_bishop",
+    name: "team_1_rook",
     uniqueN: "team_1_rook2",
     piece: "Bishop",
     img: rook2,
@@ -89,6 +90,7 @@ const lotrBattleground = {
   team_1_knight: {
     team: 1,
     name: "team_1_knight",
+    uniqueN: "team_1_knight",
     piece: "Knight",
     img: knight1,
     sounds: [hate],
@@ -96,6 +98,7 @@ const lotrBattleground = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
+    uniqueN: "team_1_bishop",
     piece: "Bishop",
     img: bishop1,
     sounds: [took, pass, tricks, late, clever],

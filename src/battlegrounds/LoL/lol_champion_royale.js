@@ -159,7 +159,7 @@ const pieces = {
   team_1_rook: {
     team: 1,
     name: "team_1_rook",
-    uniqueN: "team_1_rook1",
+    uniqueN: "team_1_rook",
     piece: "Rook",
     img: rook_team_1,
     sounds: [r1, r2, r4, r3, r5, r6, r7],
@@ -168,7 +168,7 @@ const pieces = {
   team_1_rook2: {
     team: 1,
     name: "team_1_rook",
-    uniqueN: "team_1rook2",
+    uniqueN: "team_1_rook2",
     piece: "Rook",
     img: rook2_team_1,
     sounds: [j1, j2, j3, j4],
@@ -281,6 +281,7 @@ const pieces = {
     team: 2,
     piece: "Bishop",
     name: "team_2_bishop",
+    uniqueN: "team_2_bishop2",
     img: team_2_bishop2,
     sounds: [jinx],
   },
@@ -288,6 +289,7 @@ const pieces = {
     team: 2,
     piece: "Bishop",
     name: "team_2_bishop",
+    uniqueN: "team_2_bishop",
     img: team_2_bishop,
     sounds: [vi1, vi2],
   },

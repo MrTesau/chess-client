@@ -149,7 +149,7 @@ const pieces = {
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
-    uniqueN: "team_1_bishop1",
+    uniqueN: "team_1_bishop",
     piece: "Bishop",
     sounds: [bishop2team1sound, bishop2team1sound2],
     img: team_1_bishop2,
