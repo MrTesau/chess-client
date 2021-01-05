@@ -14,13 +14,13 @@ import { Button } from "@material-ui/core";
 import io from "socket.io-client";
 import Icon from "@mdi/react";
 import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
-let socket;
+const socket = io.connect(ENDPOINT, connectionOptions);
 
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState(gameOfThrones_1);
   const [currentBG, setCurrentBgImg] = useState(gotBg);
   const [selectedSquare, setSelectedSquare] = useState(undefined);
-  const [squares, setSquares] = useState(setBattleground(gameOfThrones_1));
+  const [squares, setSquares] = useState(setBattleground(currentTheme));
   const [autoPlay, setAutoPlay] = useState(false);
   const [volume, setVolume] = useState(true);
   const [audioFiles, setAudioFiles] = useState({});
@@ -32,7 +32,9 @@ const App = () => {
   const [gameRoom, setGameRoom] = useState("");
   const [playerId, setPlayerId] = useState(Math.floor(Math.random() * 10000));
   const [newPlayer, setNewPlayer] = useState(1);
-  const [player, setPlayer] = useState(0); // 1 or 2, allow movement
+  const [player, setPlayer] = useState(0);
+  const [moveData, setMoveData] = useState("");
+  // Load Audio of current Theme
   useEffect(() => {
     let audioLookup = {};
     squares.map((square) => {
@@ -45,32 +47,39 @@ const App = () => {
     });
     setAudioFiles(audioLookup);
   }, [currentBG]);
-
+  // Effect for new Connection
+  // Adds new connection to trigger gameAvailable emit
+  // Sets Lobby to new returned games
   useEffect(() => {
-    socket = io.connect(ENDPOINT, connectionOptions);
     socket.on("hello", () => {
-      // Work around to auto load game lobby
+      // WorkAround: Instant lobby update
       setNewPlayer(newPlayer + 1);
     });
     socket.on("returnedGames", (game) => {
-      SetLobby(game);
-    });
-  }, [ENDPOINT]);
-
-  useEffect(() => {
-    socket.on("recieveMove", (moveData) => {
-      let newRound = moveData.round === 1 ? 2 : 1;
-      setRound(newRound);
-      TrackEnemy(moveData);
+      setAllGameRooms((allGameRooms) => {
+        allGameRooms = allGameRooms.filter((g) => g.playerId !== game.playerId);
+        return [...allGameRooms, game];
+      });
     });
   }, []);
-
-  // Share created game on New Game Created/New Connection
+  // Join game
+  // Created Game player = 1
+  // FindGame player = 2
+  const JoinGameRoom = (game) => {
+    socket.emit("join", game, (callbackReturn) => {
+      if (callbackReturn.length) {
+        // No move (round 0) until player 2 join
+        callbackReturn.length < 2 ? setRound(0) : setRound(2);
+        setPlayer(callbackReturn.length);
+      }
+      if (callbackReturn.error) {
+        alert(error);
+      }
+    });
+  };
+  // Share created game
+  // Triggered by New Game Created/ New Connection to server
   useEffect(() => {
-    ShareGames(gameAvailable);
-  }, [gameAvailable, newPlayer]);
-
-  const ShareGames = (gameAvailable) => {
     if (!gameAvailable) {
       return;
     } else {
@@ -80,29 +89,23 @@ const App = () => {
         }
       });
     }
-  };
-  // Set Lobby to Find Games on Socket "returnedGames"
-  const SetLobby = (game) => {
-    setAllGameRooms((allGameRooms) => {
-      allGameRooms = allGameRooms.filter((g) => g.playerId !== game.playerId);
-      return [...allGameRooms, game];
-    });
-  };
-  // Join game, Created Game player = 1
-  // FindGame player = 2
-  const JoinGameRoom = (game) => {
-    socket.emit("join", game, (callbackReturn) => {
-      if (callbackReturn.length) {
-        // Cant move (round 0) until 2nd player joins
-        callbackReturn.length < 2 ? setRound(0) : setRound(2);
-        setPlayer(callbackReturn.length);
-      }
-      if (callbackReturn.error) {
-        alert(error);
-      }
-    });
-  };
+  }, [gameAvailable, newPlayer]);
   // Move sequence
+  useEffect(() => {
+    socket.on("recieveMove", (moveData) => {
+      setMoveData(moveData);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (moveData) {
+      let newRound = moveData.round === 1 ? 2 : 1;
+      setRound(newRound);
+      TrackEnemy(moveData);
+      console.log("running TrackEnemy");
+    }
+  }, [moveData]);
+
   const SendMove = (moveData) => {
     moveData.gameName = gameRoom;
     socket.emit("sendMove", moveData, (error) => {
@@ -128,15 +131,17 @@ const App = () => {
     // This is an inefficient workaround - May not allow volume control
     // Below solution causes issues with accessing squares:
     //possible solution: create a 2nd useffect that runs after connection. This one updates on round.
-    new Audio(
-      newSquares[moveData.movingPiece].occupied.sounds[
-        Math.floor(
-          Math.random() *
-            newSquares[moveData.movingPiece].occupied.sounds.length
-        )
-      ]
-    ).play();
+    //console.log(squares);
+    //console.log(squares[moveData.movingPiece]);
+    //console.log(squares[moveData.destination]);
 
+    if (squares[moveData.movingPiece].occupied)
+      audioReaction(squares[moveData.movingPiece]);
+
+    /*
+    let audios = [...squares[moveData.movingPiece].occupied.sounds];
+    new Audio(audios[Math.floor(Math.random() * audios.length)]).play();
+    */
     newSquares[moveData.destination].occupied = {
       ...squares[moveData.movingPiece].occupied,
     };
