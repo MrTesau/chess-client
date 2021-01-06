@@ -102,7 +102,7 @@ const App = () => {
       let newRound = moveData.round === 1 ? 2 : 1;
       setRound(newRound);
       TrackEnemy(moveData);
-      console.log("running TrackEnemy");
+      //console.log("running TrackEnemy");
     }
   }, [moveData]);
 
@@ -128,20 +128,8 @@ const App = () => {
     let newSquares = [...squares];
     // Have to make new Audio because React is accessing "stale" state
     // https://github.com/facebook/react/issues/16975
-    // This is an inefficient workaround - May not allow volume control
-    // Below solution causes issues with accessing squares:
-    //possible solution: create a 2nd useffect that runs after connection. This one updates on round.
-    //console.log(squares);
-    //console.log(squares[moveData.movingPiece]);
-    //console.log(squares[moveData.destination]);
-
     if (squares[moveData.movingPiece].occupied)
       audioReaction(squares[moveData.movingPiece]);
-
-    /*
-    let audios = [...squares[moveData.movingPiece].occupied.sounds];
-    new Audio(audios[Math.floor(Math.random() * audios.length)]).play();
-    */
     newSquares[moveData.destination].occupied = {
       ...squares[moveData.movingPiece].occupied,
     };
