@@ -68,7 +68,7 @@ const App = () => {
   const JoinGameRoom = (game) => {
     socket.emit("join", game, (callbackReturn) => {
       if (callbackReturn.length) {
-        // No move (round 0) until player 2 join
+        // No move (round 0) until player 2 joins
         callbackReturn.length < 2 ? setRound(0) : setRound(2);
         setPlayer(callbackReturn.length);
       }
@@ -90,6 +90,7 @@ const App = () => {
       });
     }
   }, [gameAvailable, newPlayer]);
+
   // Move sequence
   useEffect(() => {
     socket.on("recieveMove", (moveData) => {
@@ -125,11 +126,9 @@ const App = () => {
   };
   // Update board on Enemy move
   const TrackEnemy = (moveData) => {
-    let newSquares = [...squares];
-    // Have to make new Audio because React is accessing "stale" state
-    // https://github.com/facebook/react/issues/16975
     if (squares[moveData.movingPiece].occupied)
       audioReaction(squares[moveData.movingPiece]);
+    let newSquares = [...squares];
     newSquares[moveData.destination].occupied = {
       ...squares[moveData.movingPiece].occupied,
     };
