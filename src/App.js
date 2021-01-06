@@ -126,7 +126,7 @@ const App = () => {
   };
   // Update board on Enemy move
   const TrackEnemy = (moveData) => {
-    if (squares[moveData.movingPiece].occupied)
+    if (volume && squares[moveData.movingPiece].occupied)
       audioReaction(squares[moveData.movingPiece]);
     let newSquares = [...squares];
     newSquares[moveData.destination].occupied = {
