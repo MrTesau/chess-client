@@ -95,8 +95,8 @@ button {
 }
 .modal-btn-padding {
   padding: 0.3rem !important;
-  padding-left: 0.3rem !important;
-  padding-right: 0.3rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }
 
 #chess-square {

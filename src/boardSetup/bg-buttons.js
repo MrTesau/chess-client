@@ -28,8 +28,7 @@ export const SelectBG = (props) => {
               setAutoPlay(true);
             }}
             style={{
-              fontSize: "0.68rem",
-              textTransform: "none",
+              fontSize: "0.62rem",
             }}
             className={`modal-btn-padding`}
           >
@@ -52,8 +51,7 @@ export const SelectBG = (props) => {
               setSquares(setBattleground(currentTheme));
             }}
             style={{
-              fontSize: "0.68rem",
-              textTransform: "none",
+              fontSize: "0.62rem",
             }}
             className={`modal-btn-padding`}
           >

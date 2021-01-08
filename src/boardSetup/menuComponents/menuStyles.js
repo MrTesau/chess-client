@@ -58,7 +58,7 @@ const styles = (theme) => ({
   },
   modalButton: {
     margin: 0,
-    marginBottom: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.7),
     fontSize: "0.7rem",
   },
 });
