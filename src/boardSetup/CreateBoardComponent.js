@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import rulesLookup from "./movementLookup.js";
-import Square from "./square.js";
+import rulesLookup from "./boardFunctions/movementLookup.js";
+import Square from "./SquareComponent.js";
 
 const CreateBoard = (props) => {
   const {

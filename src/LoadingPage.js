@@ -1,4 +1,4 @@
-import wood_desk from "./boardSetup/menuComponents/wood.jpg";
+import wood_desk from "./boardSetup/menu/wood.jpg";
 import { Button } from "@material-ui/core";
 
 const LoadingPage = () => {

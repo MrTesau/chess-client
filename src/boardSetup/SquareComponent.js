@@ -1,5 +1,3 @@
-import React from "react";
-
 const Square = ({
   // square 1-64
   idx,

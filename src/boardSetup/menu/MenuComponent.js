@@ -13,13 +13,13 @@ import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";
-import About from "./about.js";
-import CreateGame from "./createGame.js";
+import About from "./AboutCard.js";
+import CreateGame from "./CreateGameCard.js";
 import Icon from "@mdi/react";
-import FindGames from "./findGame.js";
+import FindGames from "./FindGameCard.js";
 import menuStyles from "./menuStyles.js";
 //import Themes from "./themes.js";
-const Themes = lazy(() => import("./themes"));
+const Themes = lazy(() => import("./ThemeSelector"));
 const useStyles = makeStyles(menuStyles);
 
 export default function SimpleModal(props) {

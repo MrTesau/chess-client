@@ -1,9 +1,12 @@
 import { React, useState, useEffect, lazy, Suspense } from "react";
 import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
-import { setBattleground, resetSquares } from "./boardSetup/boardFunctions.js";
+import {
+  setBattleground,
+  resetSquares,
+} from "./boardSetup/boardFunctions/boardFunctions.js";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
-import playFunction from "./boardSetup/autoplayFunctions.js";
+import playFunction from "./boardSetup/boardFunctions/autoplayFunctions.js";
 import { mdiRefresh } from "@mdi/js";
 import { Button } from "@material-ui/core";
 import io from "socket.io-client";
@@ -11,10 +14,12 @@ import Icon from "@mdi/react";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import gotBg from "./assets/img/gotBG.jpg";
 import parch from "./assets/img/parch1.png";
-import Parchment from "./boardSetup/teamParchment.js";
-const AutoPlayButton = lazy(() => import("./boardSetup/bg-buttons"));
-const CreateBoard = lazy(() => import("./boardSetup/CreateBoard"));
-const HomeModal = lazy(() => import("./boardSetup/menuComponents/menu"));
+import Parchment from "./boardSetup/TeamParchment.js";
+const AutoPlayButton = lazy(() =>
+  import("./boardSetup/AutoplayButtonComponent")
+);
+const CreateBoard = lazy(() => import("./boardSetup/CreateBoardComponent"));
+const HomeModal = lazy(() => import("./boardSetup/menu/MenuComponent"));
 const socket = io.connect(ENDPOINT, connectionOptions);
 
 const App = () => {
