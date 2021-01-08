@@ -1,5 +1,8 @@
-export const ENDPOINT = "https://fantasy-chess-server.herokuapp.com/";
-// "http://localhost:5000/";
+export const ENDPOINT =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/"
+    : "https://fantasy-chess-server.herokuapp.com/";
+
 // cors issues, stackOverflow solution
 export const connectionOptions = {
   "force new connection": true,

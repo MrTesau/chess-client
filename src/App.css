@@ -93,6 +93,11 @@ button {
   padding-left: 0.7rem !important;
   padding-right: 0.7rem !important;
 }
+.modal-btn-padding {
+  padding: 0.3rem !important;
+  padding-left: 0.3rem !important;
+  padding-right: 0.3rem !important;
+}
 
 #chess-square {
   padding: 0 !important;
@@ -119,21 +124,11 @@ button {
 .fixed-div {
   position: absolute !important;
   top: 8px !important;
-  left: 10px !important;
-}
-.volume-fixed {
-  position: absolute !important;
-  top: 8px !important;
-  right: 1rem !important;
+  left: 0.5rem !important;
 }
 
 .autoplay-fixed {
   position: absolute !important;
-  top: 8px !important;
-  right: 3rem !important;
-}
-@media (min-width: 1000px) {
-  .autoplay-fixed {
-    left: 8rem !important;
-  }
+  top: 15px !important;
+  left: 0.5rem !important;
 }

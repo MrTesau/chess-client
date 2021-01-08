@@ -11,7 +11,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import About from "./about.js";
 import CreateGame from "./createGame.js";
-import Hidden from "@material-ui/core/Hidden";
+
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@mdi/react";
 import {
@@ -242,9 +242,9 @@ export default function SimpleModal(props) {
           variant="contained"
           color="primary"
           size="small"
-          className={classes.button}
+          className={`${classes.modalButton} modal-btn-padding`}
         >
-          <HomeIcon style={{ fontSize: 25 }} />
+          <HomeIcon style={{ fontSize: 18 }} />
         </Button>
       </div>
       <Modal

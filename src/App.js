@@ -1,13 +1,13 @@
 import { React, useState, useEffect, lazy, Suspense } from "react";
-import "./App.css";
+import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
 import { setBattleground, resetSquares } from "./boardSetup/boardFunctions.js";
+import "./App.css";
 import Grid from "@material-ui/core/Grid";
 import playFunction from "./boardSetup/autoplayFunctions.js";
 import { mdiRefresh } from "@mdi/js";
 import { Button } from "@material-ui/core";
 import io from "socket.io-client";
 import Icon from "@mdi/react";
-import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import gotBg from "./assets/img/gotBG.jpg";
 import parch from "./assets/img/parch1.png";
@@ -197,7 +197,7 @@ const App = () => {
                 setSelectedSquare(undefined);
                 setSquares(setBattleground(currentTheme));
                 alert(
-                  "If You are resetting a multiplayer match please refresh page and create new game"
+                  "When resetting a multiplayer match please refresh page and create a new game."
                 );
               }}
               style={{
