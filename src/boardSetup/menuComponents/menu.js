@@ -81,15 +81,6 @@ export default function SimpleModal(props) {
                 setCurrentBgImg={props.setCurrentBgImg}
                 setAutoPlay={props.setAutoPlay}
                 setCurrentTheme={props.setCurrentTheme}
-                // gameOfThrones_1={props.gameOfThrones_1}
-                // WoWBattleground={props.WoWBattleground}
-                //LoLBattleground={props.LoLBattleground}
-                //lotrtheme={props.lotrtheme}
-                //lotrbg={props.lotrbg}
-                // wowBg={props.wowBg}
-                //gotBg={props.gotBg}
-                //lolBg={props.lolBg}
-                //lolBg2={props.lolBg2}
               />
             </Suspense>
           ) : createGame ? (
