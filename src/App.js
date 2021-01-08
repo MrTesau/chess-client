@@ -136,15 +136,6 @@ const App = () => {
     MoveChessPiece,
   };
   const MenuProps = {
-    //gameOfThrones_1,
-    //WoWBattleground,
-    //LoLBattleground,
-    //lotrtheme,
-    //lotrbg,
-    //wowBg,
-    //gotBg,
-    //lolBg,
-    //lolBg2,
     JoinGameRoom,
     allGameRooms,
     setAllGameRooms,
@@ -257,19 +248,3 @@ const App = () => {
   );
 };
 export default App;
-
-// Load Audio of current Theme
-/*
-  useEffect(() => {
-    let audioLookup = {};
-    squares.map((square) => {
-      if (square.occupied) {
-        let arr = square.occupied.sounds.map((sound) => new Audio(sound));
-        square.occupied.uniqueN
-          ? (audioLookup[square.occupied.uniqueN] = arr)
-          : (audioLookup[square.occupied.name] = arr);
-      }
-    });
-    setAudioFiles(audioLookup);
-  }, [currentBG]);
-*/
