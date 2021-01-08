@@ -66,9 +66,22 @@ export default function SimpleModal(props) {
           ) : themes ? (
             <Suspense
               fallback={
-                <div style={{ background: "white" }}>
-                  ...Loading Fantasy Themes. Depending on your Connection This
-                  May Take a moment!
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    style={{ textTransform: "none" }}
+                  >
+                    ...Loading Fantasy Themes. Depending on your Connection This
+                    May Take a moment!
+                  </Button>
                 </div>
               }
             >
