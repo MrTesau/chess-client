@@ -44,8 +44,9 @@ const App = () => {
   };
   // Move a piece
   const MoveChessPiece = (movingIdx, destinationIdx) => {
+    // By value vs By reference assignment might cause issues
     let newSquares = [...squares];
-    newSquares[destinationIdx].occupied = squares[movingIdx].occupied; // (By value vs By reference assignment might break
+    newSquares[destinationIdx].occupied = squares[movingIdx].occupied;
     newSquares[movingIdx].occupied = false;
     setSquares(newSquares);
   };
@@ -216,8 +217,7 @@ const App = () => {
           )}
         </Suspense>
       </div>
-      {/* Team Parchment */}
-
+      {/* Player 1 Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
         <Parchment
           selectedSquare={selectedSquare}
@@ -234,8 +234,7 @@ const App = () => {
         </div>
       </Grid>
 
-      {/* Team Parchment */}
-
+      {/* Player 2 Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
         <Parchment
           selectedSquare={selectedSquare}
