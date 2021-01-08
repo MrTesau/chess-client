@@ -88,14 +88,20 @@ const WoWBattleground = {
       orcSoundThree,
       orcSoundFour,
       orcSoundFive,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_1_rook: {
     team: 1,
     name: "team_1_rook",
     img: rook,
     piece: "Rook",
-    sounds: [taurenRook, taurenRook2, sound_rook_1, taurenRook3, taurenRook4],
+    sounds: [
+      taurenRook,
+      taurenRook2,
+      sound_rook_1,
+      taurenRook3,
+      taurenRook4,
+    ].map((sound) => new Audio(sound)),
   },
   team_1_knight: {
     team: 1,
@@ -108,7 +114,7 @@ const WoWBattleground = {
       orcRaiderSounds_2,
       orcRaiderSounds_3,
       orcRaiderSounds_4,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_1_bishop: {
     team: 1,
@@ -124,7 +130,7 @@ const WoWBattleground = {
       shamanSound_3,
       shamanSound_4,
       shamanSound_5,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_1_queen: {
     team: 1,
@@ -139,14 +145,14 @@ const WoWBattleground = {
       queenSound_4,
       queenSound_5,
       queenSound_6,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_1_king: {
     team: 1,
     name: "team_1_king",
     piece: "King",
     img: orcKing,
-    sounds: [orcKingSound, orcSoundOne],
+    sounds: [orcKingSound, orcSoundOne].map((sound) => new Audio(sound)),
   },
   // Alliance Objects
   team_2_rook: {
@@ -154,21 +160,23 @@ const WoWBattleground = {
     name: "team_2_rook",
     piece: "Rook",
     img: humanRook,
-    sounds: [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10],
+    sounds: [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10].map(
+      (sound) => new Audio(sound)
+    ),
   },
   team_2_pawn: {
     team: 2,
     name: "team_2_pawn",
     piece: "Pawn",
     img: humanPawn,
-    sounds: [p1, p2, p3, p4, p5],
+    sounds: [p1, p2, p3, p4, p5].map((sound) => new Audio(sound)),
   },
   team_2_knight: {
     team: 2,
     name: "team_2_knight",
     piece: "Knight",
     img: humanKnight,
-    sounds: [knightSound, p5],
+    sounds: [knightSound, p5].map((sound) => new Audio(sound)),
   },
   team_2_bishop: {
     team: 2,
@@ -183,7 +191,7 @@ const WoWBattleground = {
       bishopSound_5,
       bishopSound_6,
       bishopSound_7,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_2_queen: {
     team: 2,
@@ -197,14 +205,14 @@ const WoWBattleground = {
       queenSound_4,
       queenSound_5,
       queenSound_6,
-    ],
+    ].map((sound) => new Audio(sound)),
   },
   team_2_king: {
     team: 2,
     name: "team_2_king",
     piece: "King",
     img: humanKing,
-    sounds: [kingSounds, knightSound],
+    sounds: [kingSounds, knightSound].map((sound) => new Audio(sound)),
   },
 };
 

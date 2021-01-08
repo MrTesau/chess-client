@@ -59,7 +59,9 @@ const lotrBattleground = {
     name: "team_1_pawn",
     img: pawn1,
     piece: "Pawn",
-    sounds: [soldiers, flee, ground, ground, soldiers],
+    sounds: [soldiers, flee, ground, ground, soldiers].map(
+      (sound) => new Audio(sound)
+    ),
   },
 
   team_1_rook: {
@@ -68,7 +70,7 @@ const lotrBattleground = {
     uniqueN: "team_1_rook",
     img: rook1,
     piece: "Rook",
-    sounds: [gim1, gim2, gim3, gim4, one],
+    sounds: [gim1, gim2, gim3, gim4, one].map((sound) => new Audio(sound)),
   },
   team_1_rook2: {
     team: 1,
@@ -76,7 +78,7 @@ const lotrBattleground = {
     uniqueN: "team_1_rook2",
     piece: "Bishop",
     img: rook2,
-    sounds: [hob],
+    sounds: [hob].map((sound) => new Audio(sound)),
   },
   team_1_knight2: {
     team: 1,
@@ -84,7 +86,7 @@ const lotrBattleground = {
     uniqueN: "team_1_knight2",
     piece: "Bishop",
     img: knight2,
-    sounds: [theo],
+    sounds: [theo].map((sound) => new Audio(sound)),
   },
 
   team_1_knight: {
@@ -93,7 +95,7 @@ const lotrBattleground = {
     uniqueN: "team_1_knight",
     piece: "Knight",
     img: knight1,
-    sounds: [hate],
+    sounds: [hate].map((sound) => new Audio(sound)),
   },
   team_1_bishop: {
     team: 1,
@@ -101,14 +103,16 @@ const lotrBattleground = {
     uniqueN: "team_1_bishop",
     piece: "Bishop",
     img: bishop1,
-    sounds: [took, pass, tricks, late, clever],
+    sounds: [took, pass, tricks, late, clever].map((sound) => new Audio(sound)),
   },
   team_1_queen: {
     team: 1,
     name: "team_1_queen",
     piece: "Queen",
     img: queen,
-    sounds: [sam1, sam2, sam3, sam4, sam5, sam6, sam7],
+    sounds: [sam1, sam2, sam3, sam4, sam5, sam6, sam7].map(
+      (sound) => new Audio(sound)
+    ),
   },
   team_1_bishop2: {
     team: 1,
@@ -116,14 +120,14 @@ const lotrBattleground = {
     uniqueN: "team_1_bishop2",
     piece: "Bishop",
     img: bishop2,
-    sounds: [el],
+    sounds: [el].map((sound) => new Audio(sound)),
   },
   team_1_king: {
     team: 1,
     name: "team_1_king",
     piece: "King",
     img: king,
-    sounds: [k],
+    sounds: [k].map((sound) => new Audio(sound)),
   },
   // Alliance Objects */
   team_2_rook: {
@@ -131,7 +135,7 @@ const lotrBattleground = {
     name: "team_2_rook",
     piece: "Rook",
     img: orcRook,
-    sounds: [troll],
+    sounds: [troll].map((sound) => new Audio(sound)),
   },
 
   team_2_pawn: {
@@ -139,7 +143,7 @@ const lotrBattleground = {
     name: "team_2_pawn",
     piece: "Pawn",
     img: orcPawn,
-    sounds: [orc1, orc2, orc3, orc4],
+    sounds: [orc1, orc2, orc3, orc4].map((sound) => new Audio(sound)),
   },
 
   team_2_knight: {
@@ -147,7 +151,7 @@ const lotrBattleground = {
     name: "team_2_knight",
     piece: "Knight",
     img: orcKnight,
-    sounds: [horn],
+    sounds: [horn].map((sound) => new Audio(sound)),
   },
 
   team_2_bishop: {
@@ -155,7 +159,7 @@ const lotrBattleground = {
     name: "team_2_bishop",
     piece: "Bishop",
     img: orcBishop,
-    sounds: [w, b, b, b, b, w],
+    sounds: [w, b, b, b, b, w].map((sound) => new Audio(sound)),
   },
 
   team_2_queen: {
@@ -163,14 +167,14 @@ const lotrBattleground = {
     name: "team_2_queen",
     piece: "Queen",
     img: orcQueen,
-    sounds: [leaf, mush],
+    sounds: [leaf, mush].map((sound) => new Audio(sound)),
   },
   team_2_king: {
     team: 2,
     name: "team_2_king",
     piece: "King",
     img: orcKing,
-    sounds: [sau],
+    sounds: [sau].map((sound) => new Audio(sound)),
   },
 };
 

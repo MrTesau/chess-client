@@ -1,19 +1,20 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, lazy, Suspense } from "react";
 import "./App.css";
-import gotBg from "./assets/img/gotBG.jpg";
-import CreateBoard from "./boardSetup/CreateBoard.js";
-import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
 import { setBattleground, resetSquares } from "./boardSetup/boardFunctions.js";
-import AutoPlayButton from "./boardSetup/bg-buttons.js";
-import HomeModal from "./boardSetup/menuComponents/menu.js";
 import Grid from "@material-ui/core/Grid";
 import playFunction from "./boardSetup/autoplayFunctions.js";
-import Parchment from "./boardSetup/teamParchment.js";
 import { mdiRefresh } from "@mdi/js";
 import { Button } from "@material-ui/core";
 import io from "socket.io-client";
 import Icon from "@mdi/react";
 import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
+import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
+import gotBg from "./assets/img/gotBG.jpg";
+import parch from "./assets/img/parch1.png";
+import Parchment from "./boardSetup/teamParchment.js";
+const AutoPlayButton = lazy(() => import("./boardSetup/bg-buttons"));
+const CreateBoard = lazy(() => import("./boardSetup/CreateBoard"));
+const HomeModal = lazy(() => import("./boardSetup/menuComponents/menu"));
 const socket = io.connect(ENDPOINT, connectionOptions);
 
 const App = () => {
@@ -23,36 +24,34 @@ const App = () => {
   const [squares, setSquares] = useState(setBattleground(currentTheme));
   const [autoPlay, setAutoPlay] = useState(false);
   const [volume, setVolume] = useState(true);
-  const [audioFiles, setAudioFiles] = useState({});
   // Multiplayer dependant state:
   const [multiplayer, setMultiplayer] = useState(false);
   const [round, setRound] = useState(1);
   const [gameAvailable, setGameAvailable] = useState();
   const [allGameRooms, setAllGameRooms] = useState([]);
   const [gameRoom, setGameRoom] = useState("");
-  const [playerId, setPlayerId] = useState(Math.floor(Math.random() * 10000));
   const [newPlayer, setNewPlayer] = useState(1);
   const [player, setPlayer] = useState(0);
   const [moveData, setMoveData] = useState("");
-  // Load Audio of current Theme
-  useEffect(() => {
-    let audioLookup = {};
-    squares.map((square) => {
-      if (square.occupied) {
-        let arr = square.occupied.sounds.map((sound) => new Audio(sound));
-        square.occupied.uniqueN
-          ? (audioLookup[square.occupied.uniqueN] = arr)
-          : (audioLookup[square.occupied.name] = arr);
-      }
-    });
-    setAudioFiles(audioLookup);
-  }, [currentBG]);
-  // Effect for new Connection
-  // Adds new connection to trigger gameAvailable emit
-  // Sets Lobby to new returned games
+  const playerId = useState(Math.floor(Math.random() * 10000))[0];
+  // Play audio
+  const AudioReaction = (squareIdx) => {
+    if (volume && squares[squareIdx].occupied) {
+      squares[squareIdx].occupied.sounds[
+        Math.floor(Math.random() * squares[squareIdx].occupied.sounds.length)
+      ].play();
+    }
+  };
+  // Move a piece
+  const MoveChessPiece = (movingIdx, destinationIdx) => {
+    let newSquares = [...squares];
+    newSquares[destinationIdx].occupied = squares[movingIdx].occupied; // (By value vs By reference assignment might break
+    newSquares[movingIdx].occupied = false;
+    setSquares(newSquares);
+  };
+  // Effect for new Connection, Emit and set game Lobby
   useEffect(() => {
     socket.on("hello", () => {
-      // WorkAround: Instant lobby update
       setNewPlayer(newPlayer + 1);
     });
     socket.on("returnedGames", (game) => {
@@ -63,8 +62,6 @@ const App = () => {
     });
   }, []);
   // Join game
-  // Created Game player = 1
-  // FindGame player = 2
   const JoinGameRoom = (game) => {
     socket.emit("join", game, (callbackReturn) => {
       if (callbackReturn.length) {
@@ -78,7 +75,6 @@ const App = () => {
     });
   };
   // Share created game
-  // Triggered by New Game Created/ New Connection to server
   useEffect(() => {
     if (!gameAvailable) {
       return;
@@ -97,16 +93,13 @@ const App = () => {
       setMoveData(moveData);
     });
   }, []);
-
   useEffect(() => {
     if (moveData) {
       let newRound = moveData.round === 1 ? 2 : 1;
       setRound(newRound);
       TrackEnemy(moveData);
-      //console.log("running TrackEnemy");
     }
   }, [moveData]);
-
   const SendMove = (moveData) => {
     moveData.gameName = gameRoom;
     socket.emit("sendMove", moveData, (error) => {
@@ -115,25 +108,11 @@ const App = () => {
       }
     });
   };
-  const audioReaction = (squareWithAudio) => {
-    audioFiles[
-      squareWithAudio.occupied.uniqueN
-        ? squareWithAudio.occupied.uniqueN
-        : squareWithAudio.occupied.name
-    ][
-      Math.floor(Math.random() * squareWithAudio.occupied.sounds.length)
-    ].play();
-  };
   // Update board on Enemy move
   const TrackEnemy = (moveData) => {
     if (volume && squares[moveData.movingPiece].occupied)
-      audioReaction(squares[moveData.movingPiece]);
-    let newSquares = [...squares];
-    newSquares[moveData.destination].occupied = {
-      ...squares[moveData.movingPiece].occupied,
-    };
-    newSquares[moveData.movingPiece].occupied = false;
-    setSquares(newSquares);
+      AudioReaction(moveData.movingPiece);
+    MoveChessPiece(moveData.movingPiece, moveData.destination);
   };
   const BoardProps = {
     squares,
@@ -153,10 +132,19 @@ const App = () => {
     SendMove,
     multiplayer,
     player,
-
-    audioReaction,
+    AudioReaction,
+    MoveChessPiece,
   };
   const MenuProps = {
+    //gameOfThrones_1,
+    //WoWBattleground,
+    //LoLBattleground,
+    //lotrtheme,
+    //lotrbg,
+    //wowBg,
+    //gotBg,
+    //lolBg,
+    //lolBg2,
     JoinGameRoom,
     allGameRooms,
     setAllGameRooms,
@@ -186,63 +174,102 @@ const App = () => {
       className="battleground-container"
     >
       <div className="fixed-div">
-        <HomeModal {...MenuProps} />
-        {!multiplayer ? (
-          <AutoPlayButton
-            autoPlay={autoPlay}
-            setRound={setRound}
-            setAutoPlay={setAutoPlay}
-            setSelectedSquare={setSelectedSquare}
-            squares={squares}
-            setSquares={setSquares}
-            resetSquares={resetSquares}
-            setBattleground={setBattleground}
-            currentTheme={currentTheme}
-          />
-        ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            onClick={() => {
-              setRound(2);
-              setSelectedSquare(undefined);
-              setSquares(setBattleground(currentTheme));
-              alert(
-                "If You are resetting a multiplayer match please refresh page and create new game"
-              );
-            }}
-            style={{
-              fontSize: "0.7rem",
-              margin: "0.3rem",
-              marginLeft: "0rem",
-            }}
-          >
-            <Icon
-              path={mdiRefresh}
-              title="autoplay"
-              size={0.87}
-              color={"white"}
-            />{" "}
-            &nbsp; Reset Game
-          </Button>
-        )}
+        <Suspense
+          fallback={
+            <div>
+              ...Loading MultiPlayer and Themes. Depending on your Connection
+              This May Take a moment!
+            </div>
+          }
+        >
+          <HomeModal {...MenuProps} />
+          {!multiplayer ? (
+            <AutoPlayButton
+              autoPlay={autoPlay}
+              setRound={setRound}
+              setAutoPlay={setAutoPlay}
+              setSelectedSquare={setSelectedSquare}
+              squares={squares}
+              setSquares={setSquares}
+              resetSquares={resetSquares}
+              setBattleground={setBattleground}
+              currentTheme={currentTheme}
+            />
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              onClick={() => {
+                setRound(2);
+                setSelectedSquare(undefined);
+                setSquares(setBattleground(currentTheme));
+                alert(
+                  "If You are resetting a multiplayer match please refresh page and create new game"
+                );
+              }}
+              style={{
+                fontSize: "0.7rem",
+                margin: "0.3rem",
+                marginLeft: "0rem",
+              }}
+            >
+              <Icon
+                path={mdiRefresh}
+                title="autoplay"
+                size={0.87}
+                color={"white"}
+              />{" "}
+              &nbsp; Reset Game
+            </Button>
+          )}
+        </Suspense>
       </div>
       {/* Team Parchment */}
+
       <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
-        <Parchment selectedSquare={selectedSquare} team={1} round={round} />
+        <Parchment
+          selectedSquare={selectedSquare}
+          team={1}
+          round={round}
+          parch={parch}
+        />
       </Grid>
+
       {/* Board  */}
       <Grid item xs={11} lg={5} className="center-grid-item">
         <div className="board-container">
           <CreateBoard {...BoardProps} />
         </div>
       </Grid>
+
       {/* Team Parchment */}
+
       <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
-        <Parchment selectedSquare={selectedSquare} team={2} round={round} />
+        <Parchment
+          selectedSquare={selectedSquare}
+          team={2}
+          round={round}
+          parch={parch}
+        />
       </Grid>
     </Grid>
   );
 };
 export default App;
+
+// Load Audio of current Theme
+/*
+  useEffect(() => {
+    let audioLookup = {};
+    squares.map((square) => {
+      if (square.occupied) {
+        let arr = square.occupied.sounds.map((sound) => new Audio(sound));
+        square.occupied.uniqueN
+          ? (audioLookup[square.occupied.uniqueN] = arr)
+          : (audioLookup[square.occupied.name] = arr);
+      }
+    });
+    setAudioFiles(audioLookup);
+  }, [currentBG]);
+*/

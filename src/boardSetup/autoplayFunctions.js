@@ -38,8 +38,9 @@ const AutoplayHelpers = {
         squares
       );
       let { destinationSquare, movingPiece } = moveRandom;
-      let newSquares = [...squares];
-      let pieceObject = { ...movingPiece };
+      //let newSquares = [...squares];
+      //let pieceObject = { ...movingPiece };
+      /*
       newSquares.map((square) => {
         if (square.idx === destinationSquare.idx) {
           square.occupied = pieceObject.occupied;
@@ -49,7 +50,8 @@ const AutoplayHelpers = {
           square.occupied = false;
         }
       });
-      return [pieceObject, newSquares];
+      */
+      return [movingPiece.idx - 1, destinationSquare.idx - 1];
     }
   },
   // Finds an Enemy to Attack

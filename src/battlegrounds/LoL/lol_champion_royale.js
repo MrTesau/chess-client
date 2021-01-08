@@ -154,7 +154,7 @@ const pieces = {
     name: "team_1_pawn",
     img: pawn_team_1,
     piece: "Pawn",
-    sounds: [minionSound, ping2],
+    sounds: [minionSound, ping2].map((sound) => new Audio(sound)),
   },
   team_1_rook: {
     team: 1,
@@ -162,7 +162,7 @@ const pieces = {
     uniqueN: "team_1_rook",
     piece: "Rook",
     img: rook_team_1,
-    sounds: [r1, r2, r4, r3, r5, r6, r7],
+    sounds: [r1, r2, r4, r3, r5, r6, r7].map((sound) => new Audio(sound)),
   },
 
   team_1_rook2: {
@@ -171,7 +171,7 @@ const pieces = {
     uniqueN: "team_1_rook2",
     piece: "Rook",
     img: rook2_team_1,
-    sounds: [j1, j2, j3, j4],
+    sounds: [j1, j2, j3, j4].map((sound) => new Audio(sound)),
   },
   team_1_knight: {
     team: 1,
@@ -179,7 +179,7 @@ const pieces = {
     uniqueN: "team_1_knight",
     piece: "Knight",
     img: knight_team_1,
-    sounds: [h1, h2, h3, h4, h5],
+    sounds: [h1, h2, h3, h4, h5].map((sound) => new Audio(sound)),
   },
   team_1_knight2: {
     team: 1,
@@ -187,7 +187,7 @@ const pieces = {
     uniqueN: "team_1_knight2",
     piece: "Knight",
     img: knight2_team_1,
-    sounds: [c1, c2, c3, c4, c5],
+    sounds: [c1, c2, c3, c4, c5].map((sound) => new Audio(sound)),
   },
 
   team_1_queen: {
@@ -195,14 +195,16 @@ const pieces = {
     name: "team_1_queen",
     piece: "Queen",
     img: team_1_queen,
-    sounds: [shyv1, shyv2, shyv3, shyv4],
+    sounds: [shyv1, shyv2, shyv3, shyv4].map((sound) => new Audio(sound)),
   },
   team_1_king: {
     team: 1,
     name: "team_1_king",
     piece: "King",
     img: team_1_king,
-    sounds: [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14],
+    sounds: [s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14].map(
+      (sound) => new Audio(sound)
+    ),
   },
 
   team_2_pawn: {
@@ -210,14 +212,14 @@ const pieces = {
     name: "team_2_pawn",
     piece: "Pawn",
     img: pawn_team_2,
-    sounds: [minionSound, ping2],
+    sounds: [minionSound, ping2].map((sound) => new Audio(sound)),
   },
   team_1_bishop: {
     team: 1,
     name: "team_1_bishop",
     uniqueN: "team_1_bishop",
     piece: "Bishop",
-    sounds: [v1, v2, v3, v4, v5],
+    sounds: [v1, v2, v3, v4, v5].map((sound) => new Audio(sound)),
     img: team_1_bishop1,
   },
   team_1_bishop2: {
@@ -226,7 +228,7 @@ const pieces = {
     uniqueN: "team_1_bishop2",
     piece: "Bishop",
     img: team_1_bishop2,
-    sounds: [sw1, sw2, sw3],
+    sounds: [sw1, sw2, sw3].map((sound) => new Audio(sound)),
   },
   team_2_rook: {
     team: 2,
@@ -234,7 +236,7 @@ const pieces = {
     uniqueN: "team_2_rook",
     piece: "Rook",
     img: rook_team_2,
-    sounds: [dr1, dr2, dr3, dr4, dr5, dr6],
+    sounds: [dr1, dr2, dr3, dr4, dr5, dr6].map((sound) => new Audio(sound)),
   },
   team_2_rook2: {
     team: 2,
@@ -242,7 +244,9 @@ const pieces = {
     uniqueN: "team_2_rook2",
     piece: "Rook",
     img: rook2_team_2,
-    sounds: [y1, y2, y3, y4, y5, y6, y7, y8, y9],
+    sounds: [y1, y2, y3, y4, y5, y6, y7, y8, y9].map(
+      (sound) => new Audio(sound)
+    ),
   },
 
   team_2_knight: {
@@ -251,7 +255,9 @@ const pieces = {
     uniqueN: "team_2_knight",
     name: "team_2_knight",
     img: knight_team_2,
-    sounds: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11],
+    sounds: [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11].map(
+      (sound) => new Audio(sound)
+    ),
   },
   team_2_knight2: {
     team: 2,
@@ -259,7 +265,7 @@ const pieces = {
     name: "team_2_knight",
     uniqueN: "team_2_knight2",
     img: knight2_team_2,
-    sounds: [vol1, vol2, vol3],
+    sounds: [vol1, vol2, vol3].map((sound) => new Audio(sound)),
   },
 
   team_2_queen: {
@@ -267,7 +273,9 @@ const pieces = {
     piece: "Queen",
     name: "team_2_queen",
     img: queen_team_2,
-    sounds: [pan1, pan2, pan3, pan4, pan5, pan6, pan7, pan8, pan9],
+    sounds: [pan1, pan2, pan3, pan4, pan5, pan6, pan7, pan8, pan9].map(
+      (sound) => new Audio(sound)
+    ),
   },
 
   team_2_king: {
@@ -275,7 +283,7 @@ const pieces = {
     piece: "King",
     name: "team_2_king",
     img: team_2_king,
-    sounds: [t1, t2],
+    sounds: [t1, t2].map((sound) => new Audio(sound)),
   },
   team_2_bishop2: {
     team: 2,
@@ -283,7 +291,7 @@ const pieces = {
     name: "team_2_bishop",
     uniqueN: "team_2_bishop2",
     img: team_2_bishop2,
-    sounds: [jinx],
+    sounds: [jinx].map((sound) => new Audio(sound)),
   },
   team_2_bishop: {
     team: 2,
@@ -291,7 +299,7 @@ const pieces = {
     name: "team_2_bishop",
     uniqueN: "team_2_bishop",
     img: team_2_bishop,
-    sounds: [vi1, vi2],
+    sounds: [vi1, vi2].map((sound) => new Audio(sound)),
   },
 };
 

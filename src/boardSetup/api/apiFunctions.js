@@ -1,6 +1,6 @@
-export const ENDPOINT = "https://fantasy-chess-server.herokuapp.com/";
+export const ENDPOINT = "http://localhost:5000/"; //"https://fantasy-chess-server.herokuapp.com/";
 // "http://localhost:5000/";
-// cors issues, budget stackOverflow solution
+// cors issues, stackOverflow solution
 export const connectionOptions = {
   "force new connection": true,
   reconnectionAttempts: "Infinity",

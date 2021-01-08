@@ -8,14 +8,7 @@ import menuStyles from "./menuStyles.js";
 const useStyles = makeStyles(menuStyles);
 
 export default function FindGamesCard(props) {
-  //const [games, setGames] = useState([]);
   const classes = useStyles();
-  const getGamesHandler = () => {
-    // Everytime someone connects to App they get a gameId
-    // When you create a game it emits to all connected ID's
-    // These are displayed here
-    // Clicking this connects a "Chat" to the gameId, remove that game from display
-  };
   return (
     <>
       <Card className={`${classes.paperFindGame}`}>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import "../App.css";
+import React, { useEffect } from "react";
 import rulesLookup from "./movementLookup.js";
 import Square from "./square.js";
 
@@ -19,29 +18,25 @@ const CreateBoard = (props) => {
     player,
     multiplayer,
     MoveData,
-
-    audioReaction,
+    MoveChessPiece,
+    AudioReaction,
   } = props;
-
-  // useEffect Calls
-
-  // Dont need cleanup as the effect only updates current value
-  // not causing an auto asynchronous function call eg an interval timer
-  // Nothing to "unregister"
+  // Autoplay useEffect
   useEffect(() => {
     if (!autoPlay || round === 2) return;
     setTimeout(() => {
       let newSquaresSettings = playFunction(squares);
       setRound(2);
       if (!newSquaresSettings.length) return;
-      setSquares(newSquaresSettings[1]);
-      audioReaction(newSquaresSettings[0]);
+      AudioReaction(newSquaresSettings[0]);
+      MoveChessPiece(newSquaresSettings[0], newSquaresSettings[1]);
     }, 1000);
   }, [round, autoPlay]);
-  // Select Square
+
+  // Select a Square
   const handleSelect = (idx) => {
-    if (multiplayer && round === 0) return; // cant move until 2nd player enters
-    if (multiplayer && player !== round) return; // player2 joins round = 2, moves, round = 1
+    if ((multiplayer && round === 0) || (multiplayer && player !== round))
+      return;
     let newSquares = [...squares];
     if (selectedSquare) {
       newSquares[selectedSquare.idx - 1].selected = false;
@@ -49,28 +44,21 @@ const CreateBoard = (props) => {
     setSelectedSquare(squares[idx - 1]);
     newSquares[idx - 1].selected = true;
     setSquares(newSquares);
-    if (volume) {
-      audioReaction(newSquares[idx - 1]);
-    }
+    AudioReaction(idx - 1);
   };
   // Moving Units - After square is selected
   const moveUnit = (destinationIdx) => {
-    let destinationSquareObj = squares[destinationIdx - 1];
     if (
-      squares[destinationIdx - 1].occupied &&
       squares[destinationIdx - 1].occupied.team === selectedSquare.occupied.team
     ) {
       return handleSelect(destinationIdx);
     } else if (
       rulesLookup[selectedSquare.occupied.name](
         selectedSquare,
-        destinationSquareObj,
+        squares[destinationIdx - 1],
         squares
-      ) === false
+      )
     ) {
-      return;
-    } else {
-      //Need to condtionally wrap this (multiplayer only)
       if (multiplayer) {
         SendMove({
           round: round,
@@ -78,12 +66,8 @@ const CreateBoard = (props) => {
           destination: destinationIdx - 1,
         });
       }
-      let newSquares = [...squares];
-      newSquares[destinationIdx - 1].occupied = selectedSquare.occupied;
-      newSquares[selectedSquare.idx - 1].occupied = false;
-      newSquares[selectedSquare.idx - 1].selected = false;
+      MoveChessPiece(selectedSquare.idx - 1, destinationIdx - 1);
       setSelectedSquare(undefined);
-      setSquares(newSquares);
       setRound((round) => (round === 1 ? 2 : 1));
     }
   };
@@ -110,21 +94,14 @@ const CreateBoard = (props) => {
   );
 };
 export default CreateBoard;
+
+// useEffect Calls
+// Dont need cleanup as the effect only updates current value
+// not causing an auto asynchronous function call eg an interval timer
+// Nothing to "unregister"
 /*
-
 Old Cleanup Functions (obsolete)
-
-
-    return () => {
-      console.log("The COMPNONENT IS DISMOUNTING");
-    };
-      // Dont think cleanup is needed
- 
-    return () => {
-      setAudioFiles(null);
-    };
- 
-Future Features to implement:
+ Future Features to implement:
 After each turn check if a king is in attack range, diagonally row col or horse
 Also scan own kings safety before allowing a unit to move
 
@@ -133,27 +110,4 @@ const kingInCheck = () => {
     // see if king is in range, if yes force king to break/piece to kill attacker
   };
 
-
-   // Get player Number from Server in initial create cycle
-  React.useEffect(() => {
-    if (round === PlayerNumber) return; // so, we call just once
-    let move = getGameUpdate; // call function every 2 seconds to check updated round?
-    move(PlayerNumber);
-    // Set gameUpdate to state and update board
-    return () => {
-      move = null;
-    };
-  }, [round]);
-
-    // Test play Enemy audio
-  /*
-  React.useEffect(() => {
-    if (!multiplayer || enemyMove) return;
-    let player = audioReaction;
-    player(squares[enemyMove].occupied); //might need to call with destination idx depending on state update
-    return () => {
-      console.log("The COMPNONENT IS DISMOUNTING");
-      player = null;
-    };
-  }, [enemyMove]);
 */

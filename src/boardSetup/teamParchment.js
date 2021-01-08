@@ -1,7 +1,7 @@
-import parch from "../assets/img/parch1.png";
 import Hidden from "@material-ui/core/Hidden";
 
 const teamParchment = (props) => {
+  const { parch } = props;
   return (
     <div
       className="info-area"

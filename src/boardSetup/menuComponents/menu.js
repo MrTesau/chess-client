@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, lazy, Suspense } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Button } from "@material-ui/core";
@@ -21,13 +21,14 @@ import {
   mdiVolumeOff,
   mdiVolumeHigh,
 } from "@mdi/js";
-import Themes from "./themes.js";
+//import Themes from "./themes.js";
+const Themes = lazy(() => import("./themes"));
 import FindGames from "./findGame.js";
 import menuStyles from "./menuStyles.js";
 const useStyles = makeStyles(menuStyles);
 
 export default function SimpleModal(props) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [AboutOpen, setAboutOpen] = useState(false);
   const [themes, setThemes] = useState(false);
   const [createGame, setCreateGame] = useState(false);
@@ -63,16 +64,34 @@ export default function SimpleModal(props) {
           {AboutOpen ? (
             <About setAboutOpen={setAboutOpen} />
           ) : themes ? (
-            <Themes
-              setThemes={setThemes}
-              setFindGame={setFindGame}
-              setOpen={setOpen}
-              squares={props.squares}
-              setSquares={props.setSquares}
-              setCurrentBgImg={props.setCurrentBgImg}
-              setAutoPlay={props.setAutoPlay}
-              setCurrentTheme={props.setCurrentTheme}
-            />
+            <Suspense
+              fallback={
+                <div style={{ background: "white" }}>
+                  ...Loading Fantasy Themes. Depending on your Connection This
+                  May Take a moment!
+                </div>
+              }
+            >
+              <Themes
+                setThemes={setThemes}
+                setFindGame={setFindGame}
+                setOpen={setOpen}
+                squares={props.squares}
+                setSquares={props.setSquares}
+                setCurrentBgImg={props.setCurrentBgImg}
+                setAutoPlay={props.setAutoPlay}
+                setCurrentTheme={props.setCurrentTheme}
+                // gameOfThrones_1={props.gameOfThrones_1}
+                // WoWBattleground={props.WoWBattleground}
+                //LoLBattleground={props.LoLBattleground}
+                //lotrtheme={props.lotrtheme}
+                //lotrbg={props.lotrbg}
+                // wowBg={props.wowBg}
+                //gotBg={props.gotBg}
+                //lolBg={props.lolBg}
+                //lolBg2={props.lolBg2}
+              />
+            </Suspense>
           ) : createGame ? (
             <CreateGame
               playerId={props.playerId}
@@ -215,26 +234,14 @@ export default function SimpleModal(props) {
   return (
     <>
       <div onClick={handleOpen}>
-        <Hidden smUp>
-          <IconButton
-            aria-label="more"
-            aria-controls="long-menu"
-            aria-haspopup="true"
-          >
-            <MoreVertIcon style={{ color: "white" }} />
-          </IconButton>
-        </Hidden>
-        <Hidden smDown>
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            className={classes.button}
-            startIcon={<HomeIcon style={{ fontSize: 20 }} />}
-          >
-            Menu
-          </Button>
-        </Hidden>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          className={classes.button}
+        >
+          <HomeIcon style={{ fontSize: 25 }} />
+        </Button>
       </div>
       <Modal
         open={open}
