@@ -50,7 +50,7 @@ const App = () => {
     newSquares[movingIdx].occupied = false;
     setSquares(newSquares);
   };
-  // Effect for new Connection, Emit and set game Lobby
+  // On new Connection: Emit and set game Lobby
   useEffect(() => {
     socket.on("hello", () => {
       setNewPlayer(newPlayer + 1);
@@ -87,7 +87,6 @@ const App = () => {
       });
     }
   }, [gameAvailable, newPlayer]);
-
   // Move sequence
   useEffect(() => {
     socket.on("recieveMove", (moveData) => {
@@ -115,6 +114,7 @@ const App = () => {
       AudioReaction(moveData.movingPiece);
     MoveChessPiece(moveData.movingPiece, moveData.destination);
   };
+  // Component Prop Objects:
   const BoardProps = {
     squares,
     setSquares,
@@ -154,6 +154,17 @@ const App = () => {
     setPlayer,
     setRound,
   };
+  const AutoplayProps = {
+    autoPlay,
+    setRound,
+    setAutoPlay,
+    setSelectedSquare,
+    squares,
+    setSquares,
+    resetSquares,
+    setBattleground,
+    currentTheme,
+  };
   return (
     <Grid
       container
@@ -176,17 +187,7 @@ const App = () => {
         >
           <HomeModal {...MenuProps} />
           {!multiplayer ? (
-            <AutoPlayButton
-              autoPlay={autoPlay}
-              setRound={setRound}
-              setAutoPlay={setAutoPlay}
-              setSelectedSquare={setSelectedSquare}
-              squares={squares}
-              setSquares={setSquares}
-              resetSquares={resetSquares}
-              setBattleground={setBattleground}
-              currentTheme={currentTheme}
-            />
+            <AutoPlayButton {...AutoplayProps} />
           ) : (
             <Button
               variant="contained"
@@ -226,14 +227,12 @@ const App = () => {
           parch={parch}
         />
       </Grid>
-
       {/* Board  */}
       <Grid item xs={11} lg={5} className="center-grid-item">
         <div className="board-container">
           <CreateBoard {...BoardProps} />
         </div>
       </Grid>
-
       {/* Player 2 Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
         <Parchment

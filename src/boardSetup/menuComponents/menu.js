@@ -1,19 +1,6 @@
 import { React, useState, lazy, Suspense } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import { Button } from "@material-ui/core";
-//import card
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
 // Icons
-//import HelpIcon from "@material-ui/icons/Help";
-import HomeIcon from "@material-ui/icons/Home";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import About from "./about.js";
-import CreateGame from "./createGame.js";
-
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@mdi/react";
 import {
   mdiArrowLeftBold,
   mdiInformationOutline,
@@ -21,10 +8,18 @@ import {
   mdiVolumeOff,
   mdiVolumeHigh,
 } from "@mdi/js";
-//import Themes from "./themes.js";
-const Themes = lazy(() => import("./themes"));
+import Modal from "@material-ui/core/Modal";
+import { Button } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import HomeIcon from "@material-ui/icons/Home";
+import About from "./about.js";
+import CreateGame from "./createGame.js";
+import Icon from "@mdi/react";
 import FindGames from "./findGame.js";
 import menuStyles from "./menuStyles.js";
+//import Themes from "./themes.js";
+const Themes = lazy(() => import("./themes"));
 const useStyles = makeStyles(menuStyles);
 
 export default function SimpleModal(props) {
@@ -33,8 +28,8 @@ export default function SimpleModal(props) {
   const [themes, setThemes] = useState(false);
   const [createGame, setCreateGame] = useState(false);
   const [findGame, setFindGame] = useState(false);
-
   const classes = useStyles();
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -60,7 +55,7 @@ export default function SimpleModal(props) {
         style={{ outline: "none", boxShadow: "none" }}
         className={classes.root}
       >
-        <Grid item xs={11} md={6} lg={5} style={{ outline: "none" }}>
+        <Grid item xs={11} sm={8} md={5} lg={3} style={{ outline: "none" }}>
           {AboutOpen ? (
             <About setAboutOpen={setAboutOpen} />
           ) : themes ? (
@@ -77,7 +72,7 @@ export default function SimpleModal(props) {
                     size="small"
                     variant="contained"
                     color="primary"
-                    style={{ textTransform: "none" }}
+                    style={{ textTransform: "none", fontSize: "0.7rem" }}
                   >
                     ...Loading Fantasy Themes. Depending on your Connection This
                     May Take a moment!
@@ -244,7 +239,7 @@ export default function SimpleModal(props) {
           size="small"
           className={`${classes.modalButton} modal-btn-padding`}
         >
-          <HomeIcon style={{ fontSize: 18 }} />
+          <HomeIcon style={{ fontSize: 17 }} />
         </Button>
       </div>
       <Modal

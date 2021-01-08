@@ -4,33 +4,33 @@ import orcKnight from "../assets/img/orcRaider.gif";
 import orcBishop from "../assets/img/shaman.gif";
 import orcQueen from "../assets/img/sylv.gif";
 import orcKing from "../assets/img/thrall.gif";
-import orcSoundOne from "../assets/orc1.mp3";
-import orcSoundTwo from "../assets/doing.mp3";
-import orcSoundThree from "../assets/happy.mp3";
-import orcSoundFour from "../assets/ok-dokie.mp3";
-import orcSoundFive from "../assets/yes.mp3";
+import orcSoundOne from "../assets/audio/orc1.mp3";
+import orcSoundTwo from "../assets/audio/doing.mp3";
+import orcSoundThree from "../assets/audio/happy.mp3";
+import orcSoundFour from "../assets/audio/ok-dokie.mp3";
+import orcSoundFive from "../assets/audio/yes.mp3";
 //orc king
-import orcKingSound from "../assets/orcKingSounds/ThrallGreeting01.ogg";
+import orcKingSound from "../assets/audio/ThrallGreeting01.ogg";
 // orc Q
-import orcQueenSounds_1 from "../assets/orcQueenSounds/1.ogg";
+import orcQueenSounds_1 from "../assets/audio/1.ogg";
 // Raider
-import orcRaiderSounds_1 from "../assets/orcRaiderSounds/2.mp3";
-import orcRaiderSounds_2 from "../assets/orcRaiderSounds/obey.mp3";
-import orcRaiderSounds_3 from "../assets/orcRaiderSounds/3.mpeg";
-import orcRaiderSounds_4 from "../assets/orcRaiderSounds/4.mpeg";
+import orcRaiderSounds_1 from "../assets/audio/2raider.mp3";
+import orcRaiderSounds_2 from "../assets/audio/obey.mp3";
+import orcRaiderSounds_3 from "../assets/audio/3.mpeg";
+import orcRaiderSounds_4 from "../assets/audio/4.mpeg";
 // Shaman
-import shamanSound from "../assets/orcShamanSounds/1.ogg";
-import shamanSound_1 from "../assets/orcShamanSounds/4r.ogg";
-import shamanSound_2 from "../assets/orcShamanSounds/12.ogg";
-import shamanSound_3 from "../assets/orcShamanSounds/34.ogg";
-import shamanSound_4 from "../assets/orcShamanSounds/123.ogg";
-import shamanSound_5 from "../assets/orcShamanSounds/re.ogg";
+import shamanSound from "../assets/audio/1shaman.ogg";
+import shamanSound_1 from "../assets/audio/4r.ogg";
+import shamanSound_2 from "../assets/audio/12.ogg";
+import shamanSound_3 from "../assets/audio/34.ogg";
+import shamanSound_4 from "../assets/audio/123.ogg";
+import shamanSound_5 from "../assets/audio/re.ogg";
 // rook
-import taurenRook from "../assets/taurenRookSounds/greetings-traveller.mp3";
-import sound_rook_1 from "../assets/taurenRookSounds/2.mp3";
-import taurenRook2 from "../assets/taurenRookSounds/3.ogg";
-import taurenRook3 from "../assets/taurenRookSounds/4.ogg";
-import taurenRook4 from "../assets/taurenRookSounds/5.ogg";
+import taurenRook from "../assets/audio/greetings-traveller.mp3";
+import sound_rook_1 from "../assets/audio/2r.mp3";
+import taurenRook2 from "../assets/audio/3r.ogg";
+import taurenRook3 from "../assets/audio/4ro.ogg";
+import taurenRook4 from "../assets/audio/5r.ogg";
 // Human Imports
 import humanPawn from "../assets/img/footmen.gif";
 import humanRook from "../assets/img/druid.gif";
@@ -39,41 +39,41 @@ import humanKing from "../assets/img/var.gif";
 import humanBishop from "../assets/img/wiz.gif";
 import humanQueen from "../assets/img/jana.gif";
 //Bishop
-import bishopSound_1 from "../assets/humanBishopSounds/1.mp3";
-import bishopSound_2 from "../assets/humanBishopSounds/2.mp3";
-import bishopSound_3 from "../assets/humanBishopSounds/3.mp3";
-import bishopSound_4 from "../assets/humanBishopSounds/4.mp3";
-import bishopSound_5 from "../assets/humanBishopSounds/5.mp3";
-import bishopSound_6 from "../assets/humanBishopSounds/alright.mp3";
-import bishopSound_7 from "../assets/humanBishopSounds/hello.mp3";
+import bishopSound_1 from "../assets/audio/1b.mp3";
+import bishopSound_2 from "../assets/audio/2b.mp3";
+import bishopSound_3 from "../assets/audio/3b.mp3";
+import bishopSound_4 from "../assets/audio/4b.mp3";
+import bishopSound_5 from "../assets/audio/5b.mp3";
+import bishopSound_6 from "../assets/audio/alright.mp3";
+import bishopSound_7 from "../assets/audio/hello.mp3";
 //king
-import kingSounds from "../assets/humanKingSounds/1.mpeg";
+import kingSounds from "../assets/audio/1.mpeg";
 //knight
-import knightSound from "../assets/humanKnightSounds/ax.mp3";
+import knightSound from "../assets/audio/ax.mp3";
 // Q
-import queenSound_1 from "../assets/humanQueenSounds/1.mp3";
-import queenSound_2 from "../assets/humanQueenSounds/2.mp3";
-import queenSound_3 from "../assets/humanQueenSounds/3.mp3";
-import queenSound_4 from "../assets/humanQueenSounds/4.mp3";
-import queenSound_5 from "../assets/humanQueenSounds/5.mp3";
-import queenSound_6 from "../assets/humanQueenSounds/6.mp3";
+import queenSound_1 from "../assets/audio/1hq.mp3";
+import queenSound_2 from "../assets/audio/2hq.mp3";
+import queenSound_3 from "../assets/audio/3hq.mp3";
+import queenSound_4 from "../assets/audio/4hq.mp3";
+import queenSound_5 from "../assets/audio/5hq.mp3";
+import queenSound_6 from "../assets/audio/6hq.mp3";
 //rook
-import r1 from "../assets/humanRookSounds/1.mp3";
-import r2 from "../assets/humanRookSounds/2.mp3";
-import r3 from "../assets/humanRookSounds/3.mp3";
-import r4 from "../assets/humanRookSounds/4.mp3";
-import r5 from "../assets/humanRookSounds/5.mp3";
-import r6 from "../assets/humanRookSounds/6.mp3";
-import r7 from "../assets/humanRookSounds/7.mp3";
-import r8 from "../assets/humanRookSounds/8.mp3";
-import r9 from "../assets/humanRookSounds/9.mp3";
-import r10 from "../assets/humanRookSounds/10.mp3";
+import r1 from "../assets/audio/1.mp3";
+import r2 from "../assets/audio/2.mp3";
+import r3 from "../assets/audio/3.mp3";
+import r4 from "../assets/audio/4.mp3";
+import r5 from "../assets/audio/5.mp3";
+import r6 from "../assets/audio/6.mp3";
+import r7 from "../assets/audio/7.mp3";
+import r8 from "../assets/audio/8.mp3";
+import r9 from "../assets/audio/9.mp3";
+import r10 from "../assets/audio/10.mp3";
 // Human pawn
-import p1 from "../assets/humanPawnAudio/alone.mp3";
-import p2 from "../assets/humanPawnAudio/charge.mp3";
-import p3 from "../assets/humanPawnAudio/run.mp3";
-import p4 from "../assets/humanPawnAudio/serve.mp3";
-import p5 from "../assets/humanPawnAudio/yes-lord.mp3";
+import p1 from "../assets/audio/alone.mp3";
+import p2 from "../assets/audio/charge.mp3";
+import p3 from "../assets/audio/run.mp3";
+import p4 from "../assets/audio/serve.mp3";
+import p5 from "../assets/audio/yes-lord.mp3";
 
 const WoWBattleground = {
   // Horde Objects
