@@ -48,91 +48,90 @@ export default function ThemeModal(props) {
   };
   return (
     <>
-      <Card className={classes.paper}>
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.setCurrentBgImg(gotBg);
-            props.setCurrentTheme(gameOfThrones_1);
-            changePieces(props.squares, gameOfThrones_1);
-          }}
-        >
-          Game of Thrones
-        </Button>
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.setCurrentBgImg(wowBg);
-            props.setCurrentTheme(WoWBattleground);
-            changePieces(props.squares, WoWBattleground);
-          }}
-        >
-          World of Warcraft
-        </Button>
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.setCurrentBgImg(Math.random() > 0.5 ? lolBg : lolBg2);
-            changePieces(props.squares, LoLBattleground);
-            props.setCurrentTheme(LoLBattleground);
-          }}
-        >
-          League of Legends
-        </Button>
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.setCurrentBgImg(lotrbg);
-            props.setCurrentTheme(lotrtheme);
-            changePieces(props.squares, lotrtheme);
-          }}
-        >
-          Lord of the Rings
-        </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          props.setCurrentBgImg(gotBg);
+          props.setCurrentTheme(gameOfThrones_1);
+          changePieces(props.squares, gameOfThrones_1);
+        }}
+      >
+        Game of Thrones
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          props.setCurrentBgImg(wowBg);
+          props.setCurrentTheme(WoWBattleground);
+          changePieces(props.squares, WoWBattleground);
+        }}
+      >
+        World of Warcraft
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          props.setCurrentBgImg(Math.random() > 0.5 ? lolBg : lolBg2);
+          changePieces(props.squares, LoLBattleground);
+          props.setCurrentTheme(LoLBattleground);
+        }}
+      >
+        League of Legends
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          props.setCurrentBgImg(lotrbg);
+          props.setCurrentTheme(lotrtheme);
+          changePieces(props.squares, lotrtheme);
+        }}
+      >
+        Lord of the Rings
+      </Button>
 
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.setFindGame(true);
-            props.setThemes(false);
-          }}
-        >
-          <Icon
-            path={mdiCloudSearchOutline}
-            title="Orgrimmar"
-            size={0.6}
-            color={"white"}
-          />{" "}
-          <span>&nbsp;&nbsp;Find Games</span>
-        </Button>
-        <Button
-          className={classes.menuButton}
-          size="small"
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            props.setThemes(false);
-            props.setOpen(false);
-          }}
-        >
-          Back
-        </Button>
-      </Card>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          props.setFindGame(true);
+          props.setThemes(false);
+        }}
+      >
+        <Icon
+          path={mdiCloudSearchOutline}
+          title="Orgrimmar"
+          size={0.6}
+          color={"white"}
+        />{" "}
+        <span>&nbsp;&nbsp;Find Games</span>
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        variant="contained"
+        color="secondary"
+        onClick={() => {
+          props.setHomeOpen(true);
+          props.setThemes(false);
+          props.setOpen(false);
+        }}
+      >
+        Back
+      </Button>
     </>
   );
 }

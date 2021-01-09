@@ -1,9 +1,16 @@
 import { React, useState, useEffect, lazy, Suspense } from "react";
-import { connectionOptions, ENDPOINT } from "./boardSetup/api/apiFunctions.js";
+import {
+  connectionOptions,
+  ENDPOINT,
+} from "./boardSetup/api/socketSettings.js";
 import {
   setBattleground,
   resetSquares,
 } from "./boardSetup/boardFunctions/boardFunctions.js";
+import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
+import gotBg from "./assets/img/gotBG.jpg";
+import parch from "./assets/img/parch1.png";
+import Parchment from "./boardSetup/TeamParchment.js";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
 import playFunction from "./boardSetup/boardFunctions/autoplayFunctions.js";
@@ -11,10 +18,6 @@ import { mdiRefresh } from "@mdi/js";
 import { Button } from "@material-ui/core";
 import io from "socket.io-client";
 import Icon from "@mdi/react";
-import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
-import gotBg from "./assets/img/gotBG.jpg";
-import parch from "./assets/img/parch1.png";
-import Parchment from "./boardSetup/TeamParchment.js";
 const AutoPlayButton = lazy(() =>
   import("./boardSetup/AutoplayButtonComponent")
 );
@@ -39,7 +42,7 @@ const App = () => {
   const [player, setPlayer] = useState(0);
   const [moveData, setMoveData] = useState("");
   const playerId = useState(Math.floor(Math.random() * 10000))[0];
-  // Play audio
+
   const AudioReaction = (squareIdx) => {
     if (volume && squares[squareIdx].occupied) {
       squares[squareIdx].occupied.sounds[
@@ -47,7 +50,6 @@ const App = () => {
       ].play();
     }
   };
-  // Move a piece
   const MoveChessPiece = (movingIdx, destinationIdx) => {
     // By value vs By reference assignment might cause issues
     let newSquares = [...squares];
@@ -127,14 +129,8 @@ const App = () => {
     setSelectedSquare,
     round,
     setRound,
-    volume,
-    currentBG,
     autoPlay,
-    playFunction: autoPlay
-      ? playFunction.autoMoveUnit
-      : // : multiplayer
-        // ? TrackEnemy
-        "",
+    playFunction: playFunction.autoMoveUnit,
     SendMove,
     multiplayer,
     player,
@@ -233,11 +229,32 @@ const App = () => {
         />
       </Grid>
       {/* Board  */}
-      <Grid item xs={11} lg={5} className="center-grid-item">
-        <div className="board-container">
-          <CreateBoard {...BoardProps} />
-        </div>
-      </Grid>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              style={{ textTransform: "none", fontSize: "0.7rem" }}
+            >
+              ...Loading Battleground
+            </Button>
+          </div>
+        }
+      >
+        <Grid item xs={11} lg={5} className="center-grid-item">
+          <div className="board-container">
+            <CreateBoard {...BoardProps} />
+          </div>
+        </Grid>
+      </Suspense>
       {/* Player 2 Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className="parchment-container">
         <Parchment

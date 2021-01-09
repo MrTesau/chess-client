@@ -19,55 +19,55 @@ export default function SimpleModal(props) {
     props.setOpen(false);
     props.setGameRoom(game.gameName);
     props.setPlayer(1);
+    props.setHomeOpen(true);
   };
 
   const handleChange = (e) => {
     setGameName({ [e.target.name]: e.target.value });
   };
   return (
-    <>
-      <Card className={`${classes.paper} ${classes.paperCreate}`}>
-        <CardContent
-          style={{
-            background: "rgba(253,245,230,0.8)",
-            border: "1px solid black",
-          }}
-        >
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              id="outlined-basic"
-              label="Enter Game Name"
-              variant="outlined"
-              name="gameName"
-              onChange={(e) => handleChange(e)}
-            />
-          </form>
-          <span>
-            <Button
-              className={classes.menuButtonFind}
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              Create Game
-            </Button>
-            <Button
-              className={classes.menuButtonFind}
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                props.setCreateGame(false);
-              }}
-            >
-              Back
-            </Button>
-          </span>
-        </CardContent>
-      </Card>
-    </>
+    <div className={` ${classes.paperCreate}`}>
+      <CardContent
+        style={{
+          background: "rgba(253,245,230,0.8)",
+          border: "1px solid black",
+        }}
+      >
+        <form className={classes.root} noValidate autoComplete="off">
+          <TextField
+            id="outlined-basic"
+            label="Enter Game Name"
+            variant="outlined"
+            name="gameName"
+            onChange={(e) => handleChange(e)}
+          />
+        </form>
+        <span>
+          <Button
+            className={classes.menuButtonFind}
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            Create Game
+          </Button>
+          <Button
+            className={classes.menuButtonFind}
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              props.setCreateGame(false);
+              props.setHomeOpen(true);
+            }}
+          >
+            Back
+          </Button>
+        </span>
+      </CardContent>
+    </div>
   );
 }

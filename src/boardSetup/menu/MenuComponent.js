@@ -24,6 +24,7 @@ const useStyles = makeStyles(menuStyles);
 
 export default function SimpleModal(props) {
   const [open, setOpen] = useState(false);
+  const [HomeOpen, setHomeOpen] = useState(true); // default button view
   const [AboutOpen, setAboutOpen] = useState(false);
   const [themes, setThemes] = useState(false);
   const [createGame, setCreateGame] = useState(false);
@@ -55,75 +56,17 @@ export default function SimpleModal(props) {
         style={{ outline: "none", boxShadow: "none" }}
         className={classes.root}
       >
-        <Grid item xs={11} sm={8} md={5} lg={3} style={{ outline: "none" }}>
-          {AboutOpen ? (
-            <About setAboutOpen={setAboutOpen} />
-          ) : themes ? (
-            <Suspense
-              fallback={
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    style={{ textTransform: "none", fontSize: "0.7rem" }}
-                  >
-                    ...Loading Fantasy Themes. Depending on your Connection This
-                    May Take a moment!
-                  </Button>
-                </div>
-              }
-            >
-              <Themes
-                setThemes={setThemes}
-                setFindGame={setFindGame}
-                setOpen={setOpen}
-                squares={props.squares}
-                setSquares={props.setSquares}
-                setCurrentBgImg={props.setCurrentBgImg}
-                setAutoPlay={props.setAutoPlay}
-                setCurrentTheme={props.setCurrentTheme}
-              />
-            </Suspense>
-          ) : createGame ? (
-            <CreateGame
-              playerId={props.playerId}
-              setMultiplayer={props.setMultiplayer}
-              setGameAvailable={props.setGameAvailable}
-              JoinGameRoom={props.JoinGameRoom}
-              setGameRoom={props.setGameRoom}
-              setPlayer={props.setPlayer}
-              setCreateGame={setCreateGame}
-              setOpen={setOpen}
-            />
-          ) : findGame ? (
-            <FindGames
-              JoinGameRoom={props.JoinGameRoom}
-              allGameRooms={props.allGameRooms}
-              setAllGameRooms={props.setAllGameRooms}
-              refreshGames={props.refreshGames}
-              setFindGame={setFindGame}
-              setOpen={setOpen}
-              setGameId={props.setGameId}
-              setMultiplayer={props.setMultiplayer}
-              setGameRoom={props.setGameRoom}
-              setPlayer={props.setPlayer}
-            />
-          ) : (
-            <>
-              <Card className={classes.paper}>
+        <Grid item xs={11} sm={8} md={5} lg={4} style={{ outline: "none" }}>
+          <Card className={classes.paper}>
+            {HomeOpen ? (
+              <>
                 <Button
                   className={classes.menuButton}
                   size="small"
                   variant="contained"
                   color="primary"
                   onClick={() => {
+                    setHomeOpen(false);
                     setAboutOpen(true);
                   }}
                 >
@@ -141,6 +84,7 @@ export default function SimpleModal(props) {
                   variant="contained"
                   color="primary"
                   onClick={() => {
+                    setHomeOpen(false);
                     setThemes(true);
                   }}
                 >
@@ -182,6 +126,7 @@ export default function SimpleModal(props) {
                   variant="contained"
                   color="primary"
                   onClick={() => {
+                    setHomeOpen(false);
                     setCreateGame(true);
                   }}
                 >
@@ -193,6 +138,7 @@ export default function SimpleModal(props) {
                   variant="contained"
                   color="primary"
                   onClick={() => {
+                    setHomeOpen(false);
                     setFindGame(true);
                   }}
                 >
@@ -223,9 +169,73 @@ export default function SimpleModal(props) {
                   />{" "}
                   <span>&nbsp; Have a Look </span>
                 </Button>
-              </Card>
-            </>
-          )}
+              </>
+            ) : AboutOpen ? (
+              <About setAboutOpen={setAboutOpen} setHomeOpen={setHomeOpen} />
+            ) : themes ? (
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      style={{ textTransform: "none", fontSize: "0.7rem" }}
+                    >
+                      ...Loading Fantasy Themes. Depending on your Connection
+                      This May Take a moment!
+                    </Button>
+                  </div>
+                }
+              >
+                <Themes
+                  setHomeOpen={setHomeOpen}
+                  setThemes={setThemes}
+                  setFindGame={setFindGame}
+                  setOpen={setOpen}
+                  squares={props.squares}
+                  setSquares={props.setSquares}
+                  setCurrentBgImg={props.setCurrentBgImg}
+                  setAutoPlay={props.setAutoPlay}
+                  setCurrentTheme={props.setCurrentTheme}
+                />
+              </Suspense>
+            ) : createGame ? (
+              <CreateGame
+                playerId={props.playerId}
+                setMultiplayer={props.setMultiplayer}
+                setGameAvailable={props.setGameAvailable}
+                JoinGameRoom={props.JoinGameRoom}
+                setGameRoom={props.setGameRoom}
+                setPlayer={props.setPlayer}
+                setCreateGame={setCreateGame}
+                setOpen={setOpen}
+                setHomeOpen={setHomeOpen}
+              />
+            ) : findGame ? (
+              <FindGames
+                JoinGameRoom={props.JoinGameRoom}
+                allGameRooms={props.allGameRooms}
+                setAllGameRooms={props.setAllGameRooms}
+                refreshGames={props.refreshGames}
+                setFindGame={setFindGame}
+                setOpen={setOpen}
+                setGameId={props.setGameId}
+                setMultiplayer={props.setMultiplayer}
+                setGameRoom={props.setGameRoom}
+                setPlayer={props.setPlayer}
+                setHomeOpen={setHomeOpen}
+              />
+            ) : (
+              ""
+            )}
+          </Card>
         </Grid>
       </Grid>
     </div>
@@ -239,7 +249,7 @@ export default function SimpleModal(props) {
           size="small"
           className={`${classes.modalButton} modal-btn-padding`}
         >
-          <HomeIcon style={{ fontSize: 17 }} />
+          <HomeIcon style={{ fontSize: 20 }} />
         </Button>
       </div>
       <Modal
