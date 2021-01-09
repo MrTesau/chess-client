@@ -123,12 +123,22 @@ button {
 }
 .fixed-div {
   position: absolute !important;
-  top: 8px !important;
+  top: 0.8rem !important;
   left: 0.5rem !important;
 }
-
 .autoplay-fixed {
   position: absolute !important;
-  top: 15px !important;
+  top: 3rem !important;
   left: 0.5rem !important;
+}
+.reset-button-right {
+  position: absolute !important;
+  top: 0.7rem !important;
+  right: 0.5rem !important;
+}
+.reset-button {
+  font-size: 0.62rem;
+  padding: 0.3rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }

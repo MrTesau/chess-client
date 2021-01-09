@@ -14,10 +14,9 @@ import Parchment from "./boardSetup/TeamParchment.js";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
 import playFunction from "./boardSetup/boardFunctions/autoplayFunctions.js";
-import { mdiRefresh } from "@mdi/js";
 import { Button } from "@material-ui/core";
 import io from "socket.io-client";
-import Icon from "@mdi/react";
+
 const AutoPlayButton = lazy(() =>
   import("./boardSetup/AutoplayButtonComponent")
 );
@@ -32,16 +31,16 @@ const App = () => {
   const [squares, setSquares] = useState(setBattleground(currentTheme));
   const [autoPlay, setAutoPlay] = useState(false);
   const [volume, setVolume] = useState(true);
+  const [round, setRound] = useState(1);
   // Multiplayer dependant state:
   const [multiplayer, setMultiplayer] = useState(false);
-  const [round, setRound] = useState(1);
   const [gameAvailable, setGameAvailable] = useState();
   const [allGameRooms, setAllGameRooms] = useState([]);
   const [gameRoom, setGameRoom] = useState("");
+  const playerId = useState(Math.floor(Math.random() * 10000))[0];
   const [newPlayer, setNewPlayer] = useState(1);
   const [player, setPlayer] = useState(0);
   const [moveData, setMoveData] = useState("");
-  const playerId = useState(Math.floor(Math.random() * 10000))[0];
 
   const AudioReaction = (squareIdx) => {
     if (volume && squares[squareIdx].occupied) {
@@ -51,7 +50,6 @@ const App = () => {
     }
   };
   const MoveChessPiece = (movingIdx, destinationIdx) => {
-    // By value vs By reference assignment might cause issues
     let newSquares = [...squares];
     newSquares[destinationIdx].occupied = squares[movingIdx].occupied;
     newSquares[movingIdx].occupied = false;
@@ -165,6 +163,7 @@ const App = () => {
     resetSquares,
     setBattleground,
     currentTheme,
+    multiplayer,
   };
   return (
     <Grid
@@ -177,41 +176,11 @@ const App = () => {
       spacing={0}
       className="battleground-container"
     >
-      <div className="fixed-div">
-        <Suspense>
-          <HomeModal {...MenuProps} />
-          {!multiplayer ? (
-            <AutoPlayButton {...AutoplayProps} />
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              size="medium"
-              onClick={() => {
-                setRound(2);
-                setSelectedSquare(undefined);
-                setSquares(setBattleground(currentTheme));
-                alert(
-                  "When resetting a multiplayer match please refresh page and create a new game."
-                );
-              }}
-              style={{
-                fontSize: "0.7rem",
-                margin: "0.3rem",
-                marginLeft: "0rem",
-              }}
-            >
-              <Icon
-                path={mdiRefresh}
-                title="autoplay"
-                size={0.87}
-                color={"white"}
-              />{" "}
-              &nbsp; Reset Game
-            </Button>
-          )}
-        </Suspense>
-      </div>
+      <Suspense>
+        <HomeModal {...MenuProps} />
+        <AutoPlayButton {...AutoplayProps} />
+      </Suspense>
+
       {/* Player 1 Parchment */}
       <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
         <Parchment
@@ -224,13 +193,7 @@ const App = () => {
       {/* Board  */}
       <Suspense
         fallback={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <div className="parchment-container">
             <Button
               size="small"
               variant="contained"

@@ -242,14 +242,14 @@ export default function SimpleModal(props) {
   );
   return (
     <>
-      <div onClick={handleOpen}>
+      <div onClick={handleOpen} className="fixed-div">
         <Button
           variant="contained"
           color="primary"
           size="small"
           className={`${classes.modalButton} modal-btn-padding`}
         >
-          <HomeIcon style={{ fontSize: 20 }} />
+          <HomeIcon style={{ fontSize: 18 }} />
         </Button>
       </div>
       <Modal
