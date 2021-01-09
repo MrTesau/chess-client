@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import menuStyles from "./menuStyles.js";
 import TextField from "@material-ui/core/TextField";

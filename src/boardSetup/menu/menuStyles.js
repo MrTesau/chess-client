@@ -9,8 +9,6 @@ const styles = (theme) => ({
     backgroundBlendMode: "multiply",
     backgroundSize: "cover",
     border: "1px solid black",
-    //borderRadius: "15px",
-    // boxShadow: "none",
     padding: "1rem",
     paddingTop: "3.5rem",
     paddingBottom: "3.5rem",
@@ -25,9 +23,6 @@ const styles = (theme) => ({
     flexDirection: "row",
   },
   paperFindGame: {
-    //padding: "1rem",
-    //paddingTop: "3.5rem",
-    //paddingBottom: "3.5rem",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",

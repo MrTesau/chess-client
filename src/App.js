@@ -8,8 +8,8 @@ import {
   resetSquares,
 } from "./boardSetup/boardFunctions/boardFunctions.js";
 import gameOfThrones_1 from "./battlegrounds/got/got_North_V_Zombies.js";
-import gotBg from "./assets/img/gotBG.jpg";
-import parch from "./assets/img/parch1.png";
+import gotBg from "./battlegrounds/wow/img/gotBG.jpg";
+import parch from "./battlegrounds/wow/img/parch1.png";
 import Parchment from "./boardSetup/TeamParchment.js";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
@@ -178,14 +178,7 @@ const App = () => {
       className="battleground-container"
     >
       <div className="fixed-div">
-        <Suspense
-          fallback={
-            <div>
-              ...Loading MultiPlayer and Themes. Depending on your Connection
-              This May Take a moment!
-            </div>
-          }
-        >
+        <Suspense>
           <HomeModal {...MenuProps} />
           {!multiplayer ? (
             <AutoPlayButton {...AutoplayProps} />

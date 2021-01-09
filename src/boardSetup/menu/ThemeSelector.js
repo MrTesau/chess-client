@@ -1,19 +1,17 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
 import Icon from "@mdi/react";
 import { mdiCloudSearchOutline } from "@mdi/js";
 import gameOfThrones_1 from "../../battlegrounds/got/got_North_V_Zombies.js";
-import WoWBattleground from "../../battlegrounds/wow_hordvally.js";
+import WoWBattleground from "../../battlegrounds/wow/wow_hordvally.js";
 import LoLBattleground from "../../battlegrounds/LoL/lol_champion_royale.js";
 import lotrtheme from "../../battlegrounds/lotr/menvsorcs.js";
 // Background Images
 import lotrbg from "../../battlegrounds/lotr/lotrbg.jpg";
-import wowBg from "../../assets/img/wowBG.jpg";
-import gotBg from "../../assets/img/gotBG.jpg";
-import lolBg from "../../assets/img/rift2.jpeg";
-import lolBg2 from "../../assets/img/rift.jpg";
+import wowBg from "../../battlegrounds/wow/img/wowBG.jpg";
+import gotBg from "../../battlegrounds/wow/img/gotBG.jpg";
+import lolBg from "../../battlegrounds/wow/img/rift2.jpeg";
+import lolBg2 from "../../battlegrounds/wow/img/rift.jpg";
 import menuStyles from "./menuStyles.js";
 const useStyles = makeStyles(menuStyles);
 
@@ -135,21 +133,3 @@ export default function ThemeModal(props) {
     </>
   );
 }
-
-// Battlegrounds
-//import WoWBattleground from "./battlegrounds/wow_hordvally.js";
-/*
-const WoWBattleground = lazy(() =>
-  import("../../battlegrounds/wow_hordvally.js")
-);
-//import LoLBattleground from "./battlegrounds/LoL/lol_champion_royale.js";
-const LoLBattleground = lazy(() =>
-  import("../../battlegrounds/LoL/lol_champion_royale")
-);
-//import lotrtheme from "./battlegrounds/lotr/menvsorcs.js";
-const lotrtheme = lazy(() => import("../../battlegrounds/lotr/menvsorcs.js"));
-//import lotrtheme from "./battlegrounds/lotr/menvsorcs.js";
-const gameOfThrones_1 = lazy(() =>
-  import("../../battlegrounds/got/got_North_V_Zombies")
-);
-*/

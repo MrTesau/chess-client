@@ -12,7 +12,6 @@ import menuStyles from "./menuStyles.js";
 export default function SimpleModal(props) {
   const useStyles = makeStyles(menuStyles);
   const classes = useStyles();
-
   return (
     <>
       <CardContent

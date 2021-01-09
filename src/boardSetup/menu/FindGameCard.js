@@ -1,7 +1,6 @@
-import { React /*useState*/ } from "react";
+import { React } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
 import Icon from "@mdi/react";
 import { mdiArrowLeftBold, mdiRefresh } from "@mdi/js";
 import menuStyles from "./menuStyles.js";
@@ -86,7 +85,7 @@ export default function FindGamesCard(props) {
           variant="contained"
           color="primary"
           onClick={() => {
-            //might autoUpdate as createGame sharesGames
+            // Might autoUpdate as createGame() shares games
             // props.refreshGames();
           }}
         >
