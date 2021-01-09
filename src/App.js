@@ -204,7 +204,7 @@ const App = () => {
           </div>
         }
       >
-        <Grid item xs={11} md={5} lg={5} className="center-grid-item">
+        <Grid item xs={11} md={5} lg={5} xl={6} className="center-grid-item">
           <div className="board-container">
             <CreateBoard {...BoardProps} />
           </div>
