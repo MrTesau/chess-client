@@ -3,14 +3,13 @@
   margin: 0px;
   padding: 0px;
 }
-/* layout: Parchment -- Board -- Parchment */
 .center-grid-item {
   display: flex;
   justify-content: center;
 }
 .board-container {
-  width: 40vw;
-  height: 40vw;
+  width: 95vw;
+  height: 95vw;
   margin: 0 !important;
   padding: 0 !important;
   display: grid;
@@ -19,24 +18,121 @@
   box-shadow: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.5),
     0.125em 0.125em 0.95em rgba(0, 0, 0, 0.5);
 }
+/* Team Parchment Styles */
 .parchment-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+}
+.parchment-container {
+  background-size: 100% 100% !important;
+  height: 17vh;
 }
 .info-area {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0.85;
+  font-family: Pirata One, sans-serif;
   width: 100%;
+  height: 100%;
+}
+/* Extra Small devices -> Special case */
+@media (max-width: 325px) {
+  .board-container {
+    width: 95vw;
+    height: 95vw;
+  }
+  .parchment-container {
+    background-size: 100% 100% !important;
+    height: 15vh;
+  }
+  .info-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.85;
+    font-family: Pirata One, sans-serif;
+    width: 75%;
+    height: 100%;
+  }
+  .info-area-text-selected {
+    font-size: 0.7rem !important;
+  }
+  .info-area-text-piece {
+    font-size: 1rem !important;
+  }
+  .info-area-text-status {
+    font-size: 0.7rem !important;
+  }
+}
+@media (min-width: 600px) {
+  .board-container {
+    width: 33rem;
+    height: 33rem;
+  }
+  .parchment-container {
+    height: 8rem;
+  }
+}
+@media (min-width: 800px) {
+  .parchment-container {
+    height: 12rem;
+  }
+}
+@media (min-width: 960px) {
+  .board-container {
+    width: 40vw;
+    height: 40vw;
+  }
+  .parchment-container {
+    background-size: 100% 100% !important;
+    height: 12rem;
+  }
+
+  .info-area-text-selected {
+    font-size: 1.2rem !important;
+  }
+  .info-area-text-piece {
+    font-size: 1.5rem !important;
+  }
+  .info-area-text-status {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (min-width: 1260px) {
+  .parchment-container {
+    height: 15rem;
+  }
+  .board-container {
+    width: 40vw;
+    height: 40vw;
+  }
+}
+@media (min-width: 1600px) {
+  .board-container {
+    width: 37vw;
+    height: 37vw;
+  }
+}
+
+/* Media queries For different screens */
+/*
+.info-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   height: 250px;
   opacity: 0.85;
   font-family: Pirata One, sans-serif;
-  font-size: larger;
-}
-/* Media queries For different screens */
+}*/
+
+/*
 @media (max-width: 1280px) {
   .board-container {
     width: 500px;
@@ -57,33 +153,8 @@
     width: 280px !important;
     height: 135px;
   }
-  .info-area-text {
-    font-size: 1.125rem !important;
-  }
 }
-@media (max-width: 600px) {
-  .board-container {
-    width: 85vw;
-    height: 85vw;
-  }
-  .parchment-container {
-    background-size: 100% 100% !important;
-    height: 115px;
-  }
-  .info-area {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
-    opacity: 0.85;
-    font-family: Pirata One, sans-serif;
-    font-size: 10px !important;
-
-    width: 150px !important;
-    height: 90px !important;
-  }
-}
 /* Responsive independant styles */
 .info-area div {
   opacity: 0.95;
@@ -121,19 +192,28 @@ button {
   background-blend-mode: multiply !important;
   background-size: cover !important;
 }
+
+/* Button Containers */
 .fixed-div {
   position: absolute !important;
-  top: 0.8rem !important;
+  top: 0.5rem !important;
   left: 0.5rem !important;
 }
 .autoplay-fixed {
-  position: absolute !important;
-  top: 3rem !important;
-  left: 0.5rem !important;
+  position: absolute;
+  top: 0.6rem;
+  right: 2.2rem;
+}
+@media (min-width: 960px) {
+  .autoplay-fixed {
+    position: absolute !important;
+    top: 3rem !important;
+    left: 0.5rem !important;
+  }
 }
 .reset-button-right {
   position: absolute !important;
-  top: 0.7rem !important;
+  top: 0.6rem !important;
   right: 0.5rem !important;
 }
 .reset-button {

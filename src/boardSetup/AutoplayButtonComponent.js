@@ -18,6 +18,15 @@ export const SelectBG = (props) => {
     setBattleground,
     multiplayer,
   } = props;
+  const startAutoplayGame = () => {
+    setRound(1);
+    setSelectedSquare(undefined);
+    setAutoPlay(true);
+  };
+  const endAutoplayGame = () => {
+    setAutoPlay(false);
+    setSquares(setBattleground(currentTheme));
+  };
   const reset = () => {
     setRound(2);
     setSelectedSquare(undefined);
@@ -33,38 +42,42 @@ export const SelectBG = (props) => {
         {!multiplayer ? (
           !autoPlay ? (
             <>
-              <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                onClick={() => {
-                  setRound(1);
-                  setSelectedSquare(undefined);
-                  setAutoPlay(true);
-                }}
-                style={{
-                  fontSize: "0.62rem",
-                }}
-                className={`modal-btn-padding`}
-              >
+              <Hidden mdUp>
                 <Icon
                   path={mdiPlayCircleOutline}
                   title="autoplay"
-                  size={0.7}
+                  size={0.9}
+                  onClick={startAutoplayGame}
                   color={"white"}
                 />{" "}
-                <Hidden mdDown>&nbsp; Play Unbeatable AI</Hidden>
-              </Button>
+              </Hidden>
+              <Hidden smDown>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  onClick={startAutoplayGame}
+                  style={{
+                    fontSize: "0.62rem",
+                  }}
+                  className={`modal-btn-padding`}
+                >
+                  <Icon
+                    path={mdiPlayCircleOutline}
+                    title="autoplay"
+                    size={0.7}
+                    color={"white"}
+                  />{" "}
+                  &nbsp; Play Unbeatable AI
+                </Button>
+              </Hidden>
             </>
           ) : (
             <>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => {
-                  setAutoPlay(false);
-                  setSquares(setBattleground(currentTheme));
-                }}
+                onClick={endAutoplayGame}
                 style={{
                   fontSize: "0.62rem",
                 }}
@@ -90,7 +103,7 @@ export const SelectBG = (props) => {
           <Icon
             path={mdiRefresh}
             title="autoplay"
-            size={0.8}
+            size={0.9}
             color={"white"}
             onClick={reset}
           />

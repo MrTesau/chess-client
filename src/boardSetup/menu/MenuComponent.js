@@ -1,5 +1,6 @@
 import { React, useState, lazy, Suspense } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Hidden from "@material-ui/core/Hidden";
 // Icons
 import {
   mdiArrowLeftBold,
@@ -243,14 +244,22 @@ export default function SimpleModal(props) {
   return (
     <>
       <div onClick={handleOpen} className="fixed-div">
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          className={`${classes.modalButton} modal-btn-padding`}
-        >
-          <HomeIcon style={{ fontSize: 18 }} />
-        </Button>
+        <Hidden mdUp>
+          <HomeIcon
+            onClick={handleOpen}
+            style={{ fontSize: 25, color: "#fff" }}
+          />
+        </Hidden>
+        <Hidden smDown>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            className={`${classes.modalButton} modal-btn-padding`}
+          >
+            <HomeIcon style={{ fontSize: 18 }} />
+          </Button>
+        </Hidden>
       </div>
       <Modal
         open={open}
