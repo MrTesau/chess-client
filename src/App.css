@@ -59,13 +59,13 @@
     height: 100%;
   }
   .info-area-text-selected {
-    font-size: 0.7rem !important;
+    font-size: 0.65rem !important;
   }
   .info-area-text-piece {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
   }
   .info-area-text-status {
-    font-size: 0.7rem !important;
+    font-size: 0.65rem !important;
   }
 }
 @media (min-width: 600px) {
