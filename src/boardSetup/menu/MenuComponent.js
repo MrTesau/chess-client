@@ -1,14 +1,6 @@
 import { React, useState, lazy, Suspense } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
-// Icons
-import {
-  mdiArrowLeftBold,
-  mdiInformationOutline,
-  mdiCloudSearchOutline,
-  mdiVolumeOff,
-  mdiVolumeHigh,
-} from "@mdi/js";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -16,15 +8,14 @@ import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";
 import About from "./AboutCard.js";
 import CreateGame from "./CreateGameCard.js";
-import Icon from "@mdi/react";
 import FindGames from "./FindGameCard.js";
+import HomeCard from "./HomeCard.js";
 import menuStyles from "./menuStyles.js";
-//import Themes from "./themes.js";
 const Themes = lazy(() => import("./ThemeSelector"));
 const useStyles = makeStyles(menuStyles);
 
 export default function SimpleModal(props) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [HomeOpen, setHomeOpen] = useState(true); // default button view
   const [AboutOpen, setAboutOpen] = useState(false);
   const [themes, setThemes] = useState(false);
@@ -60,117 +51,19 @@ export default function SimpleModal(props) {
         <Grid item xs={11} sm={8} md={5} lg={4} style={{ outline: "none" }}>
           <Card className={classes.paper}>
             {HomeOpen ? (
-              <>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setHomeOpen(false);
-                    setAboutOpen(true);
-                  }}
-                >
-                  <Icon
-                    path={mdiInformationOutline}
-                    title="Orgrimmar"
-                    size={0.6}
-                    color={"white"}
-                  />{" "}
-                  <span>&nbsp;About</span>
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setHomeOpen(false);
-                    setThemes(true);
-                  }}
-                >
-                  Select Battleground
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    props.setVolume(!props.volume);
-                  }}
-                >
-                  <Icon
-                    path={props.volume ? mdiVolumeHigh : mdiVolumeOff}
-                    title="Volume"
-                    size={0.6}
-                    color={"white"}
-                  />{" "}
-                  <span>
-                    &nbsp;&nbsp;{props.volume ? "Volume On" : "Volume Off"}
-                  </span>
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  Play My Unbeatable AI
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setHomeOpen(false);
-                    setCreateGame(true);
-                  }}
-                >
-                  Battle a Friend
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setHomeOpen(false);
-                    setFindGame(true);
-                  }}
-                >
-                  <Icon
-                    path={mdiCloudSearchOutline}
-                    title="Orgrimmar"
-                    size={0.6}
-                    color={"white"}
-                  />{" "}
-                  <span>&nbsp;&nbsp;Find Games</span>
-                </Button>
-                <Button
-                  className={classes.menuButton}
-                  size="small"
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    props.setRound(1);
-                    props.setMultiplayer(false);
-                    setOpen(false);
-                  }}
-                >
-                  <Icon
-                    path={mdiArrowLeftBold}
-                    title="Orgrimmar"
-                    size={0.6}
-                    color={"white"}
-                  />{" "}
-                  <span>&nbsp; Have a Look </span>
-                </Button>
-              </>
+              <HomeCard
+                setHomeOpen={setHomeOpen}
+                setAboutOpen={setAboutOpen}
+                setThemes={setThemes}
+                setVolume={props.setVolume}
+                volume={props.volume}
+                handleClose={handleClose}
+                setCreateGame={setCreateGame}
+                setFindGame={setFindGame}
+                setRound={props.setRound}
+                setMultiplayer={props.setMultiplayer}
+                setOpen={setOpen}
+              />
             ) : AboutOpen ? (
               <About setAboutOpen={setAboutOpen} setHomeOpen={setHomeOpen} />
             ) : themes ? (
@@ -257,7 +150,7 @@ export default function SimpleModal(props) {
             size="small"
             className={`${classes.modalButton} modal-btn-padding`}
           >
-            <HomeIcon style={{ fontSize: 18 }} />
+            <HomeIcon style={{ fontSize: 16 }} />
           </Button>
         </Hidden>
       </div>

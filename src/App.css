@@ -112,6 +112,9 @@ button {
     width: 5rem !important;
     height: 3rem !important;
   }
+  #about {
+    display: none;
+  }
 }
 @media (max-width: 325px) {
   .board-container {
