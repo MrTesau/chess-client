@@ -74,23 +74,35 @@ export const SelectBG = (props) => {
             </>
           ) : (
             <>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={endAutoplayGame}
-                style={{
-                  fontSize: "0.62rem",
-                }}
-                className={`modal-btn-padding`}
-              >
+              <Hidden mdUp>
+                {" "}
                 <Icon
                   path={mdiStopCircleOutline}
                   title="volume"
-                  size={0.7}
+                  size={0.9}
                   color={"white"}
-                />{" "}
-                <Hidden mdDown> &nbsp; Admit Defeat</Hidden>
-              </Button>
+                  onClick={endAutoplayGame}
+                />
+              </Hidden>
+              <Hidden smDown>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={endAutoplayGame}
+                  style={{
+                    fontSize: "0.62rem",
+                  }}
+                  className={`modal-btn-padding`}
+                >
+                  <Icon
+                    path={mdiStopCircleOutline}
+                    title="volume"
+                    size={0.7}
+                    color={"white"}
+                  />{" "}
+                  &nbsp; Admit Defeat
+                </Button>
+              </Hidden>
             </>
           )
         ) : (

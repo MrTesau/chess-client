@@ -18,17 +18,17 @@ const teamParchment = (props) => {
       ) : (
         <>
           <Hidden xsDown>
-            <div style={{ fontSize: "1.2rem" }}>
+            <div className="info-area-text-team">
               <p>{props.team === 1 ? "Black" : "White"}</p>
             </div>
           </Hidden>
           <div
             className="info-area-text-selected"
-            style={{ fontSize: "1.2rem" }}
+            style={{ fontSize: "1.1rem" }}
           >
             <p>Currently Selected:</p>
           </div>
-          <div className="info-area-text-piece" style={{ fontSize: "1.5rem" }}>
+          <div className="info-area-text-piece">
             {props.round === props.team
               ? props.selectedSquare !== undefined
                 ? `${props.selectedSquare.occupied.piece}`
@@ -36,14 +36,13 @@ const teamParchment = (props) => {
               : "None"}
           </div>
           <Hidden mdDown>
-            <div style={{ fontSize: "1.2rem" }}>
+            <div>
               <p>Status:</p>
             </div>
           </Hidden>
           <div
             className="info-area-text-status"
             style={{
-              fontSize: "1.2rem",
               color: props.round === props.team ? "#013220" : "#8B0000",
             }}
           >
