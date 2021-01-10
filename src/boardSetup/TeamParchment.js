@@ -46,9 +46,7 @@ const teamParchment = (props) => {
               color: props.round === props.team ? "#013220" : "#8B0000",
             }}
           >
-            {props.round === props.team
-              ? "Your Move!" // Choose Wisely"
-              : "...Waiting for Enemy"}
+            {props.round === props.team ? "Your Move!" : "...Waiting for Enemy"}
           </div>
         </>
       )}

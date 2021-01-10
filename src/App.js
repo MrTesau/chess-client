@@ -14,9 +14,8 @@ import Parchment from "./boardSetup/TeamParchment.js";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
 import playFunction from "./boardSetup/boardFunctions/autoplayFunctions.js";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import io from "socket.io-client";
-
 const AutoPlayButton = lazy(() =>
   import("./boardSetup/AutoplayButtonComponent")
 );

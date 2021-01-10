@@ -13,8 +13,8 @@
   margin: 0 !important;
   padding: 0 !important;
   display: grid;
-  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
-  grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% !important;
+  grid-template-columns: repeat(8, 12.5%) !important;
+  grid-template-rows: repeat(8, 12.5%) !important;
   box-shadow: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.5),
     0.125em 0.125em 0.95em rgba(0, 0, 0, 0.5);
 }
@@ -40,6 +40,17 @@
   background-blend-mode: multiply !important;
   background-size: cover !important;
 }
+button {
+  padding: 0.4rem !important;
+  padding-left: 0.7rem !important;
+  padding-right: 0.7rem !important;
+}
+.modal-btn-padding {
+  padding: 0.3rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
 /* Button Containers */
 .fixed-div {
   position: absolute !important;
@@ -87,6 +98,9 @@
   font-family: Pirata One, sans-serif;
   width: 12rem;
   height: 8rem;
+}
+.info-area div {
+  opacity: 0.95;
 }
 /* Extra Small devices -> Special case */
 @media (max-width: 225px) {
@@ -199,8 +213,8 @@
     height: 12rem;
   }
   .board-container {
-    width: 42vw;
-    height: 42vw;
+    width: 41vw;
+    height: 41vw;
   }
   .info-area-text-selected {
     font-size: 1.2rem !important;
@@ -217,18 +231,4 @@
     width: 20rem;
     height: 15rem;
   }
-}
-/* Responsive independant styles */
-.info-area div {
-  opacity: 0.95;
-}
-button {
-  padding: 0.4rem !important;
-  padding-left: 0.7rem !important;
-  padding-right: 0.7rem !important;
-}
-.modal-btn-padding {
-  padding: 0.3rem !important;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
 }

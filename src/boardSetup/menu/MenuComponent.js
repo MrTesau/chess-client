@@ -10,7 +10,7 @@ import {
   mdiVolumeHigh,
 } from "@mdi/js";
 import Modal from "@material-ui/core/Modal";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";

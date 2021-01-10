@@ -1,5 +1,5 @@
 import wood_desk from "./menu/wood.jpg";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const LoadingPage = () => {
   return (
