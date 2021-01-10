@@ -38,17 +38,16 @@ export default function SimpleModal(props) {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        outline: "none",
       }}
     >
       <Grid
         container
         alignItems="center"
         justify="center"
-        style={{ outline: "none", boxShadow: "none" }}
+        style={{ boxShadow: "none" }}
         className={classes.root}
       >
-        <Grid item xs={11} sm={8} md={5} lg={4} style={{ outline: "none" }}>
+        <Grid item xs={11} sm={8} md={5} lg={4}>
           <Card className={classes.paper}>
             {HomeOpen ? (
               <HomeCard

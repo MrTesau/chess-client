@@ -40,7 +40,6 @@ export default function SimpleModal(props) {
       </CardContent>
       <CardActions>
         <Button
-          outlined
           size="small"
           variant="contained"
           color="primary"
