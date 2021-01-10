@@ -11,6 +11,7 @@ const LoadingPage = () => {
         justifyContent: "center",
         alignItems: "Center",
         backgroundImage: `url(${wood_desk})`,
+        backgroundSize: "cover",
       }}
     >
       <Button

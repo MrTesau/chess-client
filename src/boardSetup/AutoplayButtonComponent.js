@@ -68,7 +68,7 @@ export const SelectBG = (props) => {
                     size={0.7}
                     color={"white"}
                   />{" "}
-                  &nbsp; Play Unbeatable AI
+                  &nbsp; Play Unbeatable A.I
                 </Button>
               </Hidden>
             </>
