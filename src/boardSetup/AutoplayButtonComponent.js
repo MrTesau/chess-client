@@ -57,9 +57,6 @@ export const SelectBG = (props) => {
                   color="primary"
                   size="medium"
                   onClick={startAutoplayGame}
-                  style={{
-                    fontSize: "0.62rem",
-                  }}
                   className={`modal-btn-padding`}
                 >
                   <Icon
@@ -91,6 +88,7 @@ export const SelectBG = (props) => {
                   onClick={endAutoplayGame}
                   style={{
                     fontSize: "0.62rem",
+                    letterSpacing: "1px",
                   }}
                   className={`modal-btn-padding`}
                 >

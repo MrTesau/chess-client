@@ -46,6 +46,8 @@ button {
   padding: 0.3rem !important;
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
+  font-size: 0.62rem;
+  letter-spacing: 1px;
 }
 /* Button Containers */
 .fixed-div {
@@ -72,6 +74,7 @@ button {
 }
 .reset-button {
   font-size: 0.6rem !important;
+  letter-spacing: 1px;
   padding: 0.3rem !important;
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
