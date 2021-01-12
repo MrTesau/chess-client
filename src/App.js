@@ -222,14 +222,3 @@ const App = () => {
   );
 };
 export default App;
-
-/*
-   <Grid item xl={2} md={3} sm={4} xs={8} className={"parchment-container"}>
-        <Parchment
-          selectedSquare={selectedSquare}
-          team={1}
-          round={round}
-          parch={parch}
-        />
-      </Grid>
-      */
