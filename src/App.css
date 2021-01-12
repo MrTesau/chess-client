@@ -31,9 +31,6 @@
 }
 .battleground-container {
   width: 100vw !important;
-  /* auto height to fit content
-  min-height to ensure content covers 1 screen atleast
-  Otherwise content/border is squeezed into minimum req space eg 70% of screen */
   height: auto;
   min-height: 100vh !important;
   padding: 0px;
@@ -50,7 +47,6 @@ button {
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
 }
-
 /* Button Containers */
 .fixed-div {
   position: absolute !important;
