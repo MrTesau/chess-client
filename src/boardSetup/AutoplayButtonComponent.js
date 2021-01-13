@@ -6,7 +6,6 @@ import {
   mdiRefresh,
 } from "@mdi/js";
 import Icon from "@mdi/react";
-
 export const SelectBG = (props) => {
   const {
     setRound,
